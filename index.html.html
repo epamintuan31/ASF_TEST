@@ -117,6 +117,25 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 .adg-bar{height:9px;background:var(--n100);border-radius:20px;margin:9px 0 5px;overflow:hidden;}
 .adg-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--g400),var(--g300));transition:width .3s;}
 .adg-fill.warn{background:linear-gradient(90deg,var(--r400),var(--a400));}
+
+/* ══ FCR (Feed Conversion Ratio) ══ */
+.fcr-badge{display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;}
+.fcr-badge.excellent{background:var(--g100);color:var(--g700);}
+.fcr-badge.good{background:#e7f5db;color:var(--g600);}
+.fcr-badge.average{background:var(--a100);color:var(--a600);}
+.fcr-badge.needs{background:#ffe4cc;color:#b3500a;}
+.fcr-badge.poor{background:var(--r100);color:var(--r600);}
+@keyframes fcrPulse{0%{transform:scale(1);}45%{transform:scale(1.14);}100%{transform:scale(1);}}
+.fcr-animate{animation:fcrPulse .45s ease;display:inline-block;}
+.fcr-warning-card{background:linear-gradient(135deg,#fff3e9,var(--r100));border:1px solid #fca5a5;border-radius:var(--rad);padding:15px;margin-bottom:12px;}
+.fcr-warning-card .fwc-title{font-size:13.5px;font-weight:700;color:var(--r600);display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.fcr-warning-card .fwc-causes{font-size:11px;color:#7a2e1a;line-height:1.6;margin-bottom:9px;}
+.fcr-warning-card .fwc-causes div{padding-left:2px;}
+.fcr-history-row{display:flex;align-items:center;gap:10px;background:#fff;border-radius:var(--rad-sm);padding:11px;margin-bottom:7px;box-shadow:var(--shadow);}
+.fhr-day{font-size:11px;font-weight:700;color:var(--n400);width:48px;flex-shrink:0;}
+.fhr-info{flex:1;font-size:10.5px;color:var(--n500);line-height:1.5;}
+.fhr-info .fhr-wt{font-size:13.5px;font-weight:700;color:var(--n800);font-family:var(--serif);}
+.fhr-fcr{font-size:13px;font-weight:700;padding:5px 11px;border-radius:20px;flex-shrink:0;white-space:nowrap;}
 .wrow{display:flex;align-items:center;gap:9px;background:#fff;border-radius:var(--rad-sm);padding:10px;margin-bottom:6px;box-shadow:var(--shadow);}
 .wday{font-size:10.5px;font-weight:700;color:var(--n400);width:46px;flex-shrink:0;}
 .wkg{font-size:14px;font-weight:700;color:var(--n800);font-family:var(--serif);}
@@ -351,6 +370,8 @@ input[type=file]{display:none;}
 .week-exists-title{font-size:13px;font-weight:700;color:var(--n800);}
 .week-exists-sub{font-size:10.5px;color:var(--n400);margin-top:2px;}
 .week-exists-actions{display:flex;gap:7px;margin-top:11px;}
+.week-exists-actions .btn:not(.btn-danger){flex:1;justify-content:center;}
+.week-exists-actions .btn-danger{flex:0 0 auto;padding:9px 14px;}
 .week-exists-actions .btn{flex:1;justify-content:center;}
 .week-empty-row{display:flex;align-items:center;gap:11px;color:var(--n500);}
 .week-empty-row .we-ico{font-size:26px;}
@@ -396,6 +417,97 @@ input[type=file]{display:none;}
 /* ══ EXPENSE ROW — delete button + fade-out ══ */
 .exp-item{transition:opacity .25s ease, transform .25s ease, max-height .25s ease, margin .25s ease, padding .25s ease;max-height:90px;}
 .exp-item.fade-out{opacity:0;transform:translateX(36px);max-height:0;margin-bottom:0;padding-top:0;padding-bottom:0;overflow:hidden;border-width:0;}
+.health-log-card{transition:opacity .25s ease, transform .25s ease, max-height .25s ease, margin .25s ease;max-height:900px;}
+.health-log-card.fade-out{opacity:0;transform:translateX(36px);max-height:0;margin-bottom:0;overflow:hidden;}
+
+/* ══ HEALTH MONITOR — symptom chips ══ */
+.chip-section-label{font-size:11.5px;font-weight:700;color:var(--n700);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.chip-hint{font-size:9px;color:var(--n400);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-left:auto;}
+.chip-grid{display:flex;flex-wrap:wrap;gap:9px;}
+.chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 10px;border-radius:var(--rad-sm);border:1.5px solid var(--n200);background:#fff;font-size:11px;font-weight:600;color:var(--n600);cursor:pointer;font-family:var(--sans);min-width:calc(50% - 5px);flex:1;}
+.chip .chip-ico{font-size:22px;}
+.chip .chip-inner{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.chip .chip-lbl{font-size:11.5px;font-weight:700;text-align:center;}
+.chip .chip-sub{font-size:9.5px;color:var(--n400);text-align:center;font-weight:500;}
+.chip.selected{border-color:var(--g400);background:var(--g50);color:var(--g700);}
+.chip.selected .chip-sub{color:var(--g600);}
+.chip.sel-bad{border-color:var(--r400);background:var(--r100);color:var(--r600);}
+.chip.sel-bad .chip-sub{color:var(--r600);}
+.health-edit-banner{display:flex;align-items:center;gap:10px;background:var(--a100);border:1px solid var(--a300);border-radius:var(--rad-sm);padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--a600);font-weight:600;}
+.health-edit-banner button{margin-left:auto;background:none;border:none;color:var(--a600);font-weight:700;font-size:11px;cursor:pointer;text-decoration:underline;}
+.health-live-status{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+
+/* ══ STATUS BADGES (Health + reused tiers) ══ */
+.status-badge{display:inline-block;padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.status-badge.healthy{background:var(--g100);color:var(--g700);}
+.status-badge.monitor{background:var(--a100);color:var(--a600);}
+.status-badge.risk{background:#ffe4cc;color:#b3500a;}
+.status-badge.critical{background:var(--r100);color:var(--r600);}
+
+/* ══ HEALTH LOGS PAGE ══ */
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+.filter-chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--n200);background:#fff;font-size:11px;font-weight:700;color:var(--n500);cursor:pointer;font-family:var(--sans);}
+.filter-chip.active{border-color:var(--g500);background:var(--g600);color:#fff;}
+.health-log-card{background:#fff;border-radius:var(--rad);padding:14px;margin-bottom:11px;box-shadow:var(--shadow);}
+.hlc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px;}
+.hlc-date{font-size:11.5px;font-weight:700;color:var(--n800);}
+.hlc-time{font-size:9.5px;color:var(--n400);font-weight:500;}
+.hlc-row{font-size:11.5px;color:var(--n600);margin-bottom:6px;line-height:1.5;}
+.hlc-row strong{color:var(--n800);font-weight:700;}
+.hlc-notes{font-size:11px;color:var(--n500);background:var(--n50);border-radius:9px;padding:9px 11px;margin:8px 0;line-height:1.5;font-style:italic;}
+.hlc-actions{display:flex;gap:8px;margin-top:10px;}
+.hlc-actions .btn{flex:1;justify-content:center;font-size:11.5px;padding:9px;}
+.hlc-empty{text-align:center;padding:34px 16px;color:var(--n400);}
+.hlc-empty .he-ico{font-size:28px;margin-bottom:8px;}
+.cc{position:relative;}
+.cc-dot{position:absolute;bottom:1.5px;right:1.5px;width:5px;height:5px;border-radius:50%;}
+.cc-dot.healthy{background:var(--g500);}
+.cc-dot.monitor{background:var(--a500);}
+.cc-dot.risk{background:#e07a00;}
+.cc-dot.critical{background:var(--r400);}
+
+/* ══ WEEKLY TASKS — weekly reset success/locked states ══ */
+.wk-done-card{background:linear-gradient(135deg,var(--g600),var(--g400));border-radius:var(--rad);padding:18px 16px;text-align:center;color:#fff;margin-bottom:10px;}
+.wk-done-card .wdc-emoji{font-size:30px;margin-bottom:6px;}
+.wk-done-card .wdc-title{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:4px;}
+.wk-done-card .wdc-sub{font-size:11px;opacity:.9;line-height:1.5;margin-bottom:8px;}
+.wk-done-card .wdc-next{font-size:10px;opacity:.85;background:rgba(255,255,255,.16);border-radius:20px;padding:4px 12px;display:inline-block;}
+.task-row.locked{opacity:.65;cursor:default;}
+.task-row.locked .check-circle{background:var(--g400);border-color:var(--g400);}
+
+/* ══ WEEKLY PIG PHOTO — week navigator (moved to Growth page) ══ */
+.muted-sub{font-size:10.5px;color:var(--n400);margin:-4px 0 9px;line-height:1.4;}
+.wk-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:6px;}
+.wk-nav-btn{background:var(--g50);border:1.5px solid var(--g200);color:var(--g700);font-size:10.5px;font-weight:700;padding:7px 10px;border-radius:20px;cursor:pointer;font-family:var(--sans);white-space:nowrap;flex-shrink:0;}
+.wk-nav-btn:disabled{opacity:.35;cursor:not-allowed;}
+.wk-nav-label{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--n800);white-space:nowrap;}
+
+/* ══ PIG GROWTH MODULE — search/filter/sort, pig card menu, profile, weeks grid ══ */
+.search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--n200);border-radius:var(--rad-sm);padding:10px 13px;margin-bottom:10px;}
+.search-box .search-ico{font-size:13px;opacity:.6;}
+.search-box .search-inp{flex:1;border:none;background:none;font-size:12.5px;font-family:var(--sans);color:var(--n800);outline:none;}
+.sort-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
+.sort-row .sort-lbl{font-size:10.5px;font-weight:700;color:var(--n500);flex-shrink:0;}
+.sort-row .sort-select{flex:1;padding:8px 10px;font-size:11.5px;}
+.gender-ico{font-size:11px;}
+.pig-menu-wrap{position:relative;margin-left:auto;flex-shrink:0;}
+.pig-menu-btn{width:28px;height:28px;border-radius:50%;border:none;background:var(--n50);color:var(--n500);font-size:15px;cursor:pointer;}
+.pig-menu{position:absolute;top:32px;right:0;background:#fff;border-radius:11px;box-shadow:var(--shadow-lg);min-width:140px;z-index:20;overflow:hidden;display:none;}
+.pig-menu.open{display:block;}
+.pig-menu button{display:block;width:100%;text-align:left;padding:11px 14px;font-size:12px;font-weight:600;color:var(--n700);border:none;background:none;cursor:pointer;font-family:var(--sans);}
+.pig-menu button:hover{background:var(--n50);}
+.pig-menu button.danger{color:var(--r400);}
+.pig-profile-card{display:flex;gap:13px;align-items:center;background:#fff;border-radius:var(--rad);padding:14px;margin-bottom:12px;box-shadow:var(--shadow);}
+.pig-profile-photo{width:64px;height:64px;border-radius:16px;object-fit:cover;flex-shrink:0;background:var(--n100);}
+.pig-profile-info h1{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--n900);}
+.pig-profile-pen{font-size:11px;color:var(--n500);margin-top:4px;font-weight:600;}
+.weeks-overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px;}
+.week-chip{background:#fff;border-radius:11px;padding:9px 4px;text-align:center;box-shadow:var(--shadow);cursor:pointer;border:1.5px solid transparent;}
+.week-chip.has-photo{border-color:var(--g300);background:var(--g50);}
+.week-chip.is-viewed{border-color:var(--g500);box-shadow:0 0 0 2px var(--g200);}
+.week-chip .wc-num{font-size:10px;font-weight:700;color:var(--n500);}
+.week-chip .wc-status{font-size:15px;margin-top:3px;}
+.pigform-photo-preview{width:96px;height:96px;border-radius:50%;object-fit:cover;background:var(--n100);border:3px solid var(--g100);}
 .exp-del-btn{width:28px;height:28px;border-radius:50%;border:none;background:var(--n50);color:var(--n400);font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .exp-empty{text-align:center;padding:32px 16px;color:var(--n400);}
 .exp-empty .ee-ico{font-size:30px;margin-bottom:8px;}
@@ -405,10 +517,7 @@ input[type=file]{display:none;}
 </head>
 <body>
 <div class="phone">
-  <div class="statusbar">
-<span id="status-time">9:41</span>
-<span><span id="signal">📶</span> <span id="battery">🔋100%</span></span>
-</div>
+  <div class="statusbar"><span>9:41</span><span>📶 🔋</span></div>
 
   <div class="topbar">
     <button class="tb-btn" onclick="toggleDrawer()">☰</button>
@@ -416,7 +525,7 @@ input[type=file]{display:none;}
     <div class="tb-icons">
       <button class="lang-pill" id="lang-btn" onclick="toggleLang()">🇵🇭 FIL</button>
       <button class="tb-icon-btn" onclick="toggleNotif()">🔔<span class="notif-dot"></span></button>
-      <div class="tb-avatar" onclick="navTo('settings')">E</div>
+      <div class="tb-avatar" onclick="navTo('settings')">J</div>
     </div>
   </div>
 
@@ -470,8 +579,12 @@ input[type=file]{display:none;}
       <div id="am-tasks"></div>
       <div class="sec-title" data-t="sec-afternoon">🌤️ Afternoon Routine</div>
       <div id="pm-tasks"></div>
-      <div class="sec-title" data-t="sec-weekly">🗓️ Weekly Tasks (Optional)</div>
-      <div id="wk-tasks"></div>
+      <div class="sec-title between"><span data-t="sec-weekly">🗓️ Weekly Tasks (Optional)</span><span class="badge green" id="wk-progress-badge">0 / 5</span></div>
+      <div class="card" style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--n500);margin-bottom:5px;"><span data-t="wk-progress-lbl">Weekly Progress</span><span style="color:var(--g500);" id="wk-progress-text">0 / 5 Completed</span></div>
+        <div class="prog-wrap" style="height:9px;"><div class="prog-fill" style="width:0%;" id="wk-progress-bar"></div></div>
+      </div>
+      <div id="wk-tasks-wrap"></div>
       <div class="sec-title" data-t="sec-gate">🔒 Day Gate</div>
       <div class="card" style="border:1.5px solid var(--n200);">
         <div style="display:flex;justify-content:space-between;margin-bottom:7px;font-size:11.5px;font-weight:700;"><span data-t="gate-progress-lbl">Daily Progress</span><span style="color:var(--g500);" id="gate-count">0 / 10 Required</span></div>
@@ -509,42 +622,51 @@ input[type=file]{display:none;}
       </div>
       <div class="sec-title" data-t="stage-guide">Stage Guide</div>
       <div class="card"><table class="tbl"><thead><tr><th data-t="col-stage">Stage</th><th data-t="col-wt">Weight</th><th data-t="col-feed">Feed/day</th></tr></thead><tbody id="stage-tbody"></tbody></table></div>
-
-      <div class="sec-title"><span data-t="photo-sec-title">📸 Weekly Pig Photo</span><button class="card-action" onclick="navTo('growthcal')" data-t="photo-view-cal">Growth Calendar →</button></div>
-      <div class="photo-card" id="photo-card"><!-- rendered by renderPhotoCard() --></div>
-
-      <input type="file" id="capture-input" accept="image/*" capture="environment" onchange="onPhotoChosen(event)">
-      <input type="file" id="upload-input" accept="image/*" onchange="onPhotoChosen(event)">
     </div>
 
     <!-- HEALTH -->
     <div class="page" id="page-health">
-      <div class="page-hd"><h1 data-t="nav-health">Health Monitor</h1><div class="sub" data-t="health-sub">Daily observation log</div></div>
+      <div class="page-hd"><h1 data-t="nav-health">Health Monitor</h1><div class="sub" data-t="health-sub">Daily observation log</div>
+        <div class="acts"><button class="btn btn-outline btn-sm" onclick="navTo('healthlogs')">📋 <span data-t="view-health-logs">View Health Logs</span></button></div>
+      </div>
+
+      <div id="health-edit-banner"></div>
+
       <div class="obs-card">
-        <div class="obs-title" data-t="obs-behavior">🐾 Behavior</div>
-        <div class="obs-options">
-          <button class="obs-opt sel-ok" onclick="selectObs(this,'behavior','normal')"><div class="oo-ic">😊</div><div data-t="obs-normal">Normal</div></button>
-          <button class="obs-opt" onclick="selectObs(this,'behavior','lethargic')"><div class="oo-ic">😔</div><div data-t="obs-lethargic">Lethargic</div></button>
+        <div class="chip-section-label">🧠 <span data-t="obs-behavior">Behavior</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-grid" id="chips-behavior"></div>
+      </div>
+      <div class="obs-card">
+        <div class="chip-section-label">🍽 <span data-t="obs-appetite">Appetite</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-grid" id="chips-appetite"></div>
+      </div>
+      <div class="obs-card">
+        <div class="chip-section-label">🌸 <span data-t="obs-physical">Physical Condition</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-grid" id="chips-physical"></div>
+      </div>
+      <div class="obs-card">
+        <div class="chip-section-label">💩 <span data-t="obs-waste">Waste Condition</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-grid" id="chips-waste"></div>
+        <div class="alert-box" id="waste-alert" style="display:none;margin-top:10px;">
+          <div class="ai">⚠️</div>
+          <div class="at" data-t="alert-diarrhea">Possible diarrhea. Ensure clean water. Reduce feed by 20%. Consult a vet if it continues for more than 24 hours.</div>
         </div>
       </div>
       <div class="obs-card">
-        <div class="obs-title" data-t="obs-appetite">🍽️ Appetite</div>
-        <div class="obs-options">
-          <button class="obs-opt sel-ok" onclick="selectObs(this,'appetite','normal')"><div class="oo-ic">😋</div><div data-t="obs-eating">Eating Normally</div></button>
-          <button class="obs-opt" onclick="selectObs(this,'appetite','inapp')"><div class="oo-ic">😶</div><div data-t="obs-inapp">Inappetence</div></button>
-        </div>
+        <div class="chip-section-label" data-t="obs-notes">📝 Additional Notes</div>
+        <textarea class="field-inp" id="health-notes" rows="3" placeholder="Describe any unusual observations..." style="resize:vertical;font-family:var(--sans);"></textarea>
       </div>
-      <div class="obs-card">
-        <div class="obs-title" data-t="obs-waste">💩 Waste Condition</div>
-        <div class="obs-options">
-          <button class="obs-opt sel-ok" onclick="selectObs(this,'waste','normal')"><div class="oo-ic">✅</div><div data-t="obs-waste-ok">Normal</div></button>
-          <button class="obs-opt" onclick="selectObs(this,'waste','loose')"><div class="oo-ic">⚠️</div><div data-t="obs-waste-bad">Loose/Watery</div></button>
-        </div>
-        <div class="alert-box" id="diarrhea-alert" style="display:none;"><div class="ai">⚠️</div><div class="at" data-t="alert-diarrhea">Possible diarrhea. Consult a vet.</div></div>
-      </div>
-      <button class="btn btn-primary btn-full" onclick="saveHealth()" data-t="btn-save-obs">Save Observation ✓</button>
-      <div class="sec-title" data-t="health-history">Health Log History</div>
-      <div class="card" id="health-log-history"></div>
+
+      <div class="health-live-status" id="health-live-status"></div>
+      <button class="btn btn-primary btn-full" id="health-save-btn" onclick="saveHealth()" data-t="btn-save-obs">Save Observation ✓</button>
+    </div>
+
+    <!-- HEALTH LOGS -->
+    <div class="page" id="page-healthlogs">
+      <div class="back-row"><button class="tb-btn" onclick="navTo('health')">←</button><div class="back-row-title" data-t="nav-health">Health Monitor</div></div>
+      <div class="page-hd"><h1 data-t="health-logs-h1">Health Logs</h1><div class="sub" data-t="health-logs-sub">Complete observation history</div></div>
+      <div class="filter-row" id="hl-filter-row"></div>
+      <div id="health-logs-list"></div>
     </div>
 
     <!-- WEIGHT -->
@@ -557,6 +679,19 @@ input[type=file]{display:none;}
         <div class="adg-bar"><div class="adg-fill" style="width:0%;" id="adg-hero-bar"></div></div>
         <div id="adg-status" style="margin-top:8px;"></div>
       </div>
+
+      <div class="adg-hero" id="fcr-hero">
+        <div class="adg-label" data-t="fcr-label">Feed Conversion Ratio (FCR)</div>
+        <div class="adg-value" id="fcr-hero-val">— <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;" data-t="fcr-this-week">This Week's FCR</span></div>
+        <div id="fcr-status-badge" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="sec-title" data-t="fcr-trend-title">📉 This Week's FCR Trend</div>
+      <div class="card">
+        <svg width="100%" height="120" viewBox="0 0 320 120" id="fcr-trend-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div style="font-size:9.5px;color:var(--n400);text-align:center;margin-top:4px;" data-t="fcr-trend-hint">Lower values indicate better feed efficiency.</div>
+      </div>
+
       <div class="weigh-input-card">
         <div style="font-size:12.5px;font-weight:700;color:var(--n700);margin-bottom:9px;" data-t="wt-record">Record New Weight</div>
         <div class="weigh-input-row">
@@ -567,6 +702,9 @@ input[type=file]{display:none;}
       </div>
       <div class="sec-title" data-t="wt-history">Weigh-In History</div>
       <div id="weight-history-list"></div>
+
+      <div class="sec-title" data-t="fcr-history-title">📋 FCR History</div>
+      <div id="fcr-history-list"></div>
     </div>
 
     <!-- EXPENSE -->
@@ -668,26 +806,63 @@ input[type=file]{display:none;}
         <div class="stat-box"><div class="si">🖼️</div><div class="sv amber" id="gh-photo-count">0</div><div class="sl" data-t="gh-photos-lbl">Growth Photos</div></div>
       </div>
 
+      <button class="btn btn-primary btn-full" style="margin-bottom:14px;" onclick="openAddPig()">+ <span data-t="add-pig-btn">Add Pig</span></button>
+
+      <div class="search-box">
+        <span class="search-ico">🔍</span>
+        <input class="search-inp" id="pig-search-inp" placeholder="Search by Pig Name or Pig ID" oninput="setPigSearch(this.value)">
+      </div>
+      <div class="filter-row" id="pig-filter-row"></div>
+      <div class="sort-row">
+        <span class="sort-lbl" data-t="sort-by">Sort by</span>
+        <select class="field-inp sort-select" id="pig-sort-select" onchange="setPigSort(this.value)">
+          <option value="name" data-t="sort-name">Name</option>
+          <option value="age" data-t="sort-age">Age</option>
+          <option value="latest" data-t="sort-latest">Latest Upload</option>
+          <option value="completion" data-t="sort-completion">Completion %</option>
+          <option value="weight" data-t="sort-weight">Weight</option>
+        </select>
+      </div>
+
       <div class="sec-title" data-t="gh-registered">Registered Pigs</div>
       <div id="pig-cards-list"></div>
     </div>
 
-    <!-- GROWTH HISTORY (per-pig detail — Weekly Pig Image Tracking) -->
+    <!-- GROWTH HISTORY (per-pig detail — Pig Profile / Growth Details) -->
     <div class="page" id="page-growthcal">
-      <div class="back-row"><button class="tb-btn" onclick="navTo('growth')">←</button><div class="back-row-title" data-t="growthcal-back">Pig Growth</div></div>
-      <div class="page-hd" style="margin-bottom:12px;">
-        <h1 id="gcal-h1">Bigas</h1>
-        <div class="sub" id="gcal-sub">ID: BIGAS-01</div>
+      <div class="back-row"><button class="tb-btn" onclick="navTo('growth')">←</button><div class="back-row-title" data-t="growthcal-back">Pig Growth</div>
+        <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="openEditPig(currentGrowthPigId)">✏️ <span data-t="btn-edit">Edit</span></button>
+      </div>
+
+      <div class="pig-profile-card">
+        <img class="pig-profile-photo" id="gp-photo" src="">
+        <div class="pig-profile-info">
+          <h1 id="gcal-h1">Bigas</h1>
+          <div class="sub" id="gcal-sub">ID: BIGAS-01</div>
+          <div class="pig-profile-pen" id="gp-pen-row">📍 <span id="gp-pen">—</span></div>
+        </div>
       </div>
 
       <div class="stat-grid-4">
-        <div class="stat-box"><div class="si">📅</div><div class="sv" id="gp-age" style="font-size:15px;">—</div><div class="sl" data-t="gp-age-lbl">Age</div></div>
+        <div class="stat-box"><div class="si">📅</div><div class="sv" id="gp-age" style="font-size:14px;">—</div><div class="sl" data-t="gp-age-lbl">Age</div></div>
         <div class="stat-box"><div class="si">⚖️</div><div class="sv" id="gp-weight" style="font-size:15px;">—</div><div class="sl" data-t="gp-weight-lbl">Weight</div></div>
         <div class="stat-box"><div class="si">🗓️</div><div class="sv" id="gp-last-upload" style="font-size:12.5px;">—</div><div class="sl" data-t="gp-last-upload-lbl">Last Upload</div></div>
-        <div class="stat-box"><div class="si">📈</div><div class="sv good" id="gp-progress" style="font-size:15px;">0%</div><div class="sl" data-t="gp-progress-lbl">Progress</div></div>
+        <div class="stat-box"><div class="si">🖼️</div><div class="sv good" id="gp-weeks-recorded" style="font-size:14px;">0 / 0</div><div class="sl" data-t="gh-total-weeks-lbl">Weeks Recorded</div></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--n500);margin-bottom:5px;"><span data-t="gp-progress-lbl">Progress</span><span style="color:var(--g500);" id="gp-progress">0%</span></div>
+        <div class="prog-wrap" style="height:9px;"><div class="prog-fill" style="width:0%;" id="gp-progress-bar"></div></div>
       </div>
 
+      <div class="sec-title" data-t="wpp-title">📸 Weekly Pig Photo</div>
+      <div class="muted-sub" data-t="wpp-sub">Capture or upload a photo every week to monitor your pig's growth.</div>
       <div class="card" id="growth-week-card"><!-- rendered by renderGrowthWeekCard() --></div>
+
+      <input type="file" id="capture-input" accept="image/*" capture="environment" onchange="onPhotoChosen(event)">
+      <input type="file" id="upload-input" accept="image/*" onchange="onPhotoChosen(event)">
+
+      <div class="sec-title" data-t="weeks-overview-title">🗂️ Weekly Growth Photos</div>
+      <div class="weeks-overview-grid" id="weeks-overview-grid"></div>
 
       <div class="card">
         <div class="month-nav">
@@ -707,6 +882,20 @@ input[type=file]{display:none;}
       <div class="sec-title"><span data-t="gcal-timeline">Weekly Timeline</span></div>
       <div id="growth-timeline"></div>
 
+      <div class="sec-title" data-t="wt-history-title">⚖️ Weight History</div>
+      <div class="card">
+        <svg width="100%" height="110" viewBox="0 0 320 110" id="pig-weight-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div id="pig-weight-history-list"></div>
+      <div class="weigh-input-card">
+        <div style="font-size:12.5px;font-weight:700;color:var(--n700);margin-bottom:9px;" data-t="wt-record">Record New Weight</div>
+        <div class="weigh-input-row">
+          <input class="weigh-input-box" type="number" id="pig-new-weight-inp" placeholder="kg">
+          <div style="font-size:12.5px;color:var(--n400);font-weight:600;">kg</div>
+          <button class="btn btn-primary btn-sm" onclick="savePigWeightFromDetail()" data-t="wt-save">Save</button>
+        </div>
+      </div>
+
       <div class="sec-title" data-t="compare-title">🆚 Growth Comparison</div>
       <div class="card">
         <div style="display:flex;gap:8px;margin-bottom:11px;">
@@ -715,12 +904,51 @@ input[type=file]{display:none;}
         </div>
         <div id="compare-slider-wrap"></div>
       </div>
+
+      <div class="sec-title" data-t="notes-title">📝 Notes</div>
+      <div class="card" id="gp-notes-card"></div>
+    </div>
+
+    <!-- ADD / EDIT PIG -->
+    <div class="page" id="page-pigform">
+      <div class="back-row"><button class="tb-btn" onclick="closePigForm()">←</button><div class="back-row-title" id="pigform-title" data-t="add-pig-title">Add Pig</div></div>
+
+      <div class="field-row" style="text-align:center;">
+        <img class="pigform-photo-preview" id="pigform-photo-preview" src="">
+        <div class="photo-actions" style="margin-top:10px;">
+          <button class="photo-btn" onclick="triggerPigCapture()"><span class="pb-ico">📷</span><span data-t="photo-cta-capture">Capture Photo</span></button>
+          <button class="photo-btn" onclick="triggerPigUpload()"><span class="pb-ico">🖼️</span><span data-t="photo-cta-upload">Upload Image</span></button>
+        </div>
+        <input type="file" id="pig-capture-input" accept="image/*" capture="environment" onchange="onPigPhotoChosen(event)">
+        <input type="file" id="pig-upload-input" accept="image/*" onchange="onPigPhotoChosen(event)">
+      </div>
+
+      <div class="field-row"><div class="field-lbl" data-t="field-pig-name">🐷 Pig Name</div><input class="field-inp" id="pf-name" placeholder="e.g. Bantay" oninput="onPigNameInput()"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-pig-id">Pig ID</div><input class="field-inp" id="pf-id" placeholder="AUTO-04" oninput="this.dataset.autogen='0'"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-gender">Gender</div>
+        <div class="cat-grid" id="pf-gender-grid">
+          <button class="cat-box" data-gender="Male" onclick="selectPigGender('Male')">♂️ <span data-t="gender-male">Male</span></button>
+          <button class="cat-box" data-gender="Female" onclick="selectPigGender('Female')">♀️ <span data-t="gender-female">Female</span></button>
+        </div>
+      </div>
+      <div class="field-row"><div class="field-lbl" data-t="field-breed">Breed</div><input class="field-inp" id="pf-breed" placeholder="e.g. Landrace Cross"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-birthdate">Birth Date</div><input class="field-inp" type="date" id="pf-birthdate"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-arrivaldate">Arrival Date</div><input class="field-inp" type="date" id="pf-arrivaldate"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-initial-weight">Initial Weight (kg)</div><input class="field-inp" type="number" id="pf-weight" placeholder="20"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-pen">Pen Number</div><input class="field-inp" id="pf-pen" placeholder="e.g. Pen 4"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-notes">Notes (Optional)</div><textarea class="field-inp" id="pf-notes" rows="3" style="resize:vertical;font-family:var(--sans);" placeholder="Additional remarks..."></textarea></div>
+
+      <div style="display:flex;gap:9px;">
+        <button class="btn btn-outline btn-full" onclick="closePigForm()" data-t="del-cancel">Cancel</button>
+        <button class="btn btn-primary btn-full" onclick="savePig()" id="pigform-save-btn" data-t="save-pig-btn">Save Pig</button>
+      </div>
     </div>
 
   </div>
 
   <button class="fab" id="growth-fab" onclick="openActionSheet()" style="display:none;">+</button>
   <button class="fab" id="expense-fab" onclick="openAddExpense()" style="display:none;">+</button>
+
 
   <div class="bottomnav">
     <button class="bn-item active" id="bn-home" onclick="navTo('home')"><span class="bn-ico">🏠</span><span class="bn-lbl" data-t="nav-home">Home</span></button>
@@ -741,6 +969,7 @@ input[type=file]{display:none;}
       <button class="dr-item" id="dr-activities" onclick="navTo('activities')"><span class="dri-ico">✅</span><span data-t="nav-activities">Daily Tasks</span></button>
       <button class="dr-item" id="dr-feeding" onclick="navTo('feeding')"><span class="dri-ico">🌾</span><span data-t="nav-feeding">Feeding Guide</span></button>
       <button class="dr-item" id="dr-health" onclick="navTo('health')"><span class="dri-ico">🩺</span><span data-t="nav-health">Health Monitor</span></button>
+      <button class="dr-item" id="dr-healthlogs" onclick="navTo('healthlogs')"><span class="dri-ico">📋</span><span data-t="health-logs-h1">Health Logs</span></button>
       <button class="dr-item" id="dr-weight" onclick="navTo('weight')"><span class="dri-ico">⚖️</span><span data-t="nav-weight">Weight & ADG</span></button>
       <button class="dr-item" id="dr-growth" onclick="navTo('growth')"><span class="dri-ico">📷</span><span data-t="nav-growth">Pig Growth</span></button>
       <button class="dr-item" id="dr-expense" onclick="navTo('expense')"><span class="dri-ico">💰</span><span data-t="nav-expense">Expense & ROI</span></button>
@@ -750,7 +979,7 @@ input[type=file]{display:none;}
       <div class="dr-section" data-t="sb-sec-account">ACCOUNT</div>
       <button class="dr-item" id="dr-settings" onclick="navTo('settings')"><span class="dri-ico">⚙️</span><span data-t="nav-settings">Settings</span></button>
     </div>
-    <div class="dr-bottom"><div class="dr-user"><div class="dr-avatar">E</div><div><div class="dr-uname">Erjan dela Cruz</div><div class="dr-urole" data-t="sb-urole">Backyard Raiser</div></div></div></div>
+    <div class="dr-bottom"><div class="dr-user"><div class="dr-avatar">J</div><div><div class="dr-uname">Juan dela Cruz</div><div class="dr-urole" data-t="sb-urole">Backyard Raiser</div></div></div></div>
   </nav>
 
   <!-- NOTIF PANEL -->
@@ -773,11 +1002,11 @@ input[type=file]{display:none;}
   <div class="day-modal" id="confirm-modal">
     <div class="day-modal-box">
       <div class="dm-emoji">🗑️</div>
-      <div class="dm-title" data-t="del-title">Delete Expense</div>
-      <div class="dm-sub" data-t="del-msg">Are you sure you want to delete this expense? This action cannot be undone and the ROI calculations will be updated.</div>
+      <div class="dm-title" id="confirm-modal-title">Delete Expense</div>
+      <div class="dm-sub" id="confirm-modal-msg">Are you sure you want to delete this expense? This action cannot be undone and the ROI calculations will be updated.</div>
       <div style="display:flex;gap:9px;">
         <button class="btn btn-outline btn-full" onclick="closeConfirmModal()" data-t="del-cancel">Cancel</button>
-        <button class="btn btn-danger btn-full" onclick="executeDeleteExpense()" data-t="del-confirm">Delete</button>
+        <button class="btn btn-danger btn-full" onclick="executeConfirmedDelete()" data-t="del-confirm">Delete</button>
       </div>
     </div>
   </div>
@@ -837,7 +1066,7 @@ input[type=file]{display:none;}
 /* ══ IN-MEMORY STORE (artifact-safe — no localStorage) ══ */
 const MEM = {};
 const DB = { get(k){ return MEM[k]===undefined?null:MEM[k]; }, set(k,v){ MEM[k]=v; } };
-const USER = { username:'demo', name:'Erjan dela Cruz' };
+const USER = { username:'demo', name:'Juan dela Cruz' };
 const ck = k => `asf_cycle_${USER.username}_${k}`;
 let LANG = 'en';
 const FEED_PRICE = { val: 22.50 };
@@ -859,10 +1088,14 @@ DB.set(ck('expenses'), [
   { id:5, category:'Feed', description:'Finisher Feed (50 kg sack)', amount:1125, date:'Apr 15, 2026' },
 ]);
 let nextExpenseId = 6;
-let pendingDeleteExpenseId = null;
 let expCategory = 'Feed';
+let lastDisplayedFCR = null; /* used to animate the FCR value only when it actually changes */
 DB.set(ck('healthLogs'), []);
-let pendingObs = { behavior:'normal', appetite:'normal', waste:'normal' };
+let pendingObs = { behavior:'normal', appetite:'normal', physical:'pinkish', waste:'normal', notes:'' };
+let editingHealthLogId = null;
+let nextHealthLogId = 1;
+let healthFilterStatus = 'all';
+let healthFilterDay = null;
 
 /* ══ WEEKLY PIG IMAGE TRACKING ══
    Table: PigWeeklyImages
@@ -879,14 +1112,30 @@ DB.set(ck('pigWeeklyImages'), [
 ]);
 let nextPhotoId = 4;
 
-/* registry of all pigs in the batch — Growth hub & per-pig Growth History read from here */
-const PIGS = [
-  { id:'BIGAS-01', name:'Bigas', breed:'Landrace Cross', startDay:1, staticWeight:null /* uses live weightLogs */ },
-  { id:'AMIHAN-02', name:'Amihan', breed:'Large White', startDay:1, staticWeight:27.8 },
-  { id:'DIWA-03', name:'Diwa', breed:'Duroc Cross', startDay:1, staticWeight:31.2 },
-];
+/* ══ PIG REGISTRY — mutable, supports Add/Edit/Delete from the Growth module ══ */
+DB.set(ck('pigs'), [
+  { id:'BIGAS-01', name:'Bigas', gender:'Male', breed:'Landrace Cross', birthDate:'2026-01-15', arrivalDate:'2026-04-01', initialWeight:20, penNumber:'Pen 1', photo:null, notes:'', createdAt:'2026-04-01T07:00:00' },
+  { id:'AMIHAN-02', name:'Amihan', gender:'Female', breed:'Large White', birthDate:'2026-01-10', arrivalDate:'2026-04-01', initialWeight:18.5, penNumber:'Pen 2', photo:null, notes:'', createdAt:'2026-04-01T07:00:00' },
+  { id:'DIWA-03', name:'Diwa', gender:'Male', breed:'Duroc Cross', birthDate:'2026-01-12', arrivalDate:'2026-04-01', initialWeight:19.2, penNumber:'Pen 3', photo:null, notes:'', createdAt:'2026-04-01T07:00:00' },
+]);
+DB.set(ck('pigWeightLogs'), {
+  'AMIHAN-02': [ {week:1, weight:18.5, date:'2026-04-01'}, {week:2, weight:22.1, date:'2026-04-08'}, {week:3, weight:27.8, date:'2026-04-15'} ],
+  'DIWA-03': [ {week:1, weight:19.2, date:'2026-04-01'}, {week:2, weight:24.6, date:'2026-04-08'}, {week:3, weight:31.2, date:'2026-04-15'} ],
+});
+let nextPigSeq = 4; /* used to auto-generate the next Pig ID */
 let currentGrowthPigId = 'BIGAS-01'; /* which pig's Growth History page is currently shown */
 let activePigContext = 'BIGAS-01'; /* which pig the capture/upload flow is currently targeting */
+let viewedWeek = 1; /* which week is shown in the Weekly Pig Photo navigator on the Growth page */
+function totalWeeksInCycle(){ return Math.max(1, Math.ceil(120/7)); }
+
+/* Growth hub search/filter/sort state */
+let pigSearchQuery = '';
+let pigFilterMode = 'all'; /* all | active | completed | male | female */
+let pigSortMode = 'name'; /* name | age | latest | completion | weight */
+
+/* Add/Edit Pig form state */
+let editingPigId = null; /* null = adding a new pig */
+let pendingPigPhoto = null; /* data URL captured/uploaded inside the Add/Edit Pig form */
 
 let pendingPhoto = null; /* { dataUrl, sizeKB, weekNumber, replacingId } awaiting save from preview modal */
 let viewerPhotoId = null;
@@ -894,6 +1143,22 @@ let gcalViewDate = new Date('2026-04-15'); /* month currently shown in growth ca
 const CYCLE_START = new Date('2026-04-01');
 function dayToDate(day){ const d = new Date(CYCLE_START); d.setDate(d.getDate() + (day-1)); return d; }
 function weekNumberForDay(day){ return Math.max(1, Math.ceil(day/7)); }
+
+/* ══ WEEKLY TASKS — Monday-start calendar week key, based on the device's real local date ══ */
+function getCalendarWeekKey(){
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun..6=Sat
+  const diffToMonday = (day === 0 ? -6 : 1 - day);
+  const monday = new Date(now); monday.setHours(0,0,0,0); monday.setDate(now.getDate() + diffToMonday);
+  return monday.toISOString().slice(0,10); // e.g. "2026-06-29" = Monday of this week
+}
+function nextMondayLabel(){
+  const now = new Date();
+  const day = now.getDay();
+  const diffToNextMonday = (day === 0 ? 1 : 8 - day);
+  const next = new Date(now); next.setHours(0,0,0,0); next.setDate(now.getDate() + diffToNextMonday);
+  return next.toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{weekday:'long',month:'short',day:'numeric'}) + ', 12:00 AM';
+}
 
 
 const T = {
@@ -967,6 +1232,9 @@ const T = {
     'gh-registered':'Registered Pigs','gh-view-growth':'View Growth →',
     'gp-age-lbl':'Age','gp-weight-lbl':'Weight','gp-last-upload-lbl':'Last Upload','gp-progress-lbl':'Progress',
     'week-exists-title':'Week {week} Photo Already Exists','week-empty-title':'No photo yet for Week {week}','week-empty-sub':"Tap + to add this week's growth photo",
+    'wpp-title':'📸 Weekly Pig Photo','wpp-sub':"Capture or upload a photo every week to monitor your pig's growth.",
+    'wk-prev':'Previous Week','wk-next':'Next Week','wk-of':'Week {week} of {total}',
+    'week-empty-title2':'No photo uploaded for Week {week}.','week-empty-sub2':"Capture or upload a photo to begin tracking this week's growth.",
     'btn-view':'View','btn-replace-short':'Replace',
     'compare-title':'🆚 Growth Comparison','compare-select-a':'Week A','compare-select-b':'Week B','compare-empty':'Add at least 2 weekly photos to compare growth.',
     'as-title':'Upload Weekly Photo','as-upload-gallery':'Upload from Gallery','as-cancel':'Cancel',
@@ -977,6 +1245,17 @@ const T = {
     'del-cancel':'Cancel','del-confirm':'Delete',
     'exp-added-ok':'✅ Expense added successfully.','exp-deleted-ok':'🗑️ Expense deleted successfully.',
     'exp-empty-title':'No expenses recorded yet.','exp-empty-sub':'Add your first expense using the + button.',
+    'wk-progress-lbl':'Weekly Progress','wk-done-title':'Weekly Tasks Completed','wk-done-sub':'You have finished all optional tasks for this week.','wk-next-reset':'Next reset',
+    'add-pig-btn':'Add Pig','add-pig-title':'Add Pig','edit-pig-title':'Edit Pig','save-pig-btn':'Save Pig','save-changes-btn':'Save Changes',
+    'field-pig-name':'🐷 Pig Name','field-pig-id':'Pig ID','field-gender':'Gender','gender-male':'Male','gender-female':'Female',
+    'field-breed':'Breed','field-birthdate':'Birth Date','field-arrivaldate':'Arrival Date','field-initial-weight':'Initial Weight (kg)','field-pen':'Pen Number',
+    'sort-by':'Sort by','sort-name':'Name','sort-age':'Age','sort-latest':'Latest Upload','sort-completion':'Completion %','sort-weight':'Weight',
+    'pf-all':'All Pigs','pf-active':'Active','pf-completed':'Completed Growth','pf-male':'Male','pf-female':'Female',
+    'no-pigs-found':'No pigs match your search/filter.','delete-pig-btn':'Delete Pig',
+    'del-pig-title':'Delete Pig?','del-pig-msg':'This will permanently remove this pig and all associated growth records, weekly photos, and progress.',
+    'pig-added-ok':'✅ Pig added successfully.','pig-updated-ok':'✅ Pig updated successfully.','pig-deleted-ok':'🗑️ Pig deleted successfully.',
+    'weeks-overview-title':'🗂️ Weekly Growth Photos','wt-history-title':'⚖️ Weight History','notes-title':'📝 Notes',
+    'gp-pen-lbl':'Pen','no-notes':'No notes added yet.',
   },
   fil: {
     'nav-home':'Dashboard','nav-activities':'Pang-araw-araw','nav-feeding':'Gabay sa Pagpapakain','nav-health':'Health Monitor',
@@ -1048,6 +1327,9 @@ const T = {
     'gh-registered':'Nakarehistrong Baboy','gh-view-growth':'Tingnan →',
     'gp-age-lbl':'Edad','gp-weight-lbl':'Timbang','gp-last-upload-lbl':'Huling Upload','gp-progress-lbl':'Progreso',
     'week-exists-title':'May Larawan na sa Linggo {week}','week-empty-title':'Walang larawan pa sa Linggo {week}','week-empty-sub':'I-tap ang + para magdagdag ng larawan',
+    'wpp-title':'📸 Lingguhang Larawan ng Baboy','wpp-sub':'Kumuha o i-upload ng larawan tuwing linggo para masubaybayan ang paglaki ng iyong baboy.',
+    'wk-prev':'Nakaraang Linggo','wk-next':'Susunod na Linggo','wk-of':'Linggo {week} ng {total}',
+    'week-empty-title2':'Walang na-upload na larawan para sa Linggo {week}.','week-empty-sub2':'Kumuha o i-upload ng larawan para masimulan ang pagsubaybay ngayong linggo.',
     'btn-view':'Tingnan','btn-replace-short':'Palitan',
     'compare-title':'🆚 Paghambing ng Paglaki','compare-select-a':'Linggo A','compare-select-b':'Linggo B','compare-empty':'Magdagdag ng hindi bababa sa 2 larawan para makapaghambing.',
     'as-title':'I-upload ang Lingguhang Larawan','as-upload-gallery':'I-upload mula sa Gallery','as-cancel':'Kanselahin',
@@ -1058,6 +1340,17 @@ const T = {
     'del-cancel':'Kanselahin','del-confirm':'Tanggalin',
     'exp-added-ok':'✅ Matagumpay na naidagdag ang gastos.','exp-deleted-ok':'🗑️ Matagumpay na tinanggal ang gastos.',
     'exp-empty-title':'Walang gastos na naitala.','exp-empty-sub':'Magdagdag ng unang gastos gamit ang + button.',
+    'wk-progress-lbl':'Lingguhang Pag-unlad','wk-done-title':'Tapos na ang Lingguhang Gawain','wk-done-sub':'Natapos mo na ang lahat ng opsyonal na gawain ngayong linggo.','wk-next-reset':'Susunod na reset',
+    'add-pig-btn':'Magdagdag ng Baboy','add-pig-title':'Magdagdag ng Baboy','edit-pig-title':'I-edit ang Baboy','save-pig-btn':'I-save ang Baboy','save-changes-btn':'I-save ang Pagbabago',
+    'field-pig-name':'🐷 Pangalan ng Baboy','field-pig-id':'Pig ID','field-gender':'Kasarian','gender-male':'Lalaki','gender-female':'Babae',
+    'field-breed':'Lahi','field-birthdate':'Petsa ng Kapanganakan','field-arrivaldate':'Petsa ng Pagdating','field-initial-weight':'Unang Timbang (kg)','field-pen':'Numero ng Kulungan',
+    'sort-by':'Ayusin ayon sa','sort-name':'Pangalan','sort-age':'Edad','sort-latest':'Huling Upload','sort-completion':'Completion %','sort-weight':'Timbang',
+    'pf-all':'Lahat','pf-active':'Aktibo','pf-completed':'Tapos na ang Tracking','pf-male':'Lalaki','pf-female':'Babae',
+    'no-pigs-found':'Walang tumugmang baboy.','delete-pig-btn':'Tanggalin ang Baboy',
+    'del-pig-title':'Tanggalin ang Baboy?','del-pig-msg':'Permanenteng matatanggal ang baboy na ito kasama ang lahat ng growth records, lingguhang larawan, at progreso.',
+    'pig-added-ok':'✅ Matagumpay na naidagdag ang baboy.','pig-updated-ok':'✅ Na-update ang impormasyon ng baboy.','pig-deleted-ok':'🗑️ Matagumpay na tinanggal ang baboy.',
+    'weeks-overview-title':'🗂️ Lingguhang Larawan','wt-history-title':'⚖️ Kasaysayan ng Timbang','notes-title':'📝 Tala',
+    'gp-pen-lbl':'Kulungan','no-notes':'Wala pang tala.',
   }
 };
 function t(key, vars){ let s=(T[LANG]&&T[LANG][key])||T.en[key]||key; if(vars) Object.entries(vars).forEach(([k,v])=>{s=s.replaceAll('{'+k+'}', v);}); return s; }
@@ -1084,20 +1377,97 @@ const WEEKLY_DEFS = [
 
 const getCurrentDay = () => DB.get(ck('currentDay')) || 1;
 const getLogs = () => DB.get(ck('dayLogs')) || {};
+const getWeeklyTaskStore = () => DB.get(ck('weeklyTasks')) || {};
+const setWeeklyTaskStore = (v) => DB.set(ck('weeklyTasks'), v);
+function getCurrentWeekRecord(){
+  const store = getWeeklyTaskStore();
+  const key = getCalendarWeekKey();
+  if (!store[key]) { store[key] = {}; setWeeklyTaskStore(store); }
+  return store[key];
+}
+function toggleWeeklyTask(id){
+  const store = getWeeklyTaskStore();
+  const key = getCalendarWeekKey();
+  if (!store[key]) store[key] = {};
+  const rec = store[key];
+  const doneCountNow = WEEKLY_DEFS.filter(d=>rec[d.id]).length;
+  if (doneCountNow >= WEEKLY_DEFS.length && rec[id]) {
+    /* already fully completed and locked — ignore further taps per spec ("disable editing") */
+    return;
+  }
+  rec[id] = !rec[id];
+  setWeeklyTaskStore(store);
+  loadData();
+}
 const getWeightLogs = () => DB.get(ck('weightLogs')) || [];
 const getExpenses = () => DB.get(ck('expenses')) || [];
 const setExpenses = (v) => DB.set(ck('expenses'), v);
 const getHealthLogs = () => DB.get(ck('healthLogs')) || [];
+const setHealthLogs = (v) => DB.set(ck('healthLogs'), v);
 const getPigImages = () => DB.get(ck('pigWeeklyImages')) || [];
 const setPigImages = (v) => DB.set(ck('pigWeeklyImages'), v);
 const getPigImagesFor = (pigId) => getPigImages().filter(p => p.pig_id === pigId).sort((a,b)=>a.week_number-b.week_number);
 const getPigImageForWeek = (week, pigId) => getPigImages().find(p => p.week_number === week && p.pig_id === (pigId||activePigContext));
-const findPig = (pigId) => PIGS.find(p => p.id === pigId) || PIGS[0];
+/* ══ PIG REGISTRY — data layer ══ */
+const getPigs = () => DB.get(ck('pigs')) || [];
+const setPigs = (v) => DB.set(ck('pigs'), v);
+const findPig = (pigId) => getPigs().find(p => p.id === pigId) || getPigs()[0];
+function generatePigId(name){
+  const prefix = (name||'PIG').trim().toUpperCase().replace(/[^A-Z]/g,'').slice(0,6) || 'PIG';
+  return `${prefix}-${String(nextPigSeq++).padStart(2,'0')}`;
+}
+const getPigWeightStore = () => DB.get(ck('pigWeightLogs')) || {};
+const setPigWeightStore = (v) => DB.set(ck('pigWeightLogs'), v);
+function getPigWeightLogs(pigId){
+  if (pigId === 'BIGAS-01') return getWeightLogs().map(w => ({ week: weekNumberForDay(w.day), weight: w.weight, date: w.date }));
+  return getPigWeightStore()[pigId] || [];
+}
+function addPigWeightEntry(pigId, weight){
+  if (pigId === 'BIGAS-01'){ saveWeightDirect(weight); return; }
+  const store = getPigWeightStore();
+  const list = store[pigId] || (store[pigId] = []);
+  const week = (list.length ? list[list.length-1].week : 0) + 1;
+  list.push({ week, weight, date: new Date().toISOString().slice(0,10) });
+  setPigWeightStore(store);
+}
+function currentWeightFor(pigId){
+  const logs = getPigWeightLogs(pigId);
+  if (logs.length) return logs[logs.length-1].weight;
+  const pig = findPig(pigId);
+  return pig ? pig.initialWeight : 0;
+}
+function ageInDaysFor(pig){
+  if (!pig.birthDate) return null;
+  return Math.max(0, Math.round((new Date() - new Date(pig.birthDate)) / 86400000));
+}
+function ageLabelFor(pig){
+  const d = ageInDaysFor(pig);
+  if (d === null) return '—';
+  const weeks = Math.floor(d/7);
+  return LANG==='fil' ? `${d} araw (${weeks} lng)` : `${d} days (${weeks} wks)`;
+}
+/* Cascading delete: pig profile + weekly photos + weight history + weekly-photo-derived stats all live off pig_id, so removing the pig record and its child collections is enough */
+function deletePigCascade(pigId){
+  setPigs(getPigs().filter(p => p.id !== pigId));
+  setPigImages(getPigImages().filter(im => im.pig_id !== pigId));
+  const wstore = getPigWeightStore(); delete wstore[pigId]; setPigWeightStore(wstore);
+}
+
 
 function countDoneTasks(){ const logs=getLogs(); const day=getCurrentDay(); const tasks=logs[day]?.tasks||{}; return TASK_DEFS.filter(d=>tasks[d.id]).length; }
 function taskRowHTML(def, done){
   const fg = def.fg ? `color:${def.fg};` : '';
   return `<button class="task-row ${done?'done-row':''}" onclick="toggleCheck('${def.id}')">
+    <div class="task-ic" style="background:${def.bg};${fg}">${def.icon}</div>
+    <div class="task-info"><div class="task-name" data-t="${def.t}">${t(def.t)}</div><div class="task-sub" data-t="${def.s}">${t(def.s)}</div></div>
+    <div class="check-circle ${done?'done':''}">${done?'✓':''}</div>
+  </button>`;
+}
+function weeklyTaskRowHTML(def, done, locked){
+  const fg = def.fg ? `color:${def.fg};` : '';
+  const cls = (done?'done-row ':'') + (locked?'locked':'');
+  const handler = locked ? '' : `onclick="toggleWeeklyTask('${def.id}')"`;
+  return `<button class="task-row ${cls}" ${handler}>
     <div class="task-ic" style="background:${def.bg};${fg}">${def.icon}</div>
     <div class="task-info"><div class="task-name" data-t="${def.t}">${t(def.t)}</div><div class="task-sub" data-t="${def.s}">${t(def.s)}</div></div>
     <div class="check-circle ${done?'done':''}">${done?'✓':''}</div>
@@ -1117,7 +1487,50 @@ function currentADG(){
   return Math.round(((b.weight-a.weight)*1000)/Math.max(1,days));
 }
 
-const PAGES = ['home','activities','feeding','health','weight','expense','contacts','calendar','settings','growthcal','growth','addexpense'];
+/* ══════════════════════════════════════════════════════
+   FEED CONVERSION RATIO (FCR)
+   FCR = Total Feed Consumed (kg) ÷ Weight Gain (kg) over the same period.
+   Feed consumed is derived automatically from the stage-based daily feed
+   allowance (see stage() in the Feeding section) averaged across the two
+   endpoint weights, multiplied by the number of days in the period — so it
+   recalculates live whenever a new weight is recorded, with no separate
+   manual "feed entry" required. Feed/expense edits still trigger loadData()
+   elsewhere in the app, which re-derives every FCR value fresh each time.
+══════════════════════════════════════════════════════ */
+function feedConsumedForPeriod(prevLog, currLog){
+  const days = (new Date(currLog.date)-new Date(prevLog.date))/86400000 || (currLog.day-prevLog.day) || 7;
+  const avgDailyFeed = (stage(prevLog.weight).feed + stage(currLog.weight).feed) / 2;
+  return { feedKg: avgDailyFeed * Math.max(1, days), days: Math.max(1, days) };
+}
+function fcrForPeriod(prevLog, currLog){
+  const gain = currLog.weight - prevLog.weight;
+  if (gain <= 0) return { fcr:null, feedKg: feedConsumedForPeriod(prevLog,currLog).feedKg };
+  const { feedKg } = feedConsumedForPeriod(prevLog, currLog);
+  return { fcr: feedKg / gain, feedKg };
+}
+function currentFCR(){
+  const logs = getWeightLogs(); if (logs.length < 2) return null;
+  const { fcr } = fcrForPeriod(logs[logs.length-2], logs[logs.length-1]);
+  return fcr;
+}
+function fcrStatus(fcr){
+  if (fcr === null || fcr === undefined) return null;
+  if (fcr <= 2.5) return { key:'excellent', emoji:'🟢', label:t('fcr-status-excellent') };
+  if (fcr <= 2.8) return { key:'good', emoji:'🟢', label:t('fcr-status-good') };
+  if (fcr <= 3.2) return { key:'average', emoji:'🟡', label:t('fcr-status-average') };
+  if (fcr <= 3.8) return { key:'needs', emoji:'🟠', label:t('fcr-status-needs') };
+  return { key:'poor', emoji:'🔴', label:t('fcr-status-poor') };
+}
+function weeklyFCRSeries(){
+  const logs = getWeightLogs(); const out = [];
+  for (let i=1; i<logs.length; i++){
+    const { fcr } = fcrForPeriod(logs[i-1], logs[i]);
+    out.push({ week: weekNumberForDay(logs[i].day), fcr: fcr===null ? null : Math.round(fcr*100)/100 });
+  }
+  return out;
+}
+
+const PAGES = ['home','activities','feeding','health','weight','expense','contacts','calendar','settings','growthcal','growth','addexpense','healthlogs','pigform'];
 const BOTTOM_TABS = ['home','activities','feeding','weight','growth','expense'];
 function navTo(id){
   PAGES.forEach(p => document.getElementById('page-'+p)?.classList.remove('active'));
@@ -1168,28 +1581,230 @@ function confirmAdvanceDay(){
   navTo('home');
   showSyncToast((LANG==='fil'?'🎉 Araw ':'🎉 Day ')+day+(LANG==='fil'?' Tapos na!':' Complete!'));
 }
-function selectObs(el,cat,val){
-  pendingObs[cat]=val;
-  el.parentElement.querySelectorAll('.obs-opt').forEach(s=>s.classList.remove('sel-ok','sel-bad'));
-  const isBad = val==='lethargic'||val==='inapp'||val==='loose';
-  el.classList.add(isBad?'sel-bad':'sel-ok');
-  if (cat==='waste') document.getElementById('diarrhea-alert').style.display = isBad?'flex':'none';
+/* ══════════════════════════════════════════════════════
+   HEALTH MONITOR — full multi-category observation system
+══════════════════════════════════════════════════════ */
+/* ── Simplified 4-category, 2-option schema (matches Health Monitor screenshot) ── */
+const BEHAVIOR_OPTS = [
+  {key:'normal',   ico:'😊', label:'Normal',     sub:'Bright & Alert Eyes, Active Behavior', tier:0},
+  {key:'lethargic',ico:'😔', label:'Lethargic',  sub:'', tier:1},
+];
+const APPETITE_OPTS = [
+  {key:'normal', ico:'😊', label:'Eating Normally', sub:'', tier:0},
+  {key:'inapp',  ico:'😶', label:'Inappetence',     sub:'', tier:1},
+];
+const PHYSICAL_OPTS = [
+  {key:'pinkish',     ico:'🐷', label:'Pinkish Skin', sub:'Normal color',  tier:0},
+  {key:'bruise_free', ico:'✅', label:'Bruise Free',  sub:'No injuries',   tier:0},
+];
+const WASTE_OPTS = [
+  {key:'normal', ico:'✅', label:'Normal',       sub:'Solid Fecal Consistency', tier:0},
+  {key:'loose',  ico:'⚠️', label:'Loose/Watery', sub:'',                        tier:2},
+];
+/* ADDITIONAL_OPTS kept as empty stub so nothing references an undefined const */
+const ADDITIONAL_OPTS = [];
+const HEALTH_GROUPS = [
+  {cat:'behavior', opts:BEHAVIOR_OPTS, multi:false},
+  {cat:'appetite', opts:APPETITE_OPTS, multi:false},
+  {cat:'physical', opts:PHYSICAL_OPTS, multi:false},   /* single-select: pick one condition */
+  {cat:'waste',    opts:WASTE_OPTS,    multi:false},
+];
+function findOpt(opts, key){ return opts.find(o=>o.key===key); }
+
+/* Status derived from the 4 core categories only */
+function computeHealthStatus(obs){
+  let maxTier = 0, tierCounts = {0:0,1:0,2:0,3:0};
+  const consider = (opts, key) => {
+    const o = findOpt(opts, key);
+    if (o){ tierCounts[o.tier]++; if (o.tier > maxTier) maxTier = o.tier; }
+  };
+  consider(BEHAVIOR_OPTS, obs.behavior);
+  consider(APPETITE_OPTS, obs.appetite);
+  consider(PHYSICAL_OPTS, obs.physical);   /* single string now */
+  consider(WASTE_OPTS,    obs.waste);
+  if (maxTier >= 3) return 'critical';
+  if (maxTier === 2) return 'risk';
+  if (maxTier === 1) return tierCounts[1] >= 2 ? 'risk' : 'monitor';
+  return 'healthy';
+}
+function statusMeta(status){
+  const map = {
+    healthy:{emoji:'🟢', label:t('status-healthy')},
+    monitor:{emoji:'🟡', label:t('status-monitor')},
+    risk:{emoji:'🟠', label:t('status-risk')},
+    critical:{emoji:'🔴', label:t('status-critical')},
+  };
+  return map[status];
+}
+/* Recommendation: show only the diarrhea alert (Loose/Watery waste + Inappetence appetite) */
+function computeRecommendation(obs){
+  if (obs.waste === 'loose' && obs.appetite === 'inapp'){
+    return { title:t('rec-digestive-title'), body:[t('rec-digestive-1'),t('rec-digestive-2'),t('rec-digestive-3'),t('rec-digestive-4'),t('rec-digestive-5')] };
+  }
+  return null;
+}
+
+/* ── Chip rendering / toggling ── */
+function renderHealthChips(){
+  HEALTH_GROUPS.forEach(g => {
+    const el = document.getElementById('chips-'+g.cat); if (!el) return;
+    el.innerHTML = g.opts.map(o => {
+      const selected = pendingObs[g.cat] === o.key;
+      return `<button class="chip ${selected?'selected':''}" onclick="toggleHealthChip('${g.cat}','${o.key}',false)">
+        <span class="chip-ico">${o.ico}</span>
+        <span class="chip-inner"><span class="chip-lbl">${o.label}</span>${o.sub?`<span class="chip-sub">${o.sub}</span>`:''}</span>
+      </button>`;
+    }).join('');
+  });
+  renderLiveHealthStatus();
+}
+function toggleHealthChip(cat, key){
+  pendingObs[cat] = key;
+  renderHealthChips();
+  /* Show the diarrhea alert live when Loose/Watery is selected */
+  const alertEl = document.getElementById('waste-alert');
+  if (alertEl){
+    const show = pendingObs.waste === 'loose';
+    alertEl.style.display = show ? 'flex' : 'none';
+  }
+}
+function renderLiveHealthStatus(){
+  const el = document.getElementById('health-live-status'); if (!el) return;
+  const status = computeHealthStatus(pendingObs);
+  const meta = statusMeta(status);
+  el.innerHTML = `<span style="font-size:11px;color:var(--n400);font-weight:600;">${t('live-status-lbl')}</span><span class="status-badge ${status}">${meta.emoji} ${meta.label}</span>`;
+}
+function resetHealthForm(){
+  pendingObs = { behavior:'normal', appetite:'normal', physical:'pinkish', waste:'normal', notes:'' };
+  editingHealthLogId = null;
+  const notesEl = document.getElementById('health-notes'); if (notesEl) notesEl.value = '';
+  document.getElementById('health-edit-banner').innerHTML = '';
+  renderHealthChips();
+}
+function editHealthLog(id){
+  const log = getHealthLogs().find(h=>h.id===id); if (!log) return;
+  pendingObs = {
+    behavior: log.behavior,
+    appetite: log.appetite,
+    physical: log.physical || 'pinkish',
+    waste:    log.waste,
+    notes:    log.notes || '',
+  };
+  editingHealthLogId = id;
+  navTo('health');
+  setTimeout(() => {
+    const notesEl = document.getElementById('health-notes'); if (notesEl) notesEl.value = pendingObs.notes;
+    renderHealthChips();
+    document.getElementById('health-edit-banner').innerHTML =
+      `<span>✏️ ${t('editing-log-from',{date:log.date})}</span><button onclick="resetHealthForm()">${t('cancel-edit')}</button>`;
+  }, 0);
 }
 function saveHealth(){
-  const day=getCurrentDay(); const hlogs=getHealthLogs();
-  hlogs.push({ day, date:new Date().toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric'}), ...pendingObs });
-  DB.set(ck('healthLogs'), hlogs);
+  const day = getCurrentDay();
+  pendingObs.notes = document.getElementById('health-notes').value.trim();
+  const status = computeHealthStatus(pendingObs);
+  const wasEditing = !!editingHealthLogId;
+  const hlogs = getHealthLogs();
+  if (wasEditing){
+    const rec = hlogs.find(h=>h.id===editingHealthLogId);
+    Object.assign(rec, {
+      behavior: pendingObs.behavior,
+      appetite: pendingObs.appetite,
+      physical: pendingObs.physical,
+      waste:    pendingObs.waste,
+      notes:    pendingObs.notes,
+      status,
+    });
+  } else {
+    hlogs.push({
+      id:        nextHealthLogId++,
+      day,
+      date:      dayToDate(day).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'long',day:'numeric',year:'numeric'}),
+      time:      new Date().toLocaleTimeString(LANG==='fil'?'tl-PH':'en-US',{hour:'numeric',minute:'2-digit'}),
+      timestamp: new Date().toISOString(),
+      behavior:  pendingObs.behavior,
+      appetite:  pendingObs.appetite,
+      physical:  pendingObs.physical,
+      waste:     pendingObs.waste,
+      notes:     pendingObs.notes,
+      status,
+    });
+  }
+  setHealthLogs(hlogs);
   const logs=getLogs(); if (!logs[day]) logs[day]={tasks:{}}; logs[day].tasks['health']=true;
   DB.set(ck('dayLogs'), logs);
-  showSyncToast(LANG==='fil'?'Nai-save ang obserbasyon ✓':'Observation saved ✓');
-  loadData();
+  showSyncToast(wasEditing ? t('health-updated-ok') : t('health-saved-ok'));
+  resetHealthForm();
+  if (wasEditing) navTo('healthlogs'); else loadData();
 }
+
+/* ── Health Logs page: list, filters, render ── */
+function setHealthFilterStatus(s){ healthFilterStatus = s; renderHealthLogsList(); }
+function clearHealthDayFilter(){ healthFilterDay = null; renderHealthLogsList(); }
+function renderHealthFilterRow(){
+  const el = document.getElementById('hl-filter-row'); if (!el) return;
+  const tiers = ['all','healthy','monitor','risk','critical'];
+  let html = tiers.map(s => `<button class="filter-chip ${healthFilterStatus===s?'active':''}" onclick="setHealthFilterStatus('${s}')">${s==='all'?t('filter-all'):statusMeta(s).emoji+' '+statusMeta(s).label}</button>`).join('');
+  if (healthFilterDay !== null) html += `<button class="filter-chip active" onclick="clearHealthDayFilter()">📅 ${LANG==='fil'?'Araw':'Day'} ${healthFilterDay} ✕</button>`;
+  el.innerHTML = html;
+}
+function renderHealthLogsList(){
+  renderHealthFilterRow();
+  const el = document.getElementById('health-logs-list'); if (!el) return;
+  let logs = getHealthLogs().slice().reverse();
+  if (healthFilterStatus !== 'all') logs = logs.filter(h => h.status === healthFilterStatus);
+  if (healthFilterDay !== null) logs = logs.filter(h => h.day === healthFilterDay);
+  if (!logs.length){
+    el.innerHTML = `<div class="hlc-empty"><div class="he-ico">🩺</div><div>${t('health-logs-empty')}</div></div>`;
+    return;
+  }
+  el.innerHTML = logs.map(h => {
+    const meta = statusMeta(h.status);
+    const beh  = findOpt(BEHAVIOR_OPTS, h.behavior);
+    const app  = findOpt(APPETITE_OPTS, h.appetite);
+    const phys = findOpt(PHYSICAL_OPTS, h.physical);
+    const was  = findOpt(WASTE_OPTS, h.waste);
+    const rec  = computeRecommendation(h);
+    return `<div class="health-log-card" data-log-id="${h.id}">
+      <div class="hlc-top">
+        <div><div class="hlc-date">📅 ${h.date}</div><div class="hlc-time">${h.time||''}</div></div>
+        <span class="status-badge ${h.status}">${meta.emoji} ${meta.label}</span>
+      </div>
+      <div class="hlc-row"><strong>🧠 ${t('obs-behavior')}:</strong> ${beh ? beh.ico+' '+beh.label : h.behavior}</div>
+      <div class="hlc-row"><strong>🍽 ${t('obs-appetite')}:</strong> ${app ? app.ico+' '+app.label : h.appetite}</div>
+      <div class="hlc-row"><strong>🌸 ${t('obs-physical')}:</strong> ${phys ? phys.ico+' '+phys.label : (h.physical||'—')}</div>
+      <div class="hlc-row"><strong>💩 ${t('obs-waste')}:</strong> ${was ? was.ico+' '+was.label : h.waste}</div>
+      ${h.notes ? `<div class="hlc-notes">📝 ${h.notes}</div>` : ''}
+      ${rec ? `<div class="fcr-warning-card" style="margin-bottom:0;margin-top:8px;"><div class="fwc-title">💡 ${rec.title}</div><div class="fwc-causes">${rec.body.map(b=>`<div>• ${b}</div>`).join('')}</div></div>` : ''}
+      <div class="hlc-actions">
+        <button class="btn btn-outline" onclick="editHealthLog(${h.id})">✏️ ${t('btn-edit')}</button>
+        <button class="btn btn-danger" onclick="confirmDeleteHealthLog(${h.id})">🗑️ ${t('btn-delete')}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function getWorstHealthStatusForDay(day){
+  const logs = getHealthLogs().filter(h=>h.day===day);
+  if (!logs.length) return null;
+  const order = {healthy:0, monitor:1, risk:2, critical:3};
+  let worst = logs[0].status;
+  logs.forEach(l => { if (order[l.status] > order[worst]) worst = l.status; });
+  return worst;
+}
+function openHealthLogsForDay(day){
+  healthFilterDay = day; healthFilterStatus = 'all';
+  navTo('healthlogs');
+}
+
 function onFeedPriceChange(){ const v=parseFloat(document.getElementById('feed-price-inp').value); if (!isNaN(v)) FEED_PRICE.val=v; loadData(); }
+function saveWeightDirect(weight){
+  const wlogs=getWeightLogs();
+  wlogs.push({ day:getCurrentDay(), weight:parseFloat(weight), date:new Date().toISOString().slice(0,10) });
+  DB.set(ck('weightLogs'), wlogs);
+}
 function saveWeight(){
   const val=document.getElementById('new-weight-inp').value; if (!val) return;
-  const wlogs=getWeightLogs();
-  wlogs.push({ day:getCurrentDay(), weight:parseFloat(val), date:new Date().toISOString().slice(0,10) });
-  DB.set(ck('weightLogs'), wlogs);
+  saveWeightDirect(val);
   document.getElementById('new-weight-inp').value='';
   showSyncToast('Weight saved ✓');
   loadData();
@@ -1219,26 +1834,55 @@ function addExpense(){
   showSyncToast(t('exp-added-ok'));
 }
 
-/* ══ DELETE EXPENSE — always confirm first ══ */
-function confirmDeleteExpense(id){
-  pendingDeleteExpenseId = id;
+/* ══ DELETE CONFIRMATION — shared by Expense + Health Log + Pig deletion ══ */
+let pendingDelete = null; /* { kind: 'expense'|'health'|'pig', id } */
+function confirmDeleteExpense(id){ openDeleteConfirm('expense', id); }
+function confirmDeleteHealthLog(id){ openDeleteConfirm('health', id); }
+function confirmDeletePig(id){ openDeleteConfirm('pig', id); }
+function openDeleteConfirm(kind, id){
+  pendingDelete = { kind, id };
+  document.getElementById('confirm-modal-title').textContent = kind==='health' ? t('del-health-title') : kind==='pig' ? t('del-pig-title') : t('del-title');
+  document.getElementById('confirm-modal-msg').textContent = kind==='health' ? t('del-health-msg') : kind==='pig' ? t('del-pig-msg') : t('del-msg');
   document.getElementById('confirm-modal').classList.add('show');
 }
 function closeConfirmModal(){
   document.getElementById('confirm-modal').classList.remove('show');
-  pendingDeleteExpenseId = null;
+  pendingDelete = null;
 }
-function executeDeleteExpense(){
-  const id = pendingDeleteExpenseId;
+function executeConfirmedDelete(){
+  if (!pendingDelete) return;
+  const { kind, id } = pendingDelete;
   document.getElementById('confirm-modal').classList.remove('show');
-  const row = document.querySelector(`.exp-item[data-expense-id="${id}"]`);
-  if (row) row.classList.add('fade-out');
-  setTimeout(() => {
-    setExpenses(getExpenses().filter(e => e.id !== id));
-    pendingDeleteExpenseId = null;
-    showSyncToast(t('exp-deleted-ok'));
-    loadData();
-  }, 260);
+  if (kind === 'expense'){
+    const row = document.querySelector(`.exp-item[data-expense-id="${id}"]`);
+    if (row) row.classList.add('fade-out');
+    setTimeout(() => {
+      setExpenses(getExpenses().filter(e => e.id !== id));
+      pendingDelete = null;
+      showSyncToast(t('exp-deleted-ok'));
+      loadData();
+    }, 260);
+  } else if (kind === 'health'){
+    const row = document.querySelector(`.health-log-card[data-log-id="${id}"]`);
+    if (row) row.classList.add('fade-out');
+    setTimeout(() => {
+      setHealthLogs(getHealthLogs().filter(h => h.id !== id));
+      pendingDelete = null;
+      showSyncToast(t('health-deleted-ok'));
+      loadData();
+    }, 260);
+  } else if (kind === 'pig'){
+    deletePigCascade(id);
+    pendingDelete = null;
+    showSyncToast(t('pig-deleted-ok'));
+    if (currentGrowthPigId === id){
+      const remaining = getPigs();
+      currentGrowthPigId = remaining[0] ? remaining[0].id : null;
+      navTo('growth');
+    } else {
+      loadData();
+    }
+  }
 }
 function resetApp(){
   if (!confirm(LANG==='fil'?'Sigurado ka bang i-reset?':'Are you sure you want to reset?')) return;
@@ -1282,6 +1926,20 @@ function buildWeightChart(svgId, badgeId){
     badgeEl.innerHTML = `<span class="badge green">${LANG==='fil'?'Una':'Start'} ${fmt1(start)} kg</span><span class="badge blue">${LANG==='fil'?'Ngayon':'Now'} ${fmt1(now)} kg</span><span class="badge amber">${LANG==='fil'?'Target':'Target'} ~${target} kg</span>`; }
 }
 
+function buildFCRTrendChart(svgId){
+  const series = weeklyFCRSeries().filter(p => p.fcr !== null);
+  const svg = document.getElementById(svgId); if (!svg) return;
+  if (series.length < 2){ svg.innerHTML = `<text x="160" y="62" text-anchor="middle" font-size="10" fill="#aaa">${LANG==='fil'?'Magdagdag pa ng timbang para makita ang trend':'Add more weigh-ins to see the FCR trend'}</text>`; return; }
+  const w=320,h=120,padL=28,padR=14,padT=16,padB=20;
+  const values=series.map(p=>p.fcr); const min=Math.min(...values)-0.2, max=Math.max(...values)+0.2;
+  const pts=series.map((p,i)=>{ const x=padL+(i*(w-padL-padR))/Math.max(1,series.length-1); const y=h-padB-((p.fcr-min)/(max-min||1))*(h-padT-padB); return [x,y]; });
+  const poly=pts.map(p=>p.join(',')).join(' ');
+  const grid=[0,1,2].map(i=>{ const y=padT+i*((h-padT-padB)/2); const val=(max-i*((max-min)/2)).toFixed(1); return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="#efefef" stroke-width="1"/><text x="0" y="${y+3}" font-size="8" fill="#aaa">${val}</text>`; }).join('');
+  const dots=pts.map((p,i)=> `<circle cx="${p[0]}" cy="${p[1]}" r="${i===pts.length-1?5:3.4}" fill="${i===pts.length-1?'white':'#f59c1a'}" stroke="#f59c1a" stroke-width="${i===pts.length-1?2.2:0}"/>`).join('');
+  const labels=series.map((p,i)=> `<text x="${pts[i][0]-12}" y="${h-5}" font-size="8" fill="#aaa">${t('tl-week-label',{n:p.week})}</text>`).join('');
+  svg.innerHTML = `${grid}<polyline points="${poly}" fill="none" stroke="#f59c1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labels}`;
+}
+
 /* ══════════════════════════════════════════════════════
    WEEKLY PIG IMAGE TRACKING — capture/upload/compress/save
 ══════════════════════════════════════════════════════ */
@@ -1317,10 +1975,8 @@ function finalizePendingImage(natW, natH, src, crop){
     const dataUrl = canvas.toDataURL('image/jpeg', 0.72);
     const sizeKB = Math.round((dataUrl.length * 0.75) / 1024);
 
-    const day = getCurrentDay();
-    const week = weekNumberForDay(day);
-    const existing = replaceTargetId ? getPigImages().find(p => p.id === replaceTargetId) : getPigImageForWeek(week);
-    pendingPhoto = { ...pendingPhoto, dataUrl, sizeKB, weekNumber: existing ? existing.week_number : week, replacingId: existing ? existing.id : null, cropped: crop };
+    const existing = replaceTargetId ? getPigImages().find(p => p.id === replaceTargetId) : getPigImageForWeek(viewedWeek);
+    pendingPhoto = { ...pendingPhoto, dataUrl, sizeKB, weekNumber: existing ? existing.week_number : viewedWeek, replacingId: existing ? existing.id : null, cropped: crop };
     openPreviewModal();
   };
   img.src = src;
@@ -1346,7 +2002,7 @@ function openPreviewModal(){
 function retakePhoto(){
   document.getElementById('preview-modal').classList.remove('show');
   pendingPhoto = null;
-  renderPhotoCard(); renderGrowthWeekCard();
+  renderGrowthWeekCard();
 }
 function savePhoto(){
   if (!pendingPhoto) return;
@@ -1379,7 +2035,7 @@ function savePhoto(){
       /* simulate background sync completing a moment later (offline-first UX) */
       setTimeout(() => {
         const imgs = getPigImages(); const rec = imgs.find(p => p.week_number === savedWeek && p.pig_id === pigIdForSave);
-        if (rec){ rec.synced = true; setPigImages(imgs); renderPhotoCard(); renderGrowthWeekCard(); renderGrowthTimeline(); }
+        if (rec){ rec.synced = true; setPigImages(imgs); renderGrowthWeekCard(); renderGrowthTimeline(); }
       }, 1800);
     } catch(err){
       showSyncToast(t('photo-saved-err'), true);
@@ -1392,48 +2048,17 @@ function triggerUpload(){ document.getElementById('upload-input').click(); }
 
 let replaceTargetId = null; /* set when user taps "Replace Photo" — next chosen image overwrites this record */
 
-/* ══ FEEDING PAGE — Weekly Pig Photo (always targets the main tracked pig) ══ */
-function renderPhotoCard(){
-  const el = document.getElementById('photo-card'); if (!el) return;
-  activePigContext = 'BIGAS-01';
-  const day = getCurrentDay(); const week = weekNumberForDay(day);
-  const existing = getPigImageForWeek(week, 'BIGAS-01');
-  if (existing && replaceTargetId !== existing.id){
-    const dateStr = new Date(existing.capture_date).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric',year:'numeric'});
-    el.innerHTML = `
-      <div class="pc-hd"><h3>${t('photo-uploaded-week',{week})}</h3></div>
-      <div class="photo-existing">
-        <div class="photo-thumb-wrap"><img class="photo-thumb" src="${existing.image_url}" onclick="openViewer(${existing.id})"><div class="photo-thumb-badge">📷</div></div>
-        <div class="photo-meta">
-          <div class="pm-week">${t('tl-week-label',{n:week})}</div>
-          <div class="pm-date">${t('tl-uploaded',{date:dateStr})}</div>
-          <span class="pm-sync ${existing.synced?'synced':'pending'}">${existing.synced?t('photo-synced'):t('photo-pending')}</span>
-        </div>
-      </div>
-      <button class="btn btn-outline btn-full" style="margin-top:11px;" onclick="startReplace(${existing.id})">${t('photo-replace')}</button>
-    `;
-  } else {
-    el.innerHTML = `
-      <div class="pc-hd"><h3>${t('photo-uploaded-week',{week})}</h3></div>
-      <div class="photo-actions">
-        <button class="photo-btn" onclick="triggerCapture()"><span class="pb-ico">📷</span>${t('photo-cta-capture')}</button>
-        <button class="photo-btn" onclick="triggerUpload()"><span class="pb-ico">🖼️</span>${t('photo-cta-upload')}</button>
-      </div>
-      <div style="font-size:10.5px;color:var(--n400);margin-top:10px;text-align:center;">${t('photo-empty-hint',{week})}</div>
-    `;
-  }
-}
 function startReplace(id){
   replaceTargetId = id;
   const rec = getPigImages().find(p=>p.id===id);
-  if (rec) activePigContext = rec.pig_id;
-  renderPhotoCard(); renderGrowthWeekCard();
+  if (rec){ activePigContext = rec.pig_id; currentGrowthPigId = rec.pig_id; viewedWeek = rec.week_number; }
+  renderGrowthWeekCard();
 }
 function replaceFromViewer(){
   const rec = getPigImages().find(p=>p.id===viewerPhotoId); if (!rec) return;
   closeViewer();
-  if (rec.pig_id === 'BIGAS-01' && currentGrowthPigId !== 'BIGAS-01') navTo('feeding');
   startReplace(rec.id);
+  navTo('growthcal');
 }
 
 function deletePhoto(){
@@ -1441,6 +2066,13 @@ function deletePhoto(){
   if (!confirm(t('viewer-confirm-delete',{week:rec.week_number}))) return;
   setPigImages(getPigImages().filter(p=>p.id!==viewerPhotoId));
   closeViewer();
+  showSyncToast(t('photo-deleted'));
+  loadData();
+}
+function deletePhotoForWeek(id){
+  const rec = getPigImages().find(p=>p.id===id); if (!rec) return;
+  if (!confirm(t('viewer-confirm-delete',{week:rec.week_number}))) return;
+  setPigImages(getPigImages().filter(p=>p.id!==id));
   showSyncToast(t('photo-deleted'));
   loadData();
 }
@@ -1517,43 +2149,97 @@ function toggleZoom(){
   });
 })();
 
-/* ══ GROWTH HUB (all pigs) ══ */
-function viewPigGrowth(pigId){ currentGrowthPigId = pigId; activePigContext = pigId; navTo('growthcal'); }
+/* ══ GROWTH HUB (all pigs) — search, filter, sort, edit/delete ══ */
+function viewPigGrowth(pigId){ currentGrowthPigId = pigId; activePigContext = pigId; viewedWeek = weekNumberForDay(getCurrentDay()); navTo('growthcal'); }
+function setPigSearch(val){ pigSearchQuery = val.trim().toLowerCase(); renderGrowthHub(); }
+function setPigFilter(mode){ pigFilterMode = mode; renderGrowthHub(); }
+function setPigSort(mode){ pigSortMode = mode; renderGrowthHub(); }
+function togglePigMenu(pigId, ev){
+  if (ev) ev.stopPropagation();
+  document.querySelectorAll('.pig-menu').forEach(m => { if (m.id !== 'pigmenu-'+pigId) m.classList.remove('open'); });
+  document.getElementById('pigmenu-'+pigId)?.classList.toggle('open');
+}
+document.addEventListener('click', () => document.querySelectorAll('.pig-menu').forEach(m=>m.classList.remove('open')));
+
+function renderPigFilterRow(){
+  const el = document.getElementById('pig-filter-row'); if (!el) return;
+  const modes = ['all','active','completed','male','female'];
+  el.innerHTML = modes.map(m => `<button class="filter-chip ${pigFilterMode===m?'active':''}" onclick="setPigFilter('${m}')">${t('pf-'+m)}</button>`).join('');
+}
 function renderGrowthHub(){
+  renderPigFilterRow();
   const cardsEl = document.getElementById('pig-cards-list'); if (!cardsEl) return;
-  const day = getCurrentDay(); const currentWeek = weekNumberForDay(day);
-  const allImages = getPigImages();
+  const day = getCurrentDay(); const currentWeek = weekNumberForDay(day); const totalWeeks = totalWeeksInCycle();
+  let pigs = getPigs();
   let totalRecorded = 0, totalPossible = 0, latestDate = null;
-  let html = '';
-  PIGS.forEach(pig => {
+
+  /* search */
+  if (pigSearchQuery) pigs = pigs.filter(p => p.name.toLowerCase().includes(pigSearchQuery) || p.id.toLowerCase().includes(pigSearchQuery));
+  /* filter */
+  if (pigFilterMode === 'male') pigs = pigs.filter(p => p.gender === 'Male');
+  else if (pigFilterMode === 'female') pigs = pigs.filter(p => p.gender === 'Female');
+  else if (pigFilterMode === 'completed') pigs = pigs.filter(p => getPigImagesFor(p.id).length >= currentWeek && currentWeek>0);
+  else if (pigFilterMode === 'active') pigs = pigs.filter(p => getPigImagesFor(p.id).length < currentWeek || currentWeek===0);
+
+  /* sort */
+  const sorters = {
+    name: (a,b) => a.name.localeCompare(b.name),
+    age: (a,b) => (ageInDaysFor(b)||0) - (ageInDaysFor(a)||0),
+    latest: (a,b) => {
+      const la = getPigImagesFor(a.id).slice(-1)[0]?.capture_date || '';
+      const lb = getPigImagesFor(b.id).slice(-1)[0]?.capture_date || '';
+      return lb.localeCompare(la);
+    },
+    completion: (a,b) => getPigImagesFor(b.id).length - getPigImagesFor(a.id).length,
+    weight: (a,b) => currentWeightFor(b.id) - currentWeightFor(a.id),
+  };
+  pigs = pigs.slice().sort(sorters[pigSortMode] || sorters.name);
+
+  /* stats always computed across ALL pigs (unaffected by search/filter) */
+  const allPigs = getPigs();
+  allPigs.forEach(pig => {
     const imgs = getPigImagesFor(pig.id);
     totalRecorded += imgs.length; totalPossible += currentWeek;
     imgs.forEach(im => { if (!latestDate || im.capture_date > latestDate) latestDate = im.capture_date; });
-    const lastImg = imgs[imgs.length-1];
-    const photoSrc = lastImg ? lastImg.image_url : PLACEHOLDER_THUMB('#e8ece0');
-    const lastUploadStr = lastImg ? new Date(lastImg.capture_date).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric'}) : '—';
-    const weight = pig.id==='BIGAS-01' ? getWeightLogs()[getWeightLogs().length-1].weight : pig.staticWeight;
-    const pct = currentWeek ? Math.round((imgs.length/currentWeek)*100) : 0;
-    html += `
+  });
+
+  if (!pigs.length){
+    cardsEl.innerHTML = `<div class="hlc-empty"><div class="he-ico">🐷</div><div>${t('no-pigs-found')}</div></div>`;
+  } else {
+    cardsEl.innerHTML = pigs.map(pig => {
+      const imgs = getPigImagesFor(pig.id);
+      const lastImg = imgs[imgs.length-1];
+      const photoSrc = pig.photo || (lastImg ? lastImg.image_url : PLACEHOLDER_THUMB('#e8ece0'));
+      const lastUploadStr = lastImg ? new Date(lastImg.capture_date).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric'}) : '—';
+      const weight = currentWeightFor(pig.id);
+      const pct = totalWeeks ? Math.round((imgs.length/totalWeeks)*100) : 0;
+      return `
       <div class="pig-card">
         <div class="pig-card-top">
           <img class="pig-card-photo" src="${photoSrc}">
           <div class="pig-card-info">
-            <div class="pig-card-name">${pig.name}</div>
-            <div class="pig-card-id">${pig.id}</div>
+            <div class="pig-card-name">${pig.name} <span class="gender-ico">${pig.gender==='Female'?'♀️':'♂️'}</span></div>
+            <div class="pig-card-id">${pig.id} · ${pig.breed||'—'}</div>
+          </div>
+          <div class="pig-menu-wrap">
+            <button class="pig-menu-btn" onclick="togglePigMenu('${pig.id}', event)">⋮</button>
+            <div class="pig-menu" id="pigmenu-${pig.id}">
+              <button onclick="openEditPig('${pig.id}')">✏️ ${t('btn-edit')}</button>
+              <button class="danger" onclick="confirmDeletePig('${pig.id}')">🗑️ ${t('delete-pig-btn')}</button>
+            </div>
           </div>
         </div>
         <div class="pig-card-stats">
-          <div class="pcs-item"><div class="pcs-val">${t('age-days',{n:day, w:currentWeek})}</div><div class="pcs-lbl" data-t-skip>${LANG==='fil'?'Edad':'Age'}</div></div>
+          <div class="pcs-item"><div class="pcs-val">${ageLabelFor(pig)}</div><div class="pcs-lbl">${LANG==='fil'?'Edad':'Age'}</div></div>
           <div class="pcs-item"><div class="pcs-val">${fmt1(weight)} kg</div><div class="pcs-lbl">${LANG==='fil'?'Timbang':'Weight'}</div></div>
           <div class="pcs-item"><div class="pcs-val">${lastUploadStr}</div><div class="pcs-lbl">${LANG==='fil'?'Huling Upload':'Last Upload'}</div></div>
-          <div class="pcs-item"><div class="pcs-val">${imgs.length} / ${currentWeek}</div><div class="pcs-lbl">${LANG==='fil'?'Linggo':'Weeks'}</div></div>
+          <div class="pcs-item"><div class="pcs-val">${imgs.length} / ${totalWeeks}</div><div class="pcs-lbl">${LANG==='fil'?'Linggo':'Weeks'}</div></div>
         </div>
         <div class="pig-progress-row"><div class="prog-wrap"><div class="prog-fill" style="width:${pct}%;"></div></div><div class="pp-pct">${pct}%</div></div>
         <button class="btn btn-primary btn-full" onclick="viewPigGrowth('${pig.id}')">${t('gh-view-growth')}</button>
       </div>`;
-  });
-  cardsEl.innerHTML = html;
+    }).join('');
+  }
   set2('gh-total-weeks', totalRecorded);
   set2('gh-completion', `${totalRecorded} / ${totalPossible}`);
   set2('gh-photo-count', totalRecorded);
@@ -1562,41 +2248,238 @@ function renderGrowthHub(){
 }
 
 /* ══ GROWTH HISTORY — per-pig detail header + "this week" card ══ */
+/* ══════════════════════════════════════════════════════
+   ADD / EDIT PIG — form engine
+══════════════════════════════════════════════════════ */
+function openAddPig(){
+  editingPigId = null;
+  pendingPigPhoto = null;
+  document.getElementById('pigform-title').textContent = t('add-pig-title');
+  document.getElementById('pigform-save-btn').textContent = t('save-pig-btn');
+  document.getElementById('pf-name').value = '';
+  document.getElementById('pf-id').value = generatePigId('PIG');
+  document.getElementById('pf-id').dataset.autogen = '1';
+  selectPigGender('Male');
+  document.getElementById('pf-breed').value = '';
+  document.getElementById('pf-birthdate').value = '';
+  document.getElementById('pf-arrivaldate').value = new Date().toISOString().slice(0,10);
+  document.getElementById('pf-weight').value = '';
+  document.getElementById('pf-pen').value = '';
+  document.getElementById('pf-notes').value = '';
+  document.getElementById('pigform-photo-preview').src = PLACEHOLDER_THUMB('#e8ece0');
+  navTo('pigform');
+}
+function openEditPig(pigId){
+  const pig = findPig(pigId); if (!pig) return;
+  editingPigId = pigId;
+  pendingPigPhoto = pig.photo || null;
+  document.getElementById('pigform-title').textContent = t('edit-pig-title');
+  document.getElementById('pigform-save-btn').textContent = t('save-changes-btn');
+  document.getElementById('pf-name').value = pig.name;
+  document.getElementById('pf-id').value = pig.id;
+  document.getElementById('pf-id').dataset.autogen = '0';
+  selectPigGender(pig.gender || 'Male');
+  document.getElementById('pf-breed').value = pig.breed || '';
+  document.getElementById('pf-birthdate').value = pig.birthDate || '';
+  document.getElementById('pf-arrivaldate').value = pig.arrivalDate || '';
+  document.getElementById('pf-weight').value = pig.initialWeight || '';
+  document.getElementById('pf-pen').value = pig.penNumber || '';
+  document.getElementById('pf-notes').value = pig.notes || '';
+  document.getElementById('pigform-photo-preview').src = pig.photo || PLACEHOLDER_THUMB('#e8ece0');
+  navTo('pigform');
+}
+function closePigForm(){ navTo(editingPigId ? 'growthcal' : 'growth'); editingPigId = null; }
+function onPigNameInput(){
+  const idInp = document.getElementById('pf-id');
+  if (idInp.dataset.autogen === '1'){
+    const name = document.getElementById('pf-name').value.trim();
+    const prefix = (name||'PIG').toUpperCase().replace(/[^A-Z]/g,'').slice(0,6) || 'PIG';
+    const seq = idInp.value.match(/-(\d+)$/)?.[1] || String(nextPigSeq-1).padStart(2,'0');
+    idInp.value = `${prefix}-${seq}`;
+  }
+}
+function selectPigGender(g){
+  document.querySelectorAll('#pf-gender-grid .cat-box').forEach(b => b.classList.toggle('selected', b.dataset.gender===g));
+  document.getElementById('pf-gender-grid').dataset.selected = g;
+}
+function triggerPigCapture(){ document.getElementById('pig-capture-input').click(); }
+function triggerPigUpload(){ document.getElementById('pig-upload-input').click(); }
+function onPigPhotoChosen(event){
+  const file = event.target.files[0]; event.target.value='';
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const side = Math.min(img.naturalWidth, img.naturalHeight);
+      const sx = (img.naturalWidth-side)/2, sy = (img.naturalHeight-side)/2;
+      const size = Math.min(320, side);
+      const canvas = document.createElement('canvas'); canvas.width=size; canvas.height=size;
+      canvas.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, size, size);
+      pendingPigPhoto = canvas.toDataURL('image/jpeg', 0.78);
+      document.getElementById('pigform-photo-preview').src = pendingPigPhoto;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function savePig(){
+  const name = document.getElementById('pf-name').value.trim();
+  const id = document.getElementById('pf-id').value.trim().toUpperCase();
+  const weight = parseFloat(document.getElementById('pf-weight').value);
+  if (!name || !id || isNaN(weight)){
+    showSyncToast(LANG==='fil'?'Punan ang kinakailangang field':'Please fill in the required fields', true);
+    return;
+  }
+  const pigs = getPigs();
+  const dupe = pigs.find(p => p.id === id && p.id !== editingPigId);
+  if (dupe){ showSyncToast(LANG==='fil'?'Ginagamit na ang Pig ID na ito':'That Pig ID is already in use', true); return; }
+
+  const data = {
+    name, id, gender: document.getElementById('pf-gender-grid').dataset.selected || 'Male',
+    breed: document.getElementById('pf-breed').value.trim(),
+    birthDate: document.getElementById('pf-birthdate').value,
+    arrivalDate: document.getElementById('pf-arrivaldate').value,
+    initialWeight: weight,
+    penNumber: document.getElementById('pf-pen').value.trim(),
+    notes: document.getElementById('pf-notes').value.trim(),
+    photo: pendingPigPhoto,
+  };
+
+  if (editingPigId){
+    const idx = pigs.findIndex(p => p.id === editingPigId);
+    if (idx >= 0){
+      pigs[idx] = { ...pigs[idx], ...data };
+      /* Pig ID changed — cascade the rename across images & weight logs */
+      if (editingPigId !== id){
+        setPigImages(getPigImages().map(im => im.pig_id===editingPigId ? { ...im, pig_id:id } : im));
+        const wstore = getPigWeightStore();
+        if (wstore[editingPigId]){ wstore[id] = wstore[editingPigId]; delete wstore[editingPigId]; setPigWeightStore(wstore); }
+      }
+    }
+    setPigs(pigs);
+    showSyncToast(t('pig-updated-ok'));
+    currentGrowthPigId = id; activePigContext = id;
+    editingPigId = null;
+    navTo('growthcal');
+  } else {
+    pigs.push({ ...data, createdAt: new Date().toISOString() });
+    setPigs(pigs);
+    showSyncToast(t('pig-added-ok'));
+    navTo('growth');
+  }
+}
+
+function renderWeeksOverviewGrid(){
+  const el = document.getElementById('weeks-overview-grid'); if (!el) return;
+  const total = totalWeeksInCycle();
+  let html = '';
+  for (let w=1; w<=total; w++){
+    const rec = getPigImageForWeek(w, currentGrowthPigId);
+    const cls = (rec?'has-photo ':'') + (w===viewedWeek?'is-viewed':'');
+    html += `<div class="week-chip ${cls}" onclick="viewedWeek=${w};renderGrowthWeekCard();renderWeeksOverviewGrid();">
+      <div class="wc-num">${t('tl-week-label',{n:w})}</div>
+      <div class="wc-status">${rec?'✅':'⚪'}</div>
+    </div>`;
+  }
+  el.innerHTML = html;
+}
+
+function renderPigWeightHistoryAndChart(){
+  const logs = getPigWeightLogs(currentGrowthPigId);
+  const listEl = document.getElementById('pig-weight-history-list');
+  if (listEl){
+    listEl.innerHTML = logs.length ? logs.map(w => `<div class="wrow"><div class="wday">${t('tl-week-label',{n:w.week})}</div><div style="flex:1;"><div class="wkg">${fmt1(w.weight)} kg</div><div class="wdate">${w.date}</div></div></div>`).join('')
+      : `<div style="font-size:11.5px;color:var(--n400);padding:6px 0;">—</div>`;
+  }
+  const svg = document.getElementById('pig-weight-svg'); if (!svg) return;
+  if (logs.length < 2){ svg.innerHTML = `<text x="160" y="58" text-anchor="middle" font-size="10" fill="#aaa">${LANG==='fil'?'Magdagdag pa ng timbang':'Add more weight entries to see the chart'}</text>`; return; }
+  const w=320,h=110,padL=28,padR=14,padT=14,padB=20;
+  const values = logs.map(l=>l.weight); const min=Math.min(...values)-3, max=Math.max(...values)+5;
+  const pts = logs.map((l,i)=>{ const x=padL+(i*(w-padL-padR))/Math.max(1,logs.length-1); const y=h-padB-((l.weight-min)/(max-min||1))*(h-padT-padB); return [x,y]; });
+  const poly = pts.map(p=>p.join(',')).join(' ');
+  const dots = pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i===pts.length-1?5:3.4}" fill="${i===pts.length-1?'white':'#5aad2a'}" stroke="#5aad2a" stroke-width="${i===pts.length-1?2.2:0}"/>`).join('');
+  const labels = logs.map((l,i)=>`<text x="${pts[i][0]-10}" y="${h-5}" font-size="8" fill="#aaa">${t('tl-week-label',{n:l.week})}</text>`).join('');
+  svg.innerHTML = `<polyline points="${poly}" fill="none" stroke="#5aad2a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labels}`;
+}
+function savePigWeightFromDetail(){
+  const val = document.getElementById('pig-new-weight-inp').value; if (!val) return;
+  addPigWeightEntry(currentGrowthPigId, parseFloat(val));
+  document.getElementById('pig-new-weight-inp').value = '';
+  showSyncToast(t('wt-save')+' ✓');
+  loadData();
+}
+function renderPigNotes(){
+  const el = document.getElementById('gp-notes-card'); if (!el) return;
+  const pig = findPig(currentGrowthPigId);
+  el.innerHTML = pig.notes ? `<div style="font-size:12px;color:var(--n600);line-height:1.6;">${pig.notes}</div>` : `<div style="font-size:11.5px;color:var(--n400);">${t('no-notes')}</div>`;
+}
+
+
 function renderGrowthDetailHeader(){
   const pig = findPig(currentGrowthPigId);
-  const h1 = document.getElementById('gcal-h1'); if (!h1) return;
-  h1.textContent = pig.name;
-  document.getElementById('gcal-sub').textContent = `ID: ${pig.id} · ${pig.breed}`;
-  const day = getCurrentDay(); const week = weekNumberForDay(day);
+  const photoEl = document.getElementById('gp-photo');
+  if (photoEl){
+    const imgs0 = getPigImagesFor(pig.id);
+    photoEl.src = pig.photo || (imgs0[imgs0.length-1]?.image_url) || PLACEHOLDER_THUMB('#e8ece0');
+  }
+  const totalWeeks = totalWeeksInCycle();
   const imgs = getPigImagesFor(pig.id);
-  const weight = pig.id==='BIGAS-01' ? getWeightLogs()[getWeightLogs().length-1].weight : pig.staticWeight;
-  set2('gp-age', t('age-days',{n:day,w:week}));
+  const weight = currentWeightFor(pig.id);
+  set2('gp-age', ageLabelFor(pig));
   set2('gp-weight', fmt1(weight)+' kg');
+  set2('gp-pen', pig.penNumber || '—');
   const lastImg = imgs[imgs.length-1];
   set2('gp-last-upload', lastImg ? new Date(lastImg.capture_date).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric'}) : '—');
-  set2('gp-progress', (week ? Math.round((imgs.length/week)*100) : 0) + '%');
+  set2('gp-progress', (totalWeeks ? Math.round((imgs.length/totalWeeks)*100) : 0) + '%');
+  const barEl = document.getElementById('gp-progress-bar'); if (barEl) barEl.style.width = (totalWeeks ? Math.round((imgs.length/totalWeeks)*100) : 0) + '%';
+  set2('gp-weeks-recorded', `${imgs.length} / ${totalWeeks}`);
+}
+function shiftViewedWeek(dir){
+  const total = totalWeeksInCycle();
+  viewedWeek = Math.max(1, Math.min(total, viewedWeek + dir));
+  renderGrowthWeekCard();
+  renderWeeksOverviewGrid();
 }
 function renderGrowthWeekCard(){
   const el = document.getElementById('growth-week-card'); if (!el) return;
-  const day = getCurrentDay(); const week = weekNumberForDay(day);
-  const existing = getPigImageForWeek(week, currentGrowthPigId);
+  const total = totalWeeksInCycle();
+  const existing = getPigImageForWeek(viewedWeek, currentGrowthPigId);
+  const navRow = `
+    <div class="wk-nav-row">
+      <button class="wk-nav-btn" onclick="shiftViewedWeek(-1)" ${viewedWeek<=1?'disabled':''}>← <span data-t="wk-prev">Previous Week</span></button>
+      <div class="wk-nav-label">${t('wk-of',{week:viewedWeek,total})}</div>
+      <button class="wk-nav-btn" onclick="shiftViewedWeek(1)" ${viewedWeek>=total?'disabled':''}><span data-t="wk-next">Next Week</span> →</button>
+    </div>`;
   if (existing && replaceTargetId !== existing.id){
     const dateStr = new Date(existing.capture_date).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric',year:'numeric'});
     el.innerHTML = `
-      <div class="week-exists-row">
-        <img class="week-exists-thumb" src="${existing.image_url}" onclick="openViewer(${existing.id})">
-        <div class="week-exists-info">
-          <div class="week-exists-title">${t('week-exists-title',{week})}</div>
-          <div class="week-exists-sub">${dateStr} · <span class="pm-sync ${existing.synced?'synced':'pending'}" style="margin-top:0;">${existing.synced?t('photo-synced'):t('photo-pending')}</span></div>
+      ${navRow}
+      <div class="photo-existing">
+        <div class="photo-thumb-wrap"><img class="photo-thumb" src="${existing.image_url}" onclick="openViewer(${existing.id})"><div class="photo-thumb-badge">📷</div></div>
+        <div class="photo-meta">
+          <div class="pm-week">${t('tl-week-label',{n:viewedWeek})}</div>
+          <div class="pm-date">${t('tl-uploaded',{date:dateStr})}</div>
+          <span class="pm-sync ${existing.synced?'synced':'pending'}">${existing.synced?t('photo-synced'):t('photo-pending')}</span>
         </div>
       </div>
       <div class="week-exists-actions">
         <button class="btn btn-outline" onclick="openViewer(${existing.id})">${t('btn-view')}</button>
         <button class="btn btn-primary" onclick="startReplace(${existing.id})">${t('btn-replace-short')}</button>
+        <button class="btn btn-danger" onclick="deletePhotoForWeek(${existing.id})">🗑️</button>
       </div>`;
   } else {
     el.innerHTML = `
-      <div class="week-empty-row"><span class="we-ico">📷</span><div><div class="week-exists-title">${t('week-empty-title',{week})}</div><div class="week-exists-sub">${t('week-empty-sub')}</div></div></div>`;
+      ${navRow}
+      <div class="week-empty-row" style="flex-direction:column;text-align:center;padding:14px 6px 4px;">
+        <span class="we-ico" style="font-size:36px;margin-bottom:8px;">📷</span>
+        <div class="week-exists-title">${t('week-empty-title2',{week:viewedWeek})}</div>
+        <div class="week-exists-sub" style="margin-top:4px;">${t('week-empty-sub2')}</div>
+      </div>
+      <div class="photo-actions" style="margin-top:13px;">
+        <button class="photo-btn" onclick="triggerCapture()"><span class="pb-ico">📷</span>${t('photo-cta-capture')}</button>
+        <button class="photo-btn" onclick="triggerUpload()"><span class="pb-ico">🖼️</span>${t('photo-cta-upload')}</button>
+      </div>`;
   }
 }
 
@@ -1736,7 +2619,26 @@ function loadData(){
 
   const amEl=document.getElementById('am-tasks'); if (amEl) amEl.innerHTML = TASK_DEFS.filter(d=>d.period==='am').map(d=>taskRowHTML(d,!!tasks[d.id])).join('');
   const pmEl=document.getElementById('pm-tasks'); if (pmEl) pmEl.innerHTML = TASK_DEFS.filter(d=>d.period==='pm').map(d=>taskRowHTML(d,!!tasks[d.id])).join('');
-  const wkEl=document.getElementById('wk-tasks'); if (wkEl) wkEl.innerHTML = WEEKLY_DEFS.map(d=>taskRowHTML(d,!!tasks[d.id])).join('');
+  const wkWrap=document.getElementById('wk-tasks-wrap');
+  if (wkWrap){
+    const wkRec = getCurrentWeekRecord();
+    const wkDone = WEEKLY_DEFS.filter(d=>wkRec[d.id]).length;
+    const wkPct = Math.round((wkDone/WEEKLY_DEFS.length)*100);
+    set('wk-progress-text', `${wkDone} / ${WEEKLY_DEFS.length} ${LANG==='fil'?'Tapos':'Completed'}`);
+    set('wk-progress-badge', `${wkDone} / ${WEEKLY_DEFS.length}`);
+    const wkBar=document.getElementById('wk-progress-bar'); if (wkBar) wkBar.style.width=wkPct+'%';
+    const allDone = wkDone >= WEEKLY_DEFS.length;
+    if (allDone){
+      wkWrap.innerHTML = `<div class="wk-done-card">
+        <div class="wdc-emoji">🎉</div>
+        <div class="wdc-title">${t('wk-done-title')}</div>
+        <div class="wdc-sub">${t('wk-done-sub')}</div>
+        <div class="wdc-next">${t('wk-next-reset')}: ${nextMondayLabel()}</div>
+      </div>`;
+    } else {
+      wkWrap.innerHTML = WEEKLY_DEFS.map(d=>weeklyTaskRowHTML(d, !!wkRec[d.id], false)).join('');
+    }
+  }
 
   const badge=document.getElementById('act-page-badge'); if (badge) badge.textContent = `${doneCount} / ${TASK_DEFS.length} ${LANG==='fil'?'Tapos':'Done'}`;
   const pct=Math.round((doneCount/TASK_DEFS.length)*100);
@@ -1766,14 +2668,8 @@ function loadData(){
     stbody.innerHTML = rows.map(r=>`<tr ${r.key===st.key?'style="background:var(--g50);"':''}><td ${r.key===st.key?'style="font-weight:700;color:var(--g700);"':''}>${r.label}</td><td ${r.key===st.key?'style="font-weight:700;"':''}>${r.range}</td><td class="td-green" ${r.key===st.key?'style="font-size:13px;"':''}>${r.feed}</td></tr>`).join('');
   }
 
-  const hh=document.getElementById('health-log-history');
-  if (hh){
-    const hlogs=getHealthLogs().slice().reverse();
-    hh.innerHTML = hlogs.length ? hlogs.map(h=>{
-      const bad=h.behavior==='lethargic'||h.appetite==='inapp'||h.waste==='loose';
-      return `<div class="wrow"><div class="wday">${LANG==='fil'?'Araw':'Day'} ${h.day}</div><div style="flex:1;"><div class="wkg" style="font-size:12px;">${h.date}</div><div class="wdate">${bad?(LANG==='fil'?'May kakaiba':'Irregular signs'):(LANG==='fil'?'Normal':'All normal')}</div></div><span class="wadg ${bad?'lo':'ok'}">${bad?'⚠️':'✅'}</span></div>`;
-    }).join('') : `<div style="font-size:11.5px;color:var(--n400);padding:8px 0;">${t('health-empty')}</div>`;
-  }
+  renderHealthChips();
+  renderHealthLogsList();
 
   const adgVal=document.getElementById('adg-hero-val');
   if (adgVal){ adgVal.innerHTML = (adg===null?'—':fmt(adg))+' <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;">g/day</span>'; adgVal.className='adg-value'+(onTrack?'':' warn'); }
@@ -1790,6 +2686,40 @@ function loadData(){
       return `<div class="wrow"><div class="wday">${LANG==='fil'?'Araw':'Day'} ${w.day}</div><div style="flex:1;"><div class="wkg">${fmt1(w.weight)} kg</div><div class="wdate">${i===0?t('baseline'):w.date}</div></div>${adgRow!==null?`<span class="wadg ${adgRow>=600?'ok':'lo'}">+${fmt(adgRow)} g/d</span>`:''}</div>`;
     }).join('');
     whl.innerHTML = rows;
+  }
+
+  /* ══ FCR — card, badge, trend chart, alert, history (auto-recomputed every loadData) ══ */
+  const fcr = currentFCR();
+  const fStatus = fcrStatus(fcr);
+  const fcrValEl = document.getElementById('fcr-hero-val');
+  if (fcrValEl){
+    const display = fcr===null ? '—' : fcr.toFixed(2);
+    const changed = lastDisplayedFCR !== null && lastDisplayedFCR !== display;
+    fcrValEl.innerHTML = `<span class="${changed?'fcr-animate':''}" style="color:${fStatus && (fStatus.key==='needs'||fStatus.key==='poor') ? 'var(--r400)' : 'var(--g600)'};">${display}</span> <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;">${t('fcr-this-week')}</span>`;
+    lastDisplayedFCR = display;
+  }
+  const fcrBadgeEl = document.getElementById('fcr-status-badge');
+  if (fcrBadgeEl) fcrBadgeEl.innerHTML = fStatus ? `<span class="fcr-badge ${fStatus.key}">${fStatus.emoji} ${fStatus.label}</span>` : '';
+
+  buildFCRTrendChart('fcr-trend-svg');
+
+  const fhl = document.getElementById('fcr-history-list');
+  if (fhl){
+    const rowsHtml = wlogs.slice().reverse().map((w, idx) => {
+      const i = wlogs.length-1-idx;
+      if (i === 0){
+        return `<div class="fcr-history-row"><div class="fhr-day">${LANG==='fil'?'Araw':'Day'} ${w.day}</div><div class="fhr-info"><div class="fhr-wt">${fmt1(w.weight)} kg</div>${t('baseline')}</div><span class="fcr-badge" style="background:var(--n100);color:var(--n400);">—</span></div>`;
+      }
+      const prev = wlogs[i-1];
+      const { fcr: periodFcr, feedKg } = fcrForPeriod(prev, w);
+      const st = fcrStatus(periodFcr);
+      return `<div class="fcr-history-row">
+        <div class="fhr-day">${LANG==='fil'?'Araw':'Day'} ${w.day}</div>
+        <div class="fhr-info"><div class="fhr-wt">${fmt1(w.weight)} kg</div>${t('fhr-feed-consumed')}: ${fmt1(feedKg)} kg</div>
+        <span class="fcr-badge ${st?st.key:''}">${periodFcr===null?'—':periodFcr.toFixed(2)}</span>
+      </div>`;
+    }).join('');
+    fhl.innerHTML = rowsHtml || `<div style="font-size:11.5px;color:var(--n400);">—</div>`;
   }
 
   const totalInvested=totalSpent; const projectedRevenue=latest.weight*MARKET_PRICE_PER_KG*1.55;
@@ -1824,12 +2754,14 @@ function loadData(){
   }
 
   buildCal('full-cal');
-  renderPhotoCard();
   renderGrowthHub();
   renderGrowthDetailHeader();
   renderGrowthWeekCard();
+  renderWeeksOverviewGrid();
   buildGrowthCalendar();
   renderGrowthTimeline();
+  renderPigWeightHistoryAndChart();
+  renderPigNotes();
 }
 function buildCal(id){
   const el=document.getElementById(id); if (!el) return;
@@ -1842,15 +2774,6 @@ document.addEventListener('DOMContentLoaded', () => {
   applyLang(); loadData();
   setTimeout(()=> showSyncToast(LANG==='fil'?'🔄 Dashboard nire-refresh...':'🔄 Dashboard loaded'), 800);
 });
-</script>
-
-<script>
-function updateClock(){const n=new Date();document.getElementById('status-time').textContent=n.getHours()+':'+String(n.getMinutes()).padStart(2,'0');}
-setInterval(updateClock,1000);updateClock();
-async function updateBattery(){if(!navigator.getBattery)return;const b=await navigator.getBattery();function r(){document.getElementById('battery').textContent='🔋'+Math.round(b.level*100)+'%'+(b.charging?'⚡':'');}r();b.addEventListener('levelchange',r);b.addEventListener('chargingchange',r);}
-updateBattery();
-function updateSignal(){const s=document.getElementById('signal');if(!navigator.onLine){s.textContent='❌';return;}const t=navigator.connection?.effectiveType||'';s.textContent=t==='2g'?'📶📶':t==='3g'?'📶📶📶':'📶📶📶📶';}
-updateSignal();window.addEventListener('online',updateSignal);window.addEventListener('offline',updateSignal);if(navigator.connection)navigator.connection.addEventListener('change',updateSignal);
 </script>
 </body>
 </html>
