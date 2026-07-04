@@ -170,6 +170,54 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 .cat-bar-bg{background:var(--n100);border-radius:20px;height:7px;overflow:hidden;}
 .cat-bar-fill{height:100%;border-radius:20px;}
 .set-row{display:flex;align-items:center;gap:10px;background:#fff;border-radius:var(--rad-sm);padding:13px;margin-bottom:7px;box-shadow:var(--shadow);}
+
+/* ══ SETTINGS — Farmer Profile card ══ */
+.set-profile-card{background:linear-gradient(135deg,var(--g800),var(--g600));border-radius:var(--rad);padding:18px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;position:relative;box-shadow:0 6px 20px -6px rgba(15,32,8,.45);}
+.set-profile-photo-wrap{position:relative;flex-shrink:0;}
+.set-profile-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);}
+.set-photo-edit-btn{position:absolute;bottom:-2px;right:-2px;width:22px;height:22px;border-radius:50%;background:#fff;border:none;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+.set-profile-info{flex:1;min-width:0;}
+.set-profile-name{font-family:var(--serif);font-size:17px;color:#fff;font-weight:600;line-height:1.2;}
+.set-profile-loc{font-size:11px;color:rgba(255,255,255,.75);margin-top:3px;}
+.set-profile-type{margin-top:6px;}
+.set-edit-btn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:20px;cursor:pointer;flex-shrink:0;font-family:var(--sans);}
+.set-edit-form{background:#fff;border-radius:var(--rad);padding:14px;margin-bottom:12px;box-shadow:var(--shadow);border:1.5px solid var(--g100);}
+
+/* ══ SETTINGS — Notification toggle rows ══ */
+.notif-set-row{display:flex;align-items:center;gap:11px;padding:13px 0;}
+.notif-set-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.notif-set-info{flex:1;min-width:0;}
+.notif-set-name{font-size:13px;font-weight:600;color:var(--n800);margin-bottom:4px;}
+.notif-time-btn{background:var(--g50);border:1.5px solid var(--g200);color:var(--g700);font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:var(--mono);}
+.notif-day-select{background:var(--g50);border:1.5px solid var(--g200);color:var(--g700);font-size:11px;font-weight:600;padding:4px 8px;border-radius:20px;font-family:var(--sans);cursor:pointer;outline:none;}
+.set-row-divider{height:1px;background:var(--n100);margin:0 -14px;}
+/* Custom toggle switch */
+.set-toggle{position:relative;width:42px;height:24px;flex-shrink:0;}
+.set-toggle input{opacity:0;width:0;height:0;position:absolute;}
+.set-toggle-track{position:absolute;inset:0;background:var(--n200);border-radius:24px;cursor:pointer;transition:background .2s;}
+.set-toggle-track::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.set-toggle input:checked + .set-toggle-track{background:var(--g400);}
+.set-toggle input:checked + .set-toggle-track::before{transform:translateX(18px);}
+
+/* ══ SETTINGS — Time picker modal ══ */
+.time-picker-modal{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:700;display:flex;align-items:center;justify-content:center;padding:24px;}
+.time-picker-box{background:#fff;border-radius:var(--rad-lg);padding:20px;width:100%;max-width:280px;box-shadow:var(--shadow-lg);animation:pop .22s cubic-bezier(.32,.72,0,1);}
+.time-picker-title{font-family:var(--serif);font-size:16px;color:var(--n900);text-align:center;margin-bottom:14px;font-weight:600;}
+.time-picker-row{display:flex;align-items:center;justify-content:center;gap:6px;}
+.time-inp{width:56px;text-align:center;padding:10px 6px;font-family:var(--serif);font-size:22px;color:var(--g700);background:var(--g50);border:2px solid var(--g300);border-radius:var(--rad-sm);outline:none;}
+.time-inp:focus{border-color:var(--g500);}
+.time-period{background:var(--n50);border:1.5px solid var(--n200);border-radius:var(--rad-sm);padding:8px 6px;font-size:13px;font-weight:700;color:var(--n700);cursor:pointer;font-family:var(--sans);}
+
+/* ══ SETTINGS — About card ══ */
+.about-card{background:linear-gradient(135deg,#FAFEF5,var(--g50));border:1.5px solid var(--g100);border-radius:var(--rad);padding:18px 16px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow);}
+.about-logo{font-size:38px;margin-bottom:4px;}
+.about-name{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--g800);letter-spacing:.5px;}
+.about-full{font-size:11px;color:var(--g600);font-weight:600;margin-top:2px;margin-bottom:10px;}
+.about-desc{font-size:11px;color:var(--n500);line-height:1.6;margin-bottom:12px;}
+.about-divider{height:1px;background:var(--g100);margin:0 auto 12px;width:80%;}
+.about-meta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.about-meta-lbl{font-size:10.5px;color:var(--n400);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.about-meta-val{font-size:11.5px;font-weight:700;color:var(--g700);}
 .set-ic{font-size:19px;width:32px;text-align:center;flex-shrink:0;}
 .set-label{flex:1;font-size:12.5px;font-weight:600;color:var(--n800);}
 .set-val{font-size:10.5px;color:var(--n400);}
@@ -245,8 +293,11 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 /* ══ NOTIF PANEL ══ */
 .notif-panel{position:absolute;top:0;right:0;width:84%;background:#fff;height:100%;overflow-y:auto;box-shadow:var(--shadow-lg);z-index:100;transform:translateX(100%);transition:transform .25s ease;}
 .notif-panel.open{transform:translateX(0);}
-.notif-panel-hd{padding:16px 16px 12px;border-bottom:1px solid var(--n100);display:flex;justify-content:space-between;align-items:center;}
-.notif-panel-hd h3{font-family:var(--serif);font-size:15px;font-weight:600;}
+.notif-panel-hd{padding:14px 14px 12px;border-bottom:1px solid var(--n100);display:flex;align-items:center;gap:8px;}
+.notif-panel-hd h3{font-family:var(--serif);font-size:15px;font-weight:600;flex:1;}
+.notif-mark-read-btn{font-size:10.5px;color:var(--g500);font-weight:700;background:none;border:none;cursor:pointer;font-family:var(--sans);white-space:nowrap;padding:4px 6px;}
+.notif-close-btn{width:30px;height:30px;border-radius:50%;background:var(--n100);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--n600);flex-shrink:0;transition:background .15s;font-family:var(--sans);}
+.notif-close-btn:hover,.notif-close-btn:active{background:var(--n200);}
 .notif-panel-body{padding:10px 14px;}
 
 /* ══ LANG TOGGLE ══ */
@@ -525,7 +576,7 @@ input[type=file]{display:none;}
     <div class="tb-icons">
       <button class="lang-pill" id="lang-btn" onclick="toggleLang()">🇵🇭 FIL</button>
       <button class="tb-icon-btn" onclick="toggleNotif()">🔔<span class="notif-dot"></span></button>
-      <div class="tb-avatar" onclick="navTo('settings')">J</div>
+      <div class="tb-avatar" id="tn-av" onclick="navTo('settings')">J</div>
     </div>
   </div>
 
@@ -633,19 +684,19 @@ input[type=file]{display:none;}
       <div id="health-edit-banner"></div>
 
       <div class="obs-card">
-        <div class="chip-section-label">🧠 <span data-t="obs-behavior">Behavior</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-section-label">🧠 <span data-t="obs-behavior-lbl">Behavior</span><span class="chip-hint" data-t="select-one">Select one</span></div>
         <div class="chip-grid" id="chips-behavior"></div>
       </div>
       <div class="obs-card">
-        <div class="chip-section-label">🍽 <span data-t="obs-appetite">Appetite</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-section-label">🍽 <span data-t="obs-appetite-lbl">Appetite</span><span class="chip-hint" data-t="select-one">Select one</span></div>
         <div class="chip-grid" id="chips-appetite"></div>
       </div>
       <div class="obs-card">
-        <div class="chip-section-label">🌸 <span data-t="obs-physical">Physical Condition</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-section-label">🩺 <span data-t="obs-physical-lbl">Physical</span><span class="chip-hint" data-t="select-one">Select one</span></div>
         <div class="chip-grid" id="chips-physical"></div>
       </div>
       <div class="obs-card">
-        <div class="chip-section-label">💩 <span data-t="obs-waste">Waste Condition</span><span class="chip-hint" data-t="select-one">Select one</span></div>
+        <div class="chip-section-label">💩 <span data-t="obs-waste-lbl">Waste Condition</span><span class="chip-hint" data-t="select-one">Select one</span></div>
         <div class="chip-grid" id="chips-waste"></div>
         <div class="alert-box" id="waste-alert" style="display:none;margin-top:10px;">
           <div class="ai">⚠️</div>
@@ -653,7 +704,7 @@ input[type=file]{display:none;}
         </div>
       </div>
       <div class="obs-card">
-        <div class="chip-section-label" data-t="obs-notes">📝 Additional Notes</div>
+        <div class="chip-section-label">📝 <span data-t="obs-notes-lbl">Notes</span></div>
         <textarea class="field-inp" id="health-notes" rows="3" placeholder="Describe any unusual observations..." style="resize:vertical;font-family:var(--sans);"></textarea>
       </div>
 
@@ -759,7 +810,7 @@ input[type=file]{display:none;}
       </div>
       <div class="sec-title" data-t="sec-techs">🌾 Agricultural Technicians</div>
       <div class="contact-card">
-        <div class="cc-head"><div class="cc-avatar" style="background:var(--a100);">🧑‍🌾</div><div><div class="cc-name">Engr. Jose Manalo</div><div class="cc-role">Agri Technician</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 PASU Magalang</div></div><span class="badge amber" style="margin-left:auto;" data-t="tag-agri-tech">Agri-Tech</span></div>
+        <div class="cc-head"><div class="cc-avatar" style="background:var(--a100);">🧑‍🌾</div><div><div class="cc-name">Engr. Jose Manalo</div><div class="cc-role">Agri Technician</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 PSAU Magalang</div></div><span class="badge amber" style="margin-left:auto;" data-t="tag-agri-tech">Agri-Tech</span></div>
         <a href="tel:+639561112222" class="call-btn" style="background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;text-decoration:none;"><span data-t="btn-call">📞 Call Now</span></a>
       </div>
       <div class="sec-title" data-t="sec-emergency">🏥 Emergency Hotlines</div>
@@ -778,22 +829,183 @@ input[type=file]{display:none;}
     <!-- SETTINGS -->
     <div class="page" id="page-settings">
       <div class="page-hd"><h1 data-t="nav-settings">Settings</h1></div>
-      <div class="sec-title" data-t="set-app">⚙️ App Preferences</div>
-      <div class="set-row" style="border:1.5px solid var(--g200);background:var(--g50);">
-        <div class="set-ic">🌐</div>
-        <div><div class="set-label" data-t="set-lang-label">Language / Wika</div><div class="set-val" id="lang-current-label">English (default)</div></div>
-        <button class="btn btn-sm" id="settings-lang-btn" onclick="toggleLang()" style="margin-left:auto;background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;border:none;"><span id="settings-lang-btn-text">Filipino 🇵🇭</span></button>
+
+      <!-- ═══ FARMER PROFILE ════════════════════════════════════════ -->
+      <div class="set-profile-card">
+        <div class="set-profile-photo-wrap">
+          <img class="set-profile-photo" id="set-profile-photo-img" src="">
+          <button class="set-photo-edit-btn" onclick="triggerFarmerPhotoUpload()" title="Change photo">✏️</button>
+          <input type="file" id="farmer-photo-input" accept="image/*" onchange="onFarmerPhotoChosen(event)">
+        </div>
+        <div class="set-profile-info">
+          <div class="set-profile-name" id="set-display-name">Juan dela Cruz</div>
+          <div class="set-profile-loc" id="set-display-loc">Magalang, Pampanga</div>
+          <div class="set-profile-type" id="set-display-type">
+            <span class="badge green" id="set-display-type-badge">Backyard Raiser</span>
+          </div>
+        </div>
+        <button class="set-edit-btn" onclick="openFarmerEdit()" data-t="btn-edit">✏️</button>
       </div>
-      <div class="sec-title" data-t="set-pig">🐷 Pig / Batch Profile</div>
-      <div class="set-row"><div class="set-ic">🐷</div><div class="set-label" data-t="set-pig-name">Pig / Batch Name</div><div class="set-val">Bigas</div></div>
-      <div class="set-row"><div class="set-ic">⚖️</div><div class="set-label" data-t="set-start-wt">Start Weight</div><div class="set-val">20 kg</div></div>
-      <div class="set-row"><div class="set-ic">📅</div><div class="set-label" data-t="set-start-date">Start Date</div><div class="set-val">Apr 1, 2026</div></div>
+
+      <!-- Farmer edit form (collapsed by default) -->
+      <div class="set-edit-form" id="farmer-edit-form" style="display:none;">
+        <div class="field-row"><div class="field-lbl" data-t="field-farmer-name">Farmer Name</div><input class="field-inp" id="sf-name" placeholder="Juan dela Cruz"></div>
+        <div class="field-row"><div class="field-lbl" data-t="field-municipality">Municipality / City</div><input class="field-inp" id="sf-municipality" placeholder="Magalang"></div>
+        <div class="field-row"><div class="field-lbl" data-t="field-province">Province</div><input class="field-inp" id="sf-province" placeholder="Pampanga"></div>
+        <div class="field-row"><div class="field-lbl" data-t="field-farmer-type">Farmer Type</div>
+          <select class="field-inp" id="sf-type">
+            <option value="Backyard Raiser">Backyard Raiser</option>
+            <option value="Commercial Raiser">Commercial Raiser</option>
+            <option value="Semi-Commercial">Semi-Commercial</option>
+            <option value="Hobbyist">Hobbyist</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:4px;">
+          <button class="btn btn-outline btn-full" onclick="closeFarmerEdit()" data-t="del-cancel">Cancel</button>
+          <button class="btn btn-primary btn-full" onclick="saveFarmerProfile()" data-t="save-changes-btn">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- ═══ PIG / BATCH PROFILE ═══════════════════════════════════ -->
+      <div class="sec-title between"><span data-t="set-pig">🐷 Pig / Batch Profile</span><button class="card-action" onclick="togglePigBatchEdit()" id="pig-batch-edit-toggle" data-t="btn-edit">✏️ Edit</button></div>
+      <div class="card" id="pig-batch-display">
+        <div class="set-row" style="padding:0 0 11px;box-shadow:none;background:none;margin-bottom:0;"><div class="set-ic">🐷</div><div class="set-label" data-t="set-pig-name">Pig / Batch Name</div><div class="set-val" id="sb-pig-name">Bigas</div></div>
+        <div class="set-row" style="padding:9px 0;box-shadow:none;background:none;margin-bottom:0;border-top:1px solid var(--n100);"><div class="set-ic">🔢</div><div class="set-label" data-t="set-num-pigs">Number of Pigs</div><div class="set-val" id="sb-num-pigs">1</div></div>
+        <div class="set-row" style="padding:9px 0;box-shadow:none;background:none;margin-bottom:0;border-top:1px solid var(--n100);"><div class="set-ic">⚖️</div><div class="set-label" data-t="set-start-wt">Starting Weight</div><div class="set-val" id="sb-start-wt">20 kg</div></div>
+        <div class="set-row" style="padding:9px 0;box-shadow:none;background:none;margin-bottom:0;border-top:1px solid var(--n100);"><div class="set-ic">📅</div><div class="set-label" data-t="set-start-date">Start Date</div><div class="set-val" id="sb-start-date">Apr 1, 2026</div></div>
+        <div class="set-row" style="padding:9px 0 0;box-shadow:none;background:none;margin-bottom:0;border-top:1px solid var(--n100);"><div class="set-ic">🌾</div><div class="set-label" data-t="set-feed-price">Feed Price per kg</div><div class="set-val" id="sb-feed-price">₱22.50</div></div>
+      </div>
+      <div class="set-edit-form" id="pig-batch-edit-form" style="display:none;">
+        <div class="field-row"><div class="field-lbl" data-t="set-pig-name">Pig / Batch Name</div><input class="field-inp" id="spb-name" placeholder="e.g. Bigas"></div>
+        <div class="field-row"><div class="field-lbl" data-t="set-num-pigs">Number of Pigs</div><input class="field-inp" type="number" id="spb-num" placeholder="1" min="1"></div>
+        <div class="field-row"><div class="field-lbl" data-t="set-start-wt">Starting Weight (kg)</div><input class="field-inp" type="number" id="spb-wt" placeholder="20"></div>
+        <div class="field-row"><div class="field-lbl" data-t="set-start-date">Start Date</div><input class="field-inp" type="date" id="spb-date"></div>
+        <div class="field-row"><div class="field-lbl" data-t="set-feed-price">Feed Price per kg (₱)</div><input class="field-inp" type="number" id="spb-feed-price" step="0.01" placeholder="22.50"></div>
+        <div style="display:flex;gap:9px;margin-top:4px;">
+          <button class="btn btn-outline btn-full" onclick="togglePigBatchEdit()" data-t="del-cancel">Cancel</button>
+          <button class="btn btn-primary btn-full" onclick="savePigBatchProfile()" data-t="save-changes-btn">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- ═══ NOTIFICATIONS ══════════════════════════════════════════ -->
+      <div class="sec-title" data-t="set-notif">🔔 Notifications</div>
+
+      <div class="card" style="padding:0 14px;">
+        <!-- Morning Feed Alert -->
+        <div class="notif-set-row">
+          <div class="notif-set-icon" style="background:var(--a100);">☀️</div>
+          <div class="notif-set-info">
+            <div class="notif-set-name" data-t="notif-morning-lbl">Morning Feed Alert</div>
+            <button class="notif-time-btn" id="notif-morning-time-btn" onclick="pickNotifTime('morning')">7:30 AM</button>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="notif-morning-toggle" checked onchange="onNotifToggle('morning',this.checked)">
+            <span class="set-toggle-track"></span>
+          </label>
+        </div>
+        <div class="set-row-divider"></div>
+        <!-- Afternoon Feed Alert -->
+        <div class="notif-set-row">
+          <div class="notif-set-icon" style="background:var(--g100);">🌤️</div>
+          <div class="notif-set-info">
+            <div class="notif-set-name" data-t="notif-afternoon-lbl">Afternoon Feed Alert</div>
+            <button class="notif-time-btn" id="notif-afternoon-time-btn" onclick="pickNotifTime('afternoon')">2:00 PM</button>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="notif-afternoon-toggle" checked onchange="onNotifToggle('afternoon',this.checked)">
+            <span class="set-toggle-track"></span>
+          </label>
+        </div>
+        <div class="set-row-divider"></div>
+        <!-- Weekly Weigh-In -->
+        <div class="notif-set-row">
+          <div class="notif-set-icon" style="background:var(--b100);">⚖️</div>
+          <div class="notif-set-info">
+            <div class="notif-set-name" data-t="notif-weighin-lbl">Weekly Weigh-In</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <select class="notif-day-select" id="notif-weighin-day" onchange="saveNotifPrefs()">
+                <option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option>
+                <option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+              </select>
+              <button class="notif-time-btn" id="notif-weighin-time-btn" onclick="pickNotifTime('weighin')">7:00 AM</button>
+            </div>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="notif-weighin-toggle" checked onchange="onNotifToggle('weighin',this.checked)">
+            <span class="set-toggle-track"></span>
+          </label>
+        </div>
+        <div class="set-row-divider"></div>
+        <!-- Supplement Reminder -->
+        <div class="notif-set-row">
+          <div class="notif-set-icon" style="background:var(--r100);">💊</div>
+          <div class="notif-set-info">
+            <div class="notif-set-name" data-t="notif-supplement-lbl">Supplement Reminder</div>
+            <select class="notif-day-select" id="notif-supplement-freq" onchange="saveNotifPrefs()">
+              <option value="weekly">Weekly</option>
+              <option value="biweekly">Biweekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="notif-supplement-toggle" checked onchange="onNotifToggle('supplement',this.checked)">
+            <span class="set-toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Time picker modal (inline) -->
+      <div class="time-picker-modal" id="time-picker-modal" style="display:none;">
+        <div class="time-picker-box">
+          <div class="time-picker-title" id="time-picker-title">Set Time</div>
+          <div class="time-picker-row">
+            <input type="number" class="time-inp" id="tp-hour" min="1" max="12" value="7"> :
+            <input type="number" class="time-inp" id="tp-min" min="0" max="59" value="30">
+            <select class="time-period" id="tp-period"><option>AM</option><option>PM</option></select>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:14px;">
+            <button class="btn btn-outline btn-full" onclick="closeTimePicker()" data-t="del-cancel">Cancel</button>
+            <button class="btn btn-primary btn-full" onclick="confirmTimePicker()" data-t="save-changes-btn">Set Time</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ APP SETTINGS ══════════════════════════════════════════ -->
+      <div class="sec-title" data-t="set-app">⚙️ App Settings</div>
+      <div class="card" style="padding:0 14px;">
+        <div class="notif-set-row">
+          <div class="notif-set-icon" style="background:var(--g50);">🌐</div>
+          <div class="notif-set-info">
+            <div class="notif-set-name" data-t="set-lang-label">Language / Wika</div>
+            <div class="set-val" id="lang-current-label" style="font-size:10.5px;">English (default)</div>
+          </div>
+          <button class="btn btn-sm" id="settings-lang-btn" onclick="toggleLang()" style="background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;border:none;flex-shrink:0;"><span id="settings-lang-btn-text">Filipino 🇵🇭</span></button>
+        </div>
+      </div>
+
+      <!-- ═══ ABOUT ASF ══════════════════════════════════════════════ -->
+      <div class="sec-title" data-t="set-about">ℹ️ About ASF</div>
+      <div class="about-card">
+        <div class="about-logo">🐷</div>
+        <div class="about-name">ASF</div>
+        <div class="about-full" data-t="about-full-name">Administration for Swine Finisher</div>
+        <div class="about-desc" data-t="about-desc">A mobile pig farm management application for monitoring and guiding swine finisher raising practices throughout the full 120-day growing period.</div>
+        <div class="about-divider"></div>
+        <div class="about-meta-row"><span class="about-meta-lbl" data-t="about-version">Version</span><span class="about-meta-val">v1.0</span></div>
+        <div class="about-meta-row"><span class="about-meta-lbl" data-t="about-developer">Developer</span><span class="about-meta-val">PSAU 2026</span></div>
+        <div class="about-meta-row"><span class="about-meta-lbl" data-t="about-institution">Institution</span><span class="about-meta-val">Pampanga State Agricultural University</span></div>
+        <div class="about-meta-row"><span class="about-meta-lbl" data-t="about-campus">Campus</span><span class="about-meta-val">Magalang, Pampanga</span></div>
+      </div>
+
+      <!-- ═══ RESET PROGRESS ════════════════════════════════════════ -->
       <div class="sec-title" style="color:var(--r600);" data-t="reset-title">🔄 Reset Progress</div>
-      <div style="border:1.5px solid #fca5a5;border-radius:var(--rad-sm);padding:13px;">
+      <div style="border:1.5px solid #fca5a5;border-radius:var(--rad-sm);padding:13px;margin-bottom:28px;">
         <p style="font-size:10.5px;color:var(--n400);margin-bottom:10px;" data-t="reset-desc">Permanently deletes all data. Returns to Day 1.</p>
         <button class="btn btn-sm" style="background:var(--r400);color:#fff;border:none;" onclick="resetApp()" data-t="reset-btn">Reset Progress</button>
       </div>
     </div>
+
 
     <!-- PIG GROWTH HUB -->
     <div class="page" id="page-growth">
@@ -979,12 +1191,16 @@ input[type=file]{display:none;}
       <div class="dr-section" data-t="sb-sec-account">ACCOUNT</div>
       <button class="dr-item" id="dr-settings" onclick="navTo('settings')"><span class="dri-ico">⚙️</span><span data-t="nav-settings">Settings</span></button>
     </div>
-    <div class="dr-bottom"><div class="dr-user"><div class="dr-avatar">J</div><div><div class="dr-uname">Juan dela Cruz</div><div class="dr-urole" data-t="sb-urole">Backyard Raiser</div></div></div></div>
+    <div class="dr-bottom"><div class="dr-user"><div class="dr-avatar" id="sb-av">J</div><div><div class="dr-uname">Juan dela Cruz</div><div class="dr-urole" data-t="sb-urole">Backyard Raiser</div></div></div></div>
   </nav>
 
   <!-- NOTIF PANEL -->
   <div class="notif-panel" id="notif-panel">
-    <div class="notif-panel-hd"><h3 data-t="notif-title">Notifications</h3><span style="font-size:10.5px;color:var(--g500);font-weight:700;" data-t="mark-read">Mark all read</span></div>
+    <div class="notif-panel-hd">
+      <h3 data-t="notif-title">Notifications</h3>
+      <button class="notif-mark-read-btn" data-t="mark-read" onclick="markAllNotifsRead()">Mark all read</button>
+      <button class="notif-close-btn" onclick="closeNotif()" aria-label="Close notifications">✕</button>
+    </div>
     <div class="notif-panel-body" id="notif-panel-body"></div>
   </div>
 
@@ -1069,9 +1285,35 @@ const DB = { get(k){ return MEM[k]===undefined?null:MEM[k]; }, set(k,v){ MEM[k]=
 const USER = { username:'demo', name:'Juan dela Cruz' };
 const ck = k => `asf_cycle_${USER.username}_${k}`;
 let LANG = 'en';
-const FEED_PRICE = { val: 22.50 };
-const PIG_NAME = 'Bigas';
 const MARKET_PRICE_PER_KG = 191.51;
+
+/* ── Settings-backed reactive helpers ── */
+const getFarmerProfile = () => DB.get(ck('farmerProfile')) || {
+  name:'Juan dela Cruz', municipality:'Magalang', province:'Pampanga',
+  farmerType:'Backyard Raiser', photo:null,
+};
+const getPigBatchProfile = () => DB.get(ck('pigBatchProfile')) || {
+  pigName:'Bigas', numPigs:1, startWeight:20, startDate:'2026-04-01', feedPrice:22.50,
+};
+const getNotifPrefs = () => DB.get(ck('notifPrefs')) || {
+  morning:  { enabled:true, time:'7:30 AM' },
+  afternoon:{ enabled:true, time:'2:00 PM' },
+  weighin:  { enabled:true, time:'7:00 AM', day:0 },
+  supplement:{ enabled:true, freq:'weekly' },
+};
+
+/* Seed on first run */
+if (!DB.get(ck('farmerProfile')))   DB.set(ck('farmerProfile'),   getFarmerProfile());
+if (!DB.get(ck('pigBatchProfile'))) DB.set(ck('pigBatchProfile'), getPigBatchProfile());
+if (!DB.get(ck('notifPrefs')))      DB.set(ck('notifPrefs'),      getNotifPrefs());
+
+/* Legacy FEED_PRICE and PIG_NAME now read from DB so settings edits propagate everywhere */
+const FEED_PRICE = {
+  get val(){ return getPigBatchProfile().feedPrice; },
+  set val(v){ const p=getPigBatchProfile(); p.feedPrice=Number(v); DB.set(ck('pigBatchProfile'),p); }
+};
+let PIG_NAME = getPigBatchProfile().pigName; /* refreshed in renderSettings() on every loadData() */
+
 
 DB.set(ck('currentDay'), 15);
 DB.set(ck('dayLogs'), { 15:{ tasks:{ '1':true,'3':true } } });
@@ -1195,8 +1437,14 @@ const T = {
     'feed-price-lbl':'Feed Price (per kg)','feed-price-sub':'Tap to update price','feed-cost-lbl':"Today's Feed Cost",
     'stage-guide':'Stage Guide','col-stage':'Stage','col-wt':'Weight','col-feed':'Feed/day',
     'stage-early':'Early','stage-mid':'Mid ←','stage-late':'Late',
-    'health-sub':'Daily observation log','obs-behavior':'🐾 Behavior','obs-normal':'Normal','obs-lethargic':'Lethargic',
-    'obs-appetite':'🍽️ Appetite','obs-eating':'Eating Normally','obs-inapp':'Inappetence','obs-waste':'💩 Waste Condition',
+    'health-sub':'Daily observation log',
+    'obs-behavior':'Behavior','obs-behavior-lbl':'Behavior',
+    'obs-appetite':'Appetite','obs-appetite-lbl':'Appetite',
+    'obs-physical':'Physical','obs-physical-lbl':'Physical',
+    'obs-waste':'Waste Condition','obs-waste-lbl':'Waste Condition',
+    'obs-notes':'Notes','obs-notes-lbl':'Notes',
+    'obs-normal':'Normal','obs-lethargic':'Lethargic',
+    'obs-appetite':'Appetite','obs-eating':'Eating Normally','obs-inapp':'Inappetence','obs-waste':'Waste Condition',
     'obs-waste-ok':'Normal','obs-waste-bad':'Loose/Watery','alert-diarrhea':'⚠️ Possible diarrhea. Reduce feed by 20%. Consult a vet if it continues.',
     'btn-save-obs':'Save Observation ✓','health-history':'Health Log History','health-empty':'No health logs yet — save your first observation.',
     'wt-sub':'Weekly weigh-ins','adg-label':"This Week's ADG",'adg-target':'Target Range: 600 – 700 g/day',
@@ -1236,6 +1484,33 @@ const T = {
     'wk-prev':'Previous Week','wk-next':'Next Week','wk-of':'Week {week} of {total}',
     'week-empty-title2':'No photo uploaded for Week {week}.','week-empty-sub2':"Capture or upload a photo to begin tracking this week's growth.",
     'btn-view':'View','btn-replace-short':'Replace',
+    'btn-edit':'Edit','btn-delete':'Delete','btn-save':'Save','btn-cancel':'Cancel',
+    'btn-add':'Add','btn-upload':'Upload','btn-capture':'Capture','btn-close':'Close',
+    'btn-back':'Back','btn-next':'Next','btn-submit':'Submit','btn-reset':'Reset','btn-confirm':'Confirm',
+    'select-one':'Select one','filter-all':'All',
+    'cancel-edit':'Cancel Edit','field-notes':'Notes (Optional)',
+    'health-saved-ok':'✅ Health observation saved.','health-updated-ok':'✅ Health observation updated.',
+    'health-deleted-ok':'🗑️ Health log deleted successfully.',
+    'health-logs-h1':'Health Logs','health-logs-sub':'Complete observation history',
+    'health-logs-empty':'No health observations recorded yet.',
+    'view-health-logs':'View Health Logs',
+    'live-status-lbl':'Current Status:',
+    'del-health-title':'Delete Health Log','del-health-msg':'Are you sure you want to delete this health observation? This action cannot be undone.',
+    'editing-log-from':'Editing log from {date}',
+    'status-healthy':'🟢 Healthy','status-monitor':'🟡 Needs Monitoring','status-risk':'🟠 At Risk','status-critical':'🔴 Critical',
+    'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':"This Week's FCR",
+    'fcr-trend-title':"📉 This Week's FCR Trend",'fcr-trend-hint':'Lower values indicate better feed efficiency.',
+    'fcr-history-title':'📋 FCR History',
+    'fcr-status-excellent':'🟢 Excellent','fcr-status-good':'🟢 Good','fcr-status-average':'🟡 Average','fcr-status-needs':'🟠 Needs Improvement','fcr-status-poor':'🔴 Poor',
+    'fhr-feed-consumed':'Feed Consumed',
+    'rec-digestive-title':'⚠️ Possible Digestive Problem',
+    'rec-digestive-1':'Ensure clean drinking water.','rec-digestive-2':'Reduce feed by 20%.',
+    'rec-digestive-3':'Monitor hydration.','rec-digestive-4':'Observe for the next 24 hours.',
+    'rec-digestive-5':'Consult a veterinarian if symptoms persist.',
+    'rec-respiratory-title':'⚠️ Possible Respiratory Infection',
+    'rec-respiratory-1':'Isolate the pig.','rec-respiratory-2':'Improve ventilation.',
+    'rec-respiratory-3':'Monitor body temperature.','rec-respiratory-4':'Contact a veterinarian immediately.',
+    'none-selected':'None','no-notes':'No notes added.',
     'compare-title':'🆚 Growth Comparison','compare-select-a':'Week A','compare-select-b':'Week B','compare-empty':'Add at least 2 weekly photos to compare growth.',
     'as-title':'Upload Weekly Photo','as-upload-gallery':'Upload from Gallery','as-cancel':'Cancel',
     'viewer-download':'⬇️ Download','preview-crop':'✂️ Crop to square','photo-downloaded':'⬇️ Image downloaded',
@@ -1246,6 +1521,13 @@ const T = {
     'exp-added-ok':'✅ Expense added successfully.','exp-deleted-ok':'🗑️ Expense deleted successfully.',
     'exp-empty-title':'No expenses recorded yet.','exp-empty-sub':'Add your first expense using the + button.',
     'wk-progress-lbl':'Weekly Progress','wk-done-title':'Weekly Tasks Completed','wk-done-sub':'You have finished all optional tasks for this week.','wk-next-reset':'Next reset',
+    'set-notif':'🔔 Notifications','set-about':'ℹ️ About ASF',
+    'set-num-pigs':'Number of Pigs','set-feed-price':'Feed Price per kg',
+    'field-farmer-name':'Farmer Name','field-municipality':'Municipality / City','field-province':'Province','field-farmer-type':'Farmer Type',
+    'notif-morning-lbl':'Morning Feed Alert','notif-afternoon-lbl':'Afternoon Feed Alert','notif-weighin-lbl':'Weekly Weigh-In Reminder','notif-supplement-lbl':'Supplement Reminder',
+    'about-full-name':'Administration for Swine Finisher','about-version':'Version','about-developer':'Developer','about-institution':'Institution','about-campus':'Campus',
+    'about-desc':'A mobile pig farm management application guiding swine finisher raising practices throughout the full 120-day growing period.',
+    'set-between':'between',
     'add-pig-btn':'Add Pig','add-pig-title':'Add Pig','edit-pig-title':'Edit Pig','save-pig-btn':'Save Pig','save-changes-btn':'Save Changes',
     'field-pig-name':'🐷 Pig Name','field-pig-id':'Pig ID','field-gender':'Gender','gender-male':'Male','gender-female':'Female',
     'field-breed':'Breed','field-birthdate':'Birth Date','field-arrivaldate':'Arrival Date','field-initial-weight':'Initial Weight (kg)','field-pen':'Pen Number',
@@ -1290,7 +1572,13 @@ const T = {
     'feed-price-lbl':'Presyo ng Feed (kada kg)','feed-price-sub':'I-tap para baguhin','feed-cost-lbl':'Gastos sa Pagkain Ngayon',
     'stage-guide':'Gabay sa Yugto','col-stage':'Yugto','col-wt':'Timbang','col-feed':'Pagkain/araw',
     'stage-early':'Maagang','stage-mid':'Kalagitnaan ←','stage-late':'Huli',
-    'health-sub':'Talaan ng obserbasyon','obs-behavior':'🐾 Kilos','obs-normal':'Normal','obs-lethargic':'Walang Lakas',
+    'health-sub':'Talaan ng obserbasyon',
+    'obs-behavior':'Kilos','obs-behavior-lbl':'Kilos',
+    'obs-appetite':'Gana','obs-appetite-lbl':'Gana',
+    'obs-physical':'Pisikal','obs-physical-lbl':'Pisikal',
+    'obs-waste':'Dumi','obs-waste-lbl':'Dumi',
+    'obs-notes':'Tala','obs-notes-lbl':'Tala',
+    'obs-normal':'Normal','obs-lethargic':'Walang Lakas',
     'obs-appetite':'🍽️ Gana','obs-eating':'Kumakain nang Normal','obs-inapp':'Walang Gana','obs-waste':'💩 Dumi',
     'obs-waste-ok':'Normal','obs-waste-bad':'Maluwag/Matubig','alert-diarrhea':'⚠️ Posibleng pagtatae. Bawasan ang feed ng 20%. Kumonsulta sa beterinaryo.',
     'btn-save-obs':'I-save ang Obserbasyon ✓','health-history':'Kasaysayan ng Health Log','health-empty':'Walang health log pa — i-save ang unang obserbasyon.',
@@ -1331,6 +1619,33 @@ const T = {
     'wk-prev':'Nakaraang Linggo','wk-next':'Susunod na Linggo','wk-of':'Linggo {week} ng {total}',
     'week-empty-title2':'Walang na-upload na larawan para sa Linggo {week}.','week-empty-sub2':'Kumuha o i-upload ng larawan para masimulan ang pagsubaybay ngayong linggo.',
     'btn-view':'Tingnan','btn-replace-short':'Palitan',
+    'btn-edit':'I-edit','btn-delete':'Tanggalin','btn-save':'I-save','btn-cancel':'Kanselahin',
+    'btn-add':'Idagdag','btn-upload':'I-upload','btn-capture':'Kumuha ng Larawan','btn-close':'Isara',
+    'btn-back':'Bumalik','btn-next':'Susunod','btn-submit':'Isumite','btn-reset':'I-reset','btn-confirm':'Kumpirmahin',
+    'select-one':'Pumili ng isa','filter-all':'Lahat',
+    'cancel-edit':'Kanselahin ang Edit','field-notes':'Tala (Opsyonal)',
+    'health-saved-ok':'✅ Nai-save ang health observation.','health-updated-ok':'✅ Na-update ang health observation.',
+    'health-deleted-ok':'🗑️ Matagumpay na tinanggal ang health log.',
+    'health-logs-h1':'Mga Health Log','health-logs-sub':'Kumpletong kasaysayan ng obserbasyon',
+    'health-logs-empty':'Walang naitala pang health observation.',
+    'view-health-logs':'Tingnan ang Health Logs',
+    'live-status-lbl':'Kasalukuyang Katayuan:',
+    'del-health-title':'Tanggalin ang Health Log','del-health-msg':'Sigurado ka bang tatanggalin ang health observation na ito? Hindi na ito mababawi.',
+    'editing-log-from':'Ine-edit ang log mula {date}',
+    'status-healthy':'🟢 Malusog','status-monitor':'🟡 Kailangan ng Pagmamatyag','status-risk':'🟠 Nanganganib','status-critical':'🔴 Kritikal',
+    'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':'FCR ngayong Linggo',
+    'fcr-trend-title':'📉 FCR Trend ngayong Linggo','fcr-trend-hint':'Ang mas mababang halaga ay nagpapakita ng mas mahusay na paggamit ng pagkain.',
+    'fcr-history-title':'📋 Kasaysayan ng FCR',
+    'fcr-status-excellent':'🟢 Napakahusay','fcr-status-good':'🟢 Mahusay','fcr-status-average':'🟡 Katamtaman','fcr-status-needs':'🟠 Kailangan ng Pagpapabuti','fcr-status-poor':'🔴 Mahina',
+    'fhr-feed-consumed':'Kinain na Feed',
+    'rec-digestive-title':'⚠️ Posibleng Problema sa Digestive',
+    'rec-digestive-1':'Tiyakin ang malinis na inuming tubig.','rec-digestive-2':'Bawasan ang feed ng 20%.',
+    'rec-digestive-3':'Bantayan ang hydration.','rec-digestive-4':'Obserbahan sa susunod na 24 na oras.',
+    'rec-digestive-5':'Kumonsulta sa beterinaryo kung magpatuloy ang sintomas.',
+    'rec-respiratory-title':'⚠️ Posibleng Impeksyon sa Respirasyon',
+    'rec-respiratory-1':'Ihiwalay ang baboy.','rec-respiratory-2':'Pagandahin ang bentilasyon.',
+    'rec-respiratory-3':'Bantayan ang temperatura ng katawan.','rec-respiratory-4':'Makipag-ugnayan kaagad sa beterinaryo.',
+    'none-selected':'Wala','no-notes':'Walang tala.',
     'compare-title':'🆚 Paghambing ng Paglaki','compare-select-a':'Linggo A','compare-select-b':'Linggo B','compare-empty':'Magdagdag ng hindi bababa sa 2 larawan para makapaghambing.',
     'as-title':'I-upload ang Lingguhang Larawan','as-upload-gallery':'I-upload mula sa Gallery','as-cancel':'Kanselahin',
     'viewer-download':'⬇️ I-download','preview-crop':'✂️ I-crop sa parisukat','photo-downloaded':'⬇️ Na-download ang larawan',
@@ -1341,6 +1656,13 @@ const T = {
     'exp-added-ok':'✅ Matagumpay na naidagdag ang gastos.','exp-deleted-ok':'🗑️ Matagumpay na tinanggal ang gastos.',
     'exp-empty-title':'Walang gastos na naitala.','exp-empty-sub':'Magdagdag ng unang gastos gamit ang + button.',
     'wk-progress-lbl':'Lingguhang Pag-unlad','wk-done-title':'Tapos na ang Lingguhang Gawain','wk-done-sub':'Natapos mo na ang lahat ng opsyonal na gawain ngayong linggo.','wk-next-reset':'Susunod na reset',
+    'set-notif':'🔔 Mga Notipikasyon','set-about':'ℹ️ Tungkol sa ASF',
+    'set-num-pigs':'Bilang ng Baboy','set-feed-price':'Presyo ng Feed bawat kg',
+    'field-farmer-name':'Pangalan ng Magsasaka','field-municipality':'Munisipyo / Lungsod','field-province':'Lalawigan','field-farmer-type':'Uri ng Magsasaka',
+    'notif-morning-lbl':'Morning Feed Alert','notif-afternoon-lbl':'Afternoon Feed Alert','notif-weighin-lbl':'Lingguhang Timbang','notif-supplement-lbl':'Paalala ng Suplemento',
+    'about-full-name':'Administrasyon para sa Swine Finisher','about-version':'Bersyon','about-developer':'Developer','about-institution':'Institusyon','about-campus':'Kampus',
+    'about-desc':'Mobile na aplikasyon para sa pamamahala ng baboy na nagbibigay-gabay sa pagpapalaki ng swine finisher sa buong 120-araw na panahon.',
+    'set-between':'pagitan',
     'add-pig-btn':'Magdagdag ng Baboy','add-pig-title':'Magdagdag ng Baboy','edit-pig-title':'I-edit ang Baboy','save-pig-btn':'I-save ang Baboy','save-changes-btn':'I-save ang Pagbabago',
     'field-pig-name':'🐷 Pangalan ng Baboy','field-pig-id':'Pig ID','field-gender':'Kasarian','gender-male':'Lalaki','gender-female':'Babae',
     'field-breed':'Lahi','field-birthdate':'Petsa ng Kapanganakan','field-arrivaldate':'Petsa ng Pagdating','field-initial-weight':'Unang Timbang (kg)','field-pen':'Numero ng Kulungan',
@@ -1353,7 +1675,21 @@ const T = {
     'gp-pen-lbl':'Kulungan','no-notes':'Wala pang tala.',
   }
 };
-function t(key, vars){ let s=(T[LANG]&&T[LANG][key])||T.en[key]||key; if(vars) Object.entries(vars).forEach(([k,v])=>{s=s.replaceAll('{'+k+'}', v);}); return s; }
+function t(key, vars){
+  let s = (T[LANG]&&T[LANG][key]) || T.en[key];
+  /* Fallback: auto-format missing keys so raw IDs never reach the UI.
+     Strips known prefixes (btn-, obs-, lbl-, etc.), replaces hyphens with
+     spaces, and title-cases the result. */
+  if (!s){
+    const PREFIXES = /^(btn|obs|lbl|txt|msg|nav|card|form|menu|modal|dialog|section|header|footer|title|field|set|sb|sp|sf|spb|tp|notif|wk|wt|gcal|gp|gh|pf|hlc|tl|fcr|fhr|del|rec|act|sec|exp|vet|cal|cat|as|dm|bn|dr|tn|hp|wpp|cm|bk|ph|db|pcs|phr|plbl|pval|wk|wpp)-/g;
+    s = key
+      .replace(PREFIXES, '')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (vars) Object.entries(vars).forEach(([k,v])=>{s=s.replaceAll('{'+k+'}', v);});
+  return s;
+}
 
 const TASK_DEFS = [
   {id:'1',icon:'🧹',bg:'var(--g50)',t:'t1',s:'t1s',period:'am'},
@@ -1550,7 +1886,21 @@ function navTo(id){
 function toggleDrawer(){ document.getElementById('drawer').classList.toggle('open'); document.getElementById('drawer-backdrop').classList.toggle('open'); }
 function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('drawer-backdrop').classList.remove('open'); }
 function toggleNotif(){ document.getElementById('notif-panel').classList.toggle('open'); }
-function closeNotif(){ document.getElementById('notif-panel').classList.remove('open'); }
+function closeNotif(){
+  const panel = document.getElementById('notif-panel');
+  panel.classList.remove('open');
+  /* Smooth slide-out is handled by the CSS transition (transform .25s ease) */
+}
+function markAllNotifsRead(){
+  /* Mark every displayed notif as read visually — real persistence handled by NotificationProvider in Flutter */
+  document.querySelectorAll('.notif-item').forEach(el => {
+    el.style.borderLeftColor = 'var(--n200)';
+    el.style.opacity = '0.85';
+  });
+  const btn = document.querySelector('.notif-mark-read-btn');
+  if (btn){ btn.textContent = LANG==='fil' ? 'Lahat ay nabasa ✓' : 'All read ✓'; btn.style.color = 'var(--g400)'; }
+  showSyncToast(LANG==='fil' ? '✅ Lahat ay nabasa na' : '✅ All notifications marked as read');
+}
 
 function toggleCheck(id){
   const day=getCurrentDay(); const logs=getLogs();
@@ -1901,13 +2251,19 @@ function showSyncToast(msg, isError){
 }
 function toggleLang(){ LANG = LANG==='en'?'fil':'en'; applyLang(); loadData(); showSyncToast(LANG==='fil'?'🇵🇭 Filipino ang piniling wika':'🇺🇸 English selected'); }
 function applyLang(){
-  const day=getCurrentDay();
-  const today=new Date('2026-04-15').toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'long',day:'numeric',year:'numeric'});
-  const vars={ day, name:USER.name.split(' ')[0], date:today, n:120-day, next:Math.min(120,day+1), pig:PIG_NAME };
-  document.querySelectorAll('[data-t]').forEach(el=>{ el.innerHTML = t(el.getAttribute('data-t'), vars); });
-  const lb=document.getElementById('lang-btn'); if (lb) lb.innerHTML = LANG==='fil'?'🇺🇸 EN':'🇵🇭 FIL';
-  const ll=document.getElementById('lang-current-label'); if (ll) ll.textContent = LANG==='fil'?'Filipino (kasalukuyan)':'English (default)';
-  const lbt=document.getElementById('settings-lang-btn-text'); if (lbt) lbt.textContent = LANG==='fil'?'Switch to English 🇺🇸':'Switch to Filipino 🇵🇭';
+  const day = getCurrentDay();
+  const today = new Date('2026-04-15').toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'long',day:'numeric',year:'numeric'});
+  const farmerName = getFarmerProfile().name.split(' ')[0];
+  PIG_NAME = getPigBatchProfile().pigName; /* keep alias fresh */
+  const vars = { day, name:farmerName, date:today, n:120-day, next:Math.min(120,day+1), pig:PIG_NAME };
+  /* Skip elements inside the settings edit forms so we don't clobber select values */
+  document.querySelectorAll('[data-t]').forEach(el => {
+    if (el.closest('#farmer-edit-form') || el.closest('#pig-batch-edit-form')) return;
+    el.innerHTML = t(el.getAttribute('data-t'), vars);
+  });
+  const lb = document.getElementById('lang-btn'); if (lb) lb.innerHTML = LANG==='fil'?'🇺🇸 EN':'🇵🇭 FIL';
+  const ll = document.getElementById('lang-current-label'); if (ll) ll.textContent = LANG==='fil'?'Filipino (kasalukuyan)':'English (default)';
+  const lbt = document.getElementById('settings-lang-btn-text'); if (lbt) lbt.textContent = LANG==='fil'?'Switch to English 🇺🇸':'Switch to Filipino 🇵🇭';
 }
 
 function buildWeightChart(svgId, badgeId){
@@ -2588,6 +2944,218 @@ function setCompareSplit(pct){
 }
 function set2(id, val){ const el = document.getElementById(id); if (el) el.textContent = val; }
 
+/* ══════════════════════════════════════════════════════
+   ENHANCED SETTINGS PAGE
+══════════════════════════════════════════════════════ */
+
+/* ── Farmer profile photo ── */
+function triggerFarmerPhotoUpload(){ document.getElementById('farmer-photo-input')?.click(); }
+function onFarmerPhotoChosen(event){
+  const file = event.target.files[0]; event.target.value='';
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const side = Math.min(img.naturalWidth, img.naturalHeight);
+      const sx = (img.naturalWidth - side)/2, sy = (img.naturalHeight - side)/2;
+      const size = Math.min(320, side);
+      const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size;
+      canvas.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, size, size);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      const profile = getFarmerProfile(); profile.photo = dataUrl; DB.set(ck('farmerProfile'), profile);
+      renderSettings();
+      showSyncToast(LANG==='fil' ? '✅ Na-update ang profile photo' : '✅ Profile photo updated');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── Farmer profile edit form ── */
+function openFarmerEdit(){
+  const p = getFarmerProfile();
+  const el = id => document.getElementById(id);
+  el('sf-name').value = p.name;
+  el('sf-municipality').value = p.municipality;
+  el('sf-province').value = p.province;
+  el('sf-type').value = p.farmerType;
+  el('farmer-edit-form').style.display = 'block';
+  el('farmer-edit-form').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+function closeFarmerEdit(){ document.getElementById('farmer-edit-form').style.display = 'none'; }
+function saveFarmerProfile(){
+  const name = document.getElementById('sf-name').value.trim();
+  if (!name){ showSyncToast(LANG==='fil'?'Punan ang pangalan':'Please enter your name', true); return; }
+  const profile = getFarmerProfile();
+  profile.name        = name;
+  profile.municipality= document.getElementById('sf-municipality').value.trim();
+  profile.province    = document.getElementById('sf-province').value.trim();
+  profile.farmerType  = document.getElementById('sf-type').value;
+  DB.set(ck('farmerProfile'), profile);
+  closeFarmerEdit();
+  renderSettings();
+  showSyncToast(LANG==='fil' ? '✅ Na-save ang profile' : '✅ Profile saved');
+}
+
+/* ── Pig / Batch profile edit form ── */
+function togglePigBatchEdit(){
+  const form = document.getElementById('pig-batch-edit-form');
+  const isHidden = form.style.display === 'none';
+  if (isHidden){
+    const p = getPigBatchProfile();
+    document.getElementById('spb-name').value = p.pigName;
+    document.getElementById('spb-num').value  = p.numPigs;
+    document.getElementById('spb-wt').value   = p.startWeight;
+    document.getElementById('spb-date').value  = p.startDate;
+    document.getElementById('spb-feed-price').value = p.feedPrice;
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  } else {
+    form.style.display = 'none';
+  }
+}
+function savePigBatchProfile(){
+  const name  = document.getElementById('spb-name').value.trim();
+  const wt    = parseFloat(document.getElementById('spb-wt').value);
+  const fp    = parseFloat(document.getElementById('spb-feed-price').value);
+  if (!name || isNaN(wt) || isNaN(fp)){
+    showSyncToast(LANG==='fil'?'Punan ang lahat ng field':'Please fill all fields', true); return;
+  }
+  const p = getPigBatchProfile();
+  p.pigName     = name;
+  p.numPigs     = parseInt(document.getElementById('spb-num').value) || 1;
+  p.startWeight = wt;
+  p.startDate   = document.getElementById('spb-date').value || p.startDate;
+  p.feedPrice   = fp;
+  DB.set(ck('pigBatchProfile'), p);
+  PIG_NAME = name; /* refresh global alias */
+  document.getElementById('pig-batch-edit-form').style.display = 'none';
+  renderSettings();
+  showSyncToast(LANG==='fil' ? '✅ Na-update ang pig profile' : '✅ Pig / Batch profile updated');
+  loadData();
+}
+
+/* ── Notification preferences ── */
+function onNotifToggle(key, enabled){
+  const prefs = getNotifPrefs();
+  prefs[key].enabled = enabled;
+  DB.set(ck('notifPrefs'), prefs);
+  showSyncToast(enabled
+    ? (LANG==='fil' ? '🔔 I-on ang notipikasyon' : '🔔 Notification enabled')
+    : (LANG==='fil' ? '🔕 I-off ang notipikasyon' : '🔕 Notification disabled'));
+}
+function saveNotifPrefs(){
+  const prefs = getNotifPrefs();
+  const dayEl = document.getElementById('notif-weighin-day');
+  const freqEl = document.getElementById('notif-supplement-freq');
+  if (dayEl) prefs.weighin.day = parseInt(dayEl.value);
+  if (freqEl) prefs.supplement.freq = freqEl.value;
+  DB.set(ck('notifPrefs'), prefs);
+}
+
+/* ── Time picker modal ── */
+let _activeTimeKey = null;
+function pickNotifTime(key){
+  _activeTimeKey = key;
+  const prefs = getNotifPrefs();
+  const timeStr = prefs[key]?.time || '7:00 AM';
+  const [hmStr, period] = timeStr.split(' ');
+  const [h, m] = hmStr.split(':');
+  document.getElementById('tp-hour').value  = h;
+  document.getElementById('tp-min').value   = m.padStart(2,'0');
+  document.getElementById('tp-period').value = period;
+  const labels = { morning:'Morning Feed Alert', afternoon:'Afternoon Feed Alert', weighin:'Weekly Weigh-In' };
+  document.getElementById('time-picker-title').textContent = labels[key] || 'Set Time';
+  document.getElementById('time-picker-modal').style.display = 'flex';
+}
+function closeTimePicker(){
+  document.getElementById('time-picker-modal').style.display = 'none';
+  _activeTimeKey = null;
+}
+function confirmTimePicker(){
+  if (!_activeTimeKey) return;
+  let h = parseInt(document.getElementById('tp-hour').value) || 12;
+  let m = parseInt(document.getElementById('tp-min').value) || 0;
+  const period = document.getElementById('tp-period').value;
+  h = Math.max(1, Math.min(12, h));
+  m = Math.max(0, Math.min(59, m));
+  const timeStr = `${h}:${String(m).padStart(2,'0')} ${period}`;
+  const prefs = getNotifPrefs();
+  prefs[_activeTimeKey].time = timeStr;
+  DB.set(ck('notifPrefs'), prefs);
+  const btnId = `notif-${_activeTimeKey}-time-btn`;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.textContent = timeStr;
+  closeTimePicker();
+  showSyncToast(`⏰ ${timeStr} ${LANG==='fil'?'na itinakda':'set'}`);
+}
+
+/* ── Render the Settings page from stored data ── */
+function renderSettings(){
+  const farmer = getFarmerProfile();
+  const batch  = getPigBatchProfile();
+  const prefs  = getNotifPrefs();
+
+  /* Refresh global PIG_NAME alias */
+  PIG_NAME = batch.pigName;
+
+  /* Profile card */
+  const imgEl = document.getElementById('set-profile-photo-img');
+  if (imgEl) imgEl.src = farmer.photo || PROFILE_PLACEHOLDER(farmer.name||'JD');
+  set2('set-display-name', farmer.name);
+  set2('set-display-loc', `${farmer.municipality}${farmer.province ? ', '+farmer.province : ''}`);
+  const typeBadge = document.getElementById('set-display-type-badge');
+  if (typeBadge) typeBadge.textContent = farmer.farmerType;
+
+  /* Update topbar avatar initial */
+  const av1 = document.getElementById('sb-av');
+  const av2 = document.getElementById('tn-av');
+  const initial = (farmer.name||'J').trim().charAt(0).toUpperCase();
+  if (av1) av1.textContent = initial;
+  if (av2) av2.textContent = initial;
+
+  /* Update drawer user name */
+  const drName = document.querySelector('.dr-uname');
+  if (drName) drName.textContent = farmer.name;
+
+  /* Pig/Batch display */
+  const dateStr = batch.startDate
+    ? new Date(batch.startDate+'T00:00:00').toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'short',day:'numeric',year:'numeric'})
+    : '—';
+  set2('sb-pig-name', batch.pigName);
+  set2('sb-num-pigs', String(batch.numPigs));
+  set2('sb-start-wt', `${batch.startWeight} kg`);
+  set2('sb-start-date', dateStr);
+  set2('sb-feed-price', `₱${Number(batch.feedPrice).toFixed(2)}`);
+
+  /* Notification toggles + time buttons */
+  const keys = ['morning','afternoon','weighin','supplement'];
+  keys.forEach(k => {
+    const chk = document.getElementById(`notif-${k}-toggle`);
+    if (chk) chk.checked = !!prefs[k]?.enabled;
+    const btn = document.getElementById(`notif-${k}-time-btn`);
+    if (btn && prefs[k]?.time) btn.textContent = prefs[k].time;
+  });
+  const dayEl = document.getElementById('notif-weighin-day');
+  if (dayEl && prefs.weighin?.day !== undefined) dayEl.value = String(prefs.weighin.day);
+  const freqEl = document.getElementById('notif-supplement-freq');
+  if (freqEl && prefs.supplement?.freq) freqEl.value = prefs.supplement.freq;
+
+  /* Language labels */
+  const ll = document.getElementById('lang-current-label');
+  if (ll) ll.textContent = LANG==='fil' ? 'Filipino (kasalukuyan)' : 'English (default)';
+  const lbt = document.getElementById('settings-lang-btn-text');
+  if (lbt) lbt.textContent = LANG==='fil' ? 'Switch to English 🇺🇸' : 'Filipino 🇵🇭';
+}
+
+/* Custom avatar placeholder for the profile photo */
+function PROFILE_PLACEHOLDER(name){
+  const initial = (name||'?').trim().charAt(0).toUpperCase();
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" fill="#2D6B12"/><text x="80" y="108" font-size="80" text-anchor="middle" fill="white" font-family="sans-serif">${initial}</text></svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
 function loadData(){
   const day=getCurrentDay(); const logs=getLogs(); const tasks=logs[day]?.tasks||{};
   const wlogs=getWeightLogs(); const latest=wlogs[wlogs.length-1]; const adg=currentADG();
@@ -2762,6 +3330,7 @@ function loadData(){
   renderGrowthTimeline();
   renderPigWeightHistoryAndChart();
   renderPigNotes();
+  renderSettings();
 }
 function buildCal(id){
   const el=document.getElementById(id); if (!el) return;
