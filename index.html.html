@@ -36,7 +36,8 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 .tb-icons{display:flex;gap:7px;align-items:center;}
 .tb-icon-btn{width:34px;height:34px;border:1px solid var(--n200);background:var(--white);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;position:relative;flex-shrink:0;}
 .notif-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--r400);border-radius:50%;border:1.5px solid var(--white);}
-.tb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g500),var(--g300));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;}
+.tb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g500),var(--g300));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;overflow:hidden;padding:0;}
+.tb-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 
 .sync-bar{background:var(--g50);border-bottom:1px solid var(--g200);padding:5px 14px;font-size:9.5px;color:var(--g600);font-weight:600;display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .sync-bar.changed{background:var(--a100);color:var(--a600);border-bottom-color:var(--a200);}
@@ -286,7 +287,8 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 .dr-item .dri-ico{font-size:17px;width:22px;text-align:center;flex-shrink:0;}
 .dr-bottom{padding:12px 8px;border-top:1px solid rgba(255,255,255,.06);}
 .dr-user{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;}
-.dr-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--g500),var(--g300));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.dr-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--g500),var(--g300));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden;padding:0;}
+.dr-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .dr-uname{font-size:11.5px;font-weight:700;color:#fff;}
 .dr-urole{font-size:9px;color:rgba(255,255,255,.3);}
 
@@ -1281,7 +1283,24 @@ input[type=file]{display:none;}
 <script>
 /* ══ IN-MEMORY STORE (artifact-safe — no localStorage) ══ */
 const MEM = {};
-const DB = { get(k){ return MEM[k]===undefined?null:MEM[k]; }, set(k,v){ MEM[k]=v; } };
+/* ── Persistent DB layer ──────────────────────────────────────────────────
+   Tries localStorage first (works in Flutter WebView / any real browser).
+   Falls back silently to the in-memory MEM object when localStorage is
+   unavailable (e.g. sandboxed iframes). Data written to localStorage is
+   JSON-serialised so complex objects survive page reloads.               */
+const DB = {
+  get(k){
+    try {
+      const raw = localStorage.getItem(k);
+      if (raw !== null){ const v = JSON.parse(raw); MEM[k] = v; return v; }
+    } catch(_){}
+    return MEM[k] === undefined ? null : MEM[k];
+  },
+  set(k, v){
+    MEM[k] = v;
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch(_){}
+  },
+};
 const USER = { username:'demo', name:'Juan dela Cruz' };
 const ck = k => `asf_cycle_${USER.username}_${k}`;
 let LANG = 'en';
@@ -1497,11 +1516,11 @@ const T = {
     'live-status-lbl':'Current Status:',
     'del-health-title':'Delete Health Log','del-health-msg':'Are you sure you want to delete this health observation? This action cannot be undone.',
     'editing-log-from':'Editing log from {date}',
-    'status-healthy':'🟢 Healthy','status-monitor':'🟡 Needs Monitoring','status-risk':'🟠 At Risk','status-critical':'🔴 Critical',
+    'status-healthy':'Healthy','status-monitor':'Needs Monitoring','status-risk':'At Risk','status-critical':'Critical',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':"This Week's FCR",
     'fcr-trend-title':"📉 This Week's FCR Trend",'fcr-trend-hint':'Lower values indicate better feed efficiency.',
     'fcr-history-title':'📋 FCR History',
-    'fcr-status-excellent':'🟢 Excellent','fcr-status-good':'🟢 Good','fcr-status-average':'🟡 Average','fcr-status-needs':'🟠 Needs Improvement','fcr-status-poor':'🔴 Poor',
+    'fcr-status-excellent':'Excellent','fcr-status-good':'Good','fcr-status-average':'Average','fcr-status-needs':'Needs Improvement','fcr-status-poor':'Poor',
     'fhr-feed-consumed':'Feed Consumed',
     'rec-digestive-title':'⚠️ Possible Digestive Problem',
     'rec-digestive-1':'Ensure clean drinking water.','rec-digestive-2':'Reduce feed by 20%.',
@@ -1632,11 +1651,11 @@ const T = {
     'live-status-lbl':'Kasalukuyang Katayuan:',
     'del-health-title':'Tanggalin ang Health Log','del-health-msg':'Sigurado ka bang tatanggalin ang health observation na ito? Hindi na ito mababawi.',
     'editing-log-from':'Ine-edit ang log mula {date}',
-    'status-healthy':'🟢 Malusog','status-monitor':'🟡 Kailangan ng Pagmamatyag','status-risk':'🟠 Nanganganib','status-critical':'🔴 Kritikal',
+    'status-healthy':'Malusog','status-monitor':'Kailangan ng Pagmamatyag','status-risk':'Nanganganib','status-critical':'Kritikal',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':'FCR ngayong Linggo',
     'fcr-trend-title':'📉 FCR Trend ngayong Linggo','fcr-trend-hint':'Ang mas mababang halaga ay nagpapakita ng mas mahusay na paggamit ng pagkain.',
     'fcr-history-title':'📋 Kasaysayan ng FCR',
-    'fcr-status-excellent':'🟢 Napakahusay','fcr-status-good':'🟢 Mahusay','fcr-status-average':'🟡 Katamtaman','fcr-status-needs':'🟠 Kailangan ng Pagpapabuti','fcr-status-poor':'🔴 Mahina',
+    'fcr-status-excellent':'Napakahusay','fcr-status-good':'Mahusay','fcr-status-average':'Katamtaman','fcr-status-needs':'Kailangan ng Pagpapabuti','fcr-status-poor':'Mahina',
     'fhr-feed-consumed':'Kinain na Feed',
     'rec-digestive-title':'⚠️ Posibleng Problema sa Digestive',
     'rec-digestive-1':'Tiyakin ang malinis na inuming tubig.','rec-digestive-2':'Bawasan ang feed ng 20%.',
@@ -2235,11 +2254,25 @@ function executeConfirmedDelete(){
   }
 }
 function resetApp(){
-  if (!confirm(LANG==='fil'?'Sigurado ka bang i-reset?':'Are you sure you want to reset?')) return;
-  DB.set(ck('currentDay'),1); DB.set(ck('dayLogs'),{});
-  DB.set(ck('weightLogs'),[{day:1,weight:20,date:new Date().toISOString().slice(0,10)}]);
-  setExpenses([]); DB.set(ck('healthLogs'),[]);
-  showSyncToast(LANG==='fil'?'Na-reset ✓':'Reset complete ✓');
+  if (!confirm(LANG==='fil'?'Sigurado ka bang i-reset ang progreso?\n\nAng impormasyon ng farmer at baboy ay mananatili.':'Are you sure you want to reset progress?\n\nFarmer and pig information will be kept.')) return;
+  /* Clear cycle progress only — preserve profile, settings, and language */
+  const keysToReset = ['currentDay','dayLogs','weightLogs','expenses','healthLogs',
+    'pigWeeklyImages','pigWeightLogs','weeklyTasks','pigs'];
+  keysToReset.forEach(k => {
+    DB.set(ck(k), null);
+    try { localStorage.removeItem(ck(k)); } catch(_){}
+  });
+  /* Re-seed the pig registry from pig batch profile so at least one pig remains */
+  const batch = getPigBatchProfile();
+  DB.set(ck('currentDay'), 1);
+  DB.set(ck('dayLogs'), {});
+  DB.set(ck('weightLogs'), [{day:1, weight:batch.startWeight, date:new Date().toISOString().slice(0,10)}]);
+  setExpenses([]);
+  DB.set(ck('healthLogs'), []);
+  PIG_NAME = batch.pigName;
+  applyLang();
+  loadData();
+  showSyncToast(LANG==='fil' ? '✅ Na-reset ang progreso ✓' : '✅ Progress reset complete ✓');
   navTo('home');
 }
 function showSyncToast(msg, isError){
@@ -2249,7 +2282,13 @@ function showSyncToast(msg, isError){
   el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'), 2400);
 }
-function toggleLang(){ LANG = LANG==='en'?'fil':'en'; applyLang(); loadData(); showSyncToast(LANG==='fil'?'🇵🇭 Filipino ang piniling wika':'🇺🇸 English selected'); }
+function toggleLang(){
+  LANG = LANG==='en' ? 'fil' : 'en';
+  DB.set(ck('appLang'), LANG); /* persist language choice */
+  applyLang();
+  loadData();
+  showSyncToast(LANG==='fil' ? '🇵🇭 Filipino ang piniling wika' : '🇺🇸 English selected');
+}
 function applyLang(){
   const day = getCurrentDay();
   const today = new Date('2026-04-15').toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'long',day:'numeric',year:'numeric'});
@@ -2964,8 +3003,10 @@ function onFarmerPhotoChosen(event){
       canvas.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, size, size);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
       const profile = getFarmerProfile(); profile.photo = dataUrl; DB.set(ck('farmerProfile'), profile);
-      renderSettings();
-      showSyncToast(LANG==='fil' ? '✅ Na-update ang profile photo' : '✅ Profile photo updated');
+      /* Full refresh — updates profile card, topbar avatar, drawer avatar everywhere */
+      applyLang();
+      loadData();
+      showSyncToast(LANG==='fil' ? '✅ Na-update ang profile photo' : '✅ Profile photo updated successfully.');
     };
     img.src = e.target.result;
   };
@@ -2983,19 +3024,26 @@ function openFarmerEdit(){
   el('farmer-edit-form').style.display = 'block';
   el('farmer-edit-form').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
-function closeFarmerEdit(){ document.getElementById('farmer-edit-form').style.display = 'none'; }
+function closeFarmerEdit(){
+  /* Cancel: restore displayed values without touching saved data */
+  document.getElementById('farmer-edit-form').style.display = 'none';
+}
 function saveFarmerProfile(){
   const name = document.getElementById('sf-name').value.trim();
   if (!name){ showSyncToast(LANG==='fil'?'Punan ang pangalan':'Please enter your name', true); return; }
   const profile = getFarmerProfile();
-  profile.name        = name;
-  profile.municipality= document.getElementById('sf-municipality').value.trim();
-  profile.province    = document.getElementById('sf-province').value.trim();
-  profile.farmerType  = document.getElementById('sf-type').value;
+  profile.name         = name;
+  profile.municipality = document.getElementById('sf-municipality').value.trim();
+  profile.province     = document.getElementById('sf-province').value.trim();
+  profile.farmerType   = document.getElementById('sf-type').value;
   DB.set(ck('farmerProfile'), profile);
-  closeFarmerEdit();
-  renderSettings();
-  showSyncToast(LANG==='fil' ? '✅ Na-save ang profile' : '✅ Profile saved');
+  document.getElementById('farmer-edit-form').style.display = 'none';
+  /* Refresh the ENTIRE app so the dashboard greeting, drawer name,
+     topbar avatar, and every other reference updates immediately */
+  PIG_NAME = getPigBatchProfile().pigName;
+  applyLang();
+  loadData();
+  showSyncToast(LANG==='fil' ? '✅ Na-save ang profile' : '✅ Profile updated successfully.');
 }
 
 /* ── Pig / Batch profile edit form ── */
@@ -3029,11 +3077,13 @@ function savePigBatchProfile(){
   p.startDate   = document.getElementById('spb-date').value || p.startDate;
   p.feedPrice   = fp;
   DB.set(ck('pigBatchProfile'), p);
-  PIG_NAME = name; /* refresh global alias */
+  PIG_NAME = name; /* refresh global alias immediately */
   document.getElementById('pig-batch-edit-form').style.display = 'none';
-  renderSettings();
-  showSyncToast(LANG==='fil' ? '✅ Na-update ang pig profile' : '✅ Pig / Batch profile updated');
+  /* Full refresh — feeding costs, ROI, dashboard pig sub-title, and all
+     references to pig name update on every screen without any reload */
+  applyLang();
   loadData();
+  showSyncToast(LANG==='fil' ? '✅ Na-update ang pig profile' : '✅ Pig / Batch profile updated successfully.');
 }
 
 /* ── Notification preferences ── */
@@ -3108,12 +3158,15 @@ function renderSettings(){
   const typeBadge = document.getElementById('set-display-type-badge');
   if (typeBadge) typeBadge.textContent = farmer.farmerType;
 
-  /* Update topbar avatar initial */
+  /* Update topbar + drawer avatars — photo thumbnail if available, else initial */
+  const initial = (farmer.name||'J').trim().charAt(0).toUpperCase();
+  const avatarInner = farmer.photo
+    ? `<img src="${farmer.photo}" alt="${farmer.name}">`
+    : initial;
   const av1 = document.getElementById('sb-av');
   const av2 = document.getElementById('tn-av');
-  const initial = (farmer.name||'J').trim().charAt(0).toUpperCase();
-  if (av1) av1.textContent = initial;
-  if (av2) av2.textContent = initial;
+  if (av1) av1.innerHTML = avatarInner;
+  if (av2) av2.innerHTML = avatarInner;
 
   /* Update drawer user name */
   const drName = document.querySelector('.dr-uname');
@@ -3340,7 +3393,15 @@ function buildCal(id){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  applyLang(); loadData();
+  /* ── Restore persisted settings before first render ── */
+  const savedLang = DB.get(ck('appLang'));
+  if (savedLang === 'en' || savedLang === 'fil') LANG = savedLang;
+
+  /* Sync global PIG_NAME alias from whatever was last saved */
+  PIG_NAME = getPigBatchProfile().pigName;
+
+  applyLang();
+  loadData();
   setTimeout(()=> showSyncToast(LANG==='fil'?'🔄 Dashboard nire-refresh...':'🔄 Dashboard loaded'), 800);
 });
 </script>
