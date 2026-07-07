@@ -92,6 +92,14 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 .check-circle.done{background:var(--g400);border-color:var(--g400);}
 .prog-wrap{background:var(--n100);border-radius:20px;height:8px;overflow:hidden;margin:6px 0;}
 .prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--g400),var(--g300));transition:width .3s;}
+
+/* ══ Dashboard "Today's Tasks" — read-only two-column summary (no checkboxes/toggles; task management lives on the Tasks page only) ══ */
+.task-sum-cols{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.task-sum-col-hd{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--n400);margin-bottom:7px;}
+.task-sum-item{display:flex;align-items:center;gap:7px;background:#fff;border-radius:var(--rad-sm);padding:8px;margin-bottom:6px;box-shadow:var(--shadow);}
+.task-sum-item .task-ic{width:26px;height:26px;font-size:13px;border-radius:8px;}
+.task-sum-item .task-name{font-size:10.5px;line-height:1.3;}
+.task-sum-empty{font-size:10px;color:var(--n300);font-style:italic;padding:2px;}
 .badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 9px;border-radius:20px;}
 .badge.green{background:var(--g100);color:var(--g700);}
 .badge.amber{background:var(--a100);color:var(--a600);}
@@ -262,6 +270,17 @@ body{display:flex;justify-content:center;align-items:flex-start;padding:28px 12p
 @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
 .done-banner .db-txt strong{display:block;font-size:12px;font-weight:700;}
 .done-banner .db-txt span{font-size:10px;opacity:.85;}
+.crit-banner{background:linear-gradient(135deg,var(--r600),var(--r400));border-radius:var(--rad-sm);padding:12px 14px;margin-bottom:12px;color:#fff;display:none;align-items:center;gap:11px;animation:pulse-red 2s infinite;}
+@keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(220,38,38,.45);}70%{box-shadow:0 0 0 9px rgba(220,38,38,0);}100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}}
+.crit-banner.show{display:flex!important;}
+.crit-banner .cb-ic{font-size:20px;flex-shrink:0;animation:bob 1.2s ease infinite;}
+.crit-banner .cb-txt{flex:1;}
+.crit-banner .cb-txt strong{display:block;font-size:12px;font-weight:700;line-height:1.4;}
+.crit-banner .cb-btn{margin-top:7px;background:#fff;color:var(--r600);border:none;border-radius:8px;padding:6px 12px;font-size:10.5px;font-weight:700;font-family:var(--sans);cursor:pointer;}
+.vet-empty{text-align:center;padding:26px 16px;color:var(--n400);}
+.vet-empty .ve-ico{font-size:28px;margin-bottom:8px;}
+.vet-empty .ve-title{font-size:12.5px;font-weight:700;color:var(--n600);margin-bottom:3px;}
+.vet-empty .ve-sub{font-size:11px;margin-bottom:12px;}
 
 /* ══ BOTTOM NAV ══ */
 .bottomnav{display:flex;border-top:1px solid var(--n100);background:#fff;padding:7px 4px 9px;flex-shrink:0;}
@@ -528,6 +547,12 @@ input[type=file]{display:none;}
 .task-row.locked{opacity:.65;cursor:default;}
 .task-row.locked .check-circle{background:var(--g400);border-color:var(--g400);}
 
+/* ══ DAILY TASKS — locked pending a Health Monitor observation (distinct
+   muted/gray state, separate from the green "already complete" .locked
+   style above) ══ */
+.task-row.prereq-locked{opacity:.6;cursor:pointer;}
+.task-row.prereq-locked .check-circle{background:var(--n100);border-color:var(--n200);color:var(--n400);font-size:12px;}
+
 /* ══ WEEKLY PIG PHOTO — week navigator (moved to Growth page) ══ */
 .muted-sub{font-size:10.5px;color:var(--n400);margin:-4px 0 9px;line-height:1.4;}
 .wk-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:6px;}
@@ -596,11 +621,18 @@ input[type=file]{display:none;}
           <button class="btn btn-primary btn-sm" onclick="navTo('activities')" data-t="home-log-today">+ Log Today</button>
         </div>
       </div>
+      <div class="crit-banner" id="dash-crit-banner">
+        <div class="cb-ic">🚨</div>
+        <div class="cb-txt">
+          <strong id="dash-crit-msg">{pig} requires immediate veterinary attention.</strong>
+          <button class="cb-btn" onclick="viewHealthLogFromCritBanner()" data-t="view-health-log-btn">View Health Log →</button>
+        </div>
+      </div>
       <div class="stat-grid-4">
         <div class="stat-box"><div class="si">📅</div><div class="sv" id="d-day">15</div><div class="sl" data-t="stat-day">Current Day</div><div class="sc up" id="d-rem">105 days left</div></div>
         <div class="stat-box"><div class="si">📈</div><div class="sv good" id="d-adg">— g/d</div><div class="sl" data-t="stat-adg">Avg Daily Gain</div><div class="sc up" id="d-adg-sc">✅ On track</div></div>
         <div class="stat-box"><div class="si">⚖️</div><div class="sv" id="d-wt">— kg</div><div class="sl" data-t="stat-wt">Current Weight</div><div class="sc up" id="d-wt-sc">—</div></div>
-        <div class="stat-box"><div class="si">💰</div><div class="sv amber" id="d-spent">₱0</div><div class="sl" data-t="stat-spent">Total Spent</div><div class="sc dn" id="d-spent-sc">—</div></div>
+        <div class="stat-box"><div class="si">💰</div><div class="sv good" id="d-profit">₱0</div><div class="sl" data-t="roi-label">Projected Net Profit</div><div class="sc up" id="d-profit-sc">ROI: 0%</div></div>
       </div>
       <div class="card">
         <div class="card-hd"><h3 data-t="home-chart-title">Weight Progress</h3><button class="card-action" onclick="navTo('weight')" data-t="view-full">Full tracker →</button></div>
@@ -613,8 +645,17 @@ input[type=file]{display:none;}
           <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--n500);margin-bottom:5px;"><span data-t="gate-progress-lbl">Progress</span><span style="color:var(--g500);" id="home-task-pct">0%</span></div>
           <div class="prog-wrap" style="height:9px;"><div class="prog-fill" style="width:0%;" id="home-task-bar"></div></div>
         </div>
-        <div id="home-tasks-list"></div>
-        <button class="btn btn-primary btn-full" style="margin-top:10px;" onclick="navTo('activities')" data-t="home-log-today">Log Today's Tasks →</button>
+        <div class="task-sum-cols">
+          <div>
+            <div class="task-sum-col-hd">✅ <span data-t="tasks-completed-col">Completed Tasks</span></div>
+            <div id="home-tasks-done"></div>
+          </div>
+          <div>
+            <div class="task-sum-col-hd">⏳ <span data-t="tasks-pending-col">Pending Tasks</span></div>
+            <div id="home-tasks-pending"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" style="margin-top:4px;" onclick="navTo('activities')" data-t="view-all-tasks-btn">View All Tasks →</button>
       </div>
       <button class="done-banner" id="done-banner" onclick="showDayModal()">
         <div class="db-ic">🎉</div>
@@ -662,8 +703,8 @@ input[type=file]{display:none;}
         </div>
       </div>
       <div class="feed-session-row">
-        <div class="feed-session"><div class="fs-time" data-t="morning">☀️ Morning</div><div class="fs-ico">🌾</div><div class="fs-kg" id="fs-am-val">1.5</div><div class="fs-unit">kg · 7:30 AM</div></div>
-        <div class="feed-session"><div class="fs-time" data-t="afternoon">🌤️ Afternoon</div><div class="fs-ico">🌾</div><div class="fs-kg" id="fs-pm-val">1.5</div><div class="fs-unit">kg · 2:00 PM</div></div>
+        <div class="feed-session"><div class="fs-time" data-t="morning">☀️ Morning</div><div class="fs-ico">🌾</div><div class="fs-kg" id="fs-am-val">1.5 kg</div><div class="fs-unit">7:30 AM</div></div>
+        <div class="feed-session"><div class="fs-time" data-t="afternoon">🌤️ Afternoon</div><div class="fs-ico">🌾</div><div class="fs-kg" id="fs-pm-val">1.5 kg</div><div class="fs-unit">2:00 PM</div></div>
       </div>
       <div class="card" style="display:flex;align-items:center;justify-content:space-between;">
         <div><div style="font-size:11px;font-weight:700;color:var(--n500);" data-t="feed-price-lbl">Feed Price (per kg)</div><div style="font-size:9.5px;color:var(--n400);" data-t="feed-price-sub">Tap to update price</div></div>
@@ -764,9 +805,9 @@ input[type=file]{display:none;}
     <div class="page" id="page-expense">
       <div class="page-hd"><h1 data-t="nav-expense">Expense & ROI</h1><div class="sub" data-t="exp-sub">Day {day} · Live cost tracking</div></div>
       <div class="roi-card">
-        <div class="roi-label" data-t="roi-label">Projected Net Profit</div>
-        <div class="roi-val" id="exp-roi-val">₱ 0</div>
-        <div class="roi-pct" id="exp-roi-pct">ROI: 0%</div>
+        <div class="roi-label">💰 <span data-t="stat-spent">Total Spent</span></div>
+        <div class="roi-val" id="exp-total-val">₱ 0</div>
+        <div class="roi-pct" id="exp-total-sc">—</div>
       </div>
       <div class="sec-title" data-t="breakdown">Expense Breakdown</div>
       <div class="card" id="exp-breakdown"></div>
@@ -776,7 +817,9 @@ input[type=file]{display:none;}
 
     <!-- ADD EXPENSE -->
     <div class="page" id="page-addexpense">
-      <div class="back-row"><button class="tb-btn" onclick="navTo('expense')">←</button><div class="back-row-title" data-t="add-expense">Add Expense</div></div>
+      <div class="back-row"><button class="tb-btn" onclick="navTo('expense')">←</button><div class="back-row-title" id="addexpense-title" data-t="add-expense">Add Expense</div></div>
+
+      <div class="health-edit-banner" id="addexpense-edit-banner" style="display:none;"></div>
 
       <div class="field-row"><div class="field-lbl" data-t="field-category">Category</div>
         <div class="cat-grid" id="exp-cat-grid">
@@ -790,7 +833,7 @@ input[type=file]{display:none;}
       <div class="field-row"><div class="field-lbl" data-t="field-amount">Amount (₱)</div><input class="field-inp" id="exp-amt2" type="number" placeholder="0.00"></div>
       <div class="field-row"><div class="field-lbl" data-t="field-date">Date</div><input class="field-inp" id="exp-date2"></div>
       <div class="field-row"><div class="field-lbl" data-t="field-note">Note (Optional)</div><input class="field-inp" id="exp-note2" placeholder="Additional remarks..."></div>
-      <button class="btn btn-primary btn-full" onclick="addExpense()" data-t="btn-save-exp">Save Expense ✓</button>
+      <button class="btn btn-primary btn-full" id="exp-save-btn" onclick="addExpense()" data-t="btn-save-exp">Save Expense ✓</button>
     </div>
 
     <!-- CONTACTS -->
@@ -802,14 +845,7 @@ input[type=file]{display:none;}
         <div style="font-size:11px;color:var(--a600);line-height:1.5;" data-t="when-to-call-m">Contact a professional immediately if you notice unusual behavior, symptoms, or anything out of the ordinary with your animals.</div></div>
       </div>
       <div class="sec-title" data-t="sec-vets">🩺 Veterinarians</div>
-      <div class="contact-card">
-        <div class="cc-head"><div class="cc-avatar" style="background:var(--b100);">👨‍⚕️</div><div><div class="cc-name">Dr. Ramon Santos</div><div class="cc-role">Vet · Swine Specialist</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 Magalang, Pampanga</div></div><span class="badge blue" style="margin-left:auto;" data-t="tag-vet">Vet</span></div>
-        <a href="tel:+639171234567" class="call-btn" style="background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;text-decoration:none;"><span data-t="btn-call">📞 Call Now</span></a>
-      </div>
-      <div class="contact-card">
-        <div class="cc-head"><div class="cc-avatar" style="background:var(--g100);">👩‍⚕️</div><div><div class="cc-name">Dr. Maria Reyes</div><div class="cc-role">Animal Health Officer</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 San Fernando, Pampanga</div></div><span class="badge green" style="margin-left:auto;" data-t="tag-gov-vet">Gov't Vet</span></div>
-        <a href="tel:+639289876543" class="call-btn" style="background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;text-decoration:none;"><span data-t="btn-call">📞 Call Now</span></a>
-      </div>
+      <div id="vets-list"></div>
       <div class="sec-title" data-t="sec-techs">🌾 Agricultural Technicians</div>
       <div class="contact-card">
         <div class="cc-head"><div class="cc-avatar" style="background:var(--a100);">🧑‍🌾</div><div><div class="cc-name">Engr. Jose Manalo</div><div class="cc-role">Agri Technician</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 PSAU Magalang</div></div><span class="badge amber" style="margin-left:auto;" data-t="tag-agri-tech">Agri-Tech</span></div>
@@ -1228,6 +1264,62 @@ input[type=file]{display:none;}
       </div>
     </div>
   </div>
+
+  <!-- EXPENSE ITEM ⋮ MORE OPTIONS (Edit / Delete) -->
+  <div class="day-modal" id="expense-actions-modal">
+    <div class="day-modal-box">
+      <div class="dm-emoji">⋮</div>
+      <div class="dm-title" data-t="more-options">More Options</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:6px;">
+        <button class="btn btn-outline btn-full" onclick="editExpenseFromMenu()">✏️ <span data-t="btn-edit">Edit</span></button>
+        <button class="btn btn-danger btn-full" onclick="deleteExpenseFromMenu()">🗑️ <span data-t="btn-delete">Delete</span></button>
+        <button class="btn btn-outline btn-full" onclick="closeExpenseActionsModal()" data-t="del-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <!-- TASK LOCKED — requires today's Health Monitor observation -->
+  <div class="day-modal" id="task-locked-modal">
+    <div class="day-modal-box">
+      <div class="dm-emoji">🔒</div>
+      <div class="dm-title" data-t="task-locked-title">Task Locked</div>
+      <div class="dm-sub" id="task-locked-msg">This task requires today's Health Monitor observation.</div>
+      <div style="display:flex;gap:9px;">
+        <button class="btn btn-outline btn-full" onclick="closeTaskLockedModal()" data-t="del-cancel">Cancel</button>
+        <button class="btn btn-primary btn-full" onclick="goToHealthFromLock()" data-t="go-to-health-btn">Go to Health Monitor →</button>
+      </div>
+    </div>
+  </div>
+  <!-- CRITICAL HEALTH ALERT — shown immediately after a Critical observation is saved -->
+  <div class="day-modal" id="critical-alert-modal">
+    <div class="day-modal-box">
+      <div class="dm-emoji">🚨</div>
+      <div class="dm-title" data-t="critical-alert-title">Critical Health Alert</div>
+      <div class="dm-sub">
+        <span data-t="critical-alert-body1">The pig's health observations indicate a CRITICAL condition.</span><br><br>
+        <span data-t="critical-alert-body2">Immediate veterinary attention is strongly recommended.</span><br><br>
+        <span data-t="critical-alert-body3">Please contact your veterinarian as soon as possible.</span>
+      </div>
+      <div style="display:flex;gap:9px;">
+        <button class="btn btn-outline btn-full" onclick="closeCriticalAlertModal()" data-t="del-cancel">Cancel</button>
+        <button class="btn btn-primary btn-full" style="background:linear-gradient(135deg,var(--r600),var(--r400));" onclick="callVetFromCritical()" data-t="btn-call-vet">📞 Call a Vet</button>
+      </div>
+    </div>
+  </div>
+  <!-- ADD VETERINARIAN — reached from the Contact List empty state -->
+  <div class="day-modal" id="add-vet-modal">
+    <div class="day-modal-box" style="text-align:left;">
+      <div class="dm-emoji" style="text-align:center;">🩺</div>
+      <div class="dm-title" style="text-align:center;" data-t="add-vet-title">Add Veterinarian</div>
+      <div class="field-row"><div class="field-lbl" data-t="field-vet-name">Name</div><input class="field-inp" id="av-name" placeholder="Dr. Juan Cruz"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-vet-role">Role / Specialty</div><input class="field-inp" id="av-role" placeholder="Vet · Swine Specialist"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-vet-location">Location</div><input class="field-inp" id="av-location" placeholder="e.g. Magalang, Pampanga"></div>
+      <div class="field-row"><div class="field-lbl" data-t="field-vet-phone">Phone Number</div><input class="field-inp" id="av-phone" placeholder="+639171234567"></div>
+      <div style="display:flex;gap:9px;margin-top:4px;">
+        <button class="btn btn-outline btn-full" onclick="closeAddVetModal()" data-t="del-cancel">Cancel</button>
+        <button class="btn btn-primary btn-full" onclick="saveVetContact()" data-t="save-changes-btn">Save Changes</button>
+      </div>
+    </div>
+  </div>
   <div id="sync-toast">🔄 <span id="sync-toast-text">Synced</span></div>
 
   <!-- PREVIEW MODAL (before saving a captured/uploaded photo) -->
@@ -1335,11 +1427,31 @@ let PIG_NAME = getPigBatchProfile().pigName; /* refreshed in renderSettings() on
 
 
 DB.set(ck('currentDay'), 15);
-DB.set(ck('dayLogs'), { 15:{ tasks:{ '1':true,'3':true } } });
+DB.set(ck('dayLogs'), { 15:{ tasks:{ '1':true,'3':true }, taskDate: new Date().toISOString().slice(0,10) } });
 DB.set(ck('weightLogs'), [
   { day:1, weight:20, date:'2026-04-01' },
   { day:7, weight:24.3, date:'2026-04-08' },
   { day:15, weight:29.5, date:'2026-04-15' },
+]);
+/* Feed Log — one recorded entry per completed day (per the ATI manual,
+   "feeds given must be recorded"). Seeded here for days 2–15 so the demo's
+   FCR is populated from real recorded entries rather than an estimate;
+   every day going forward is auto-recorded by confirmAdvanceDay(). */
+if (!DB.get(ck('feedLogs'))) DB.set(ck('feedLogs'), [
+  { day:2, weight:20, date:'2026-04-02', feedKg:2.5 },
+  { day:3, weight:20, date:'2026-04-03', feedKg:2.5 },
+  { day:4, weight:20, date:'2026-04-04', feedKg:2.5 },
+  { day:5, weight:20, date:'2026-04-05', feedKg:2.5 },
+  { day:6, weight:20, date:'2026-04-06', feedKg:2.5 },
+  { day:7, weight:20, date:'2026-04-07', feedKg:2.5 },
+  { day:8, weight:24.3, date:'2026-04-08', feedKg:2.5 },
+  { day:9, weight:24.3, date:'2026-04-09', feedKg:2.5 },
+  { day:10, weight:24.3, date:'2026-04-10', feedKg:2.5 },
+  { day:11, weight:24.3, date:'2026-04-11', feedKg:2.5 },
+  { day:12, weight:24.3, date:'2026-04-12', feedKg:2.5 },
+  { day:13, weight:24.3, date:'2026-04-13', feedKg:2.5 },
+  { day:14, weight:24.3, date:'2026-04-14', feedKg:2.5 },
+  { day:15, weight:29.5, date:'2026-04-15', feedKg:2.5 },
 ]);
 DB.set(ck('expenses'), [
   { id:1, category:'Feed', description:'Starter-to-finisher feed', amount:1850, date:'Apr 1, 2026' },
@@ -1350,6 +1462,8 @@ DB.set(ck('expenses'), [
 ]);
 let nextExpenseId = 6;
 let expCategory = 'Feed';
+let editingExpenseId = null; /* null = adding a new expense; otherwise the id being edited */
+let pendingExpenseActionId = null; /* which expense the ⋮ More Options modal is currently open for */
 let lastDisplayedFCR = null; /* used to animate the FCR value only when it actually changes */
 DB.set(ck('healthLogs'), []);
 let pendingObs = { behavior:'normal', appetite:'normal', physical:'pinkish', waste:'normal', notes:'' };
@@ -1405,6 +1519,40 @@ const CYCLE_START = new Date('2026-04-01');
 function dayToDate(day){ const d = new Date(CYCLE_START); d.setDate(d.getDate() + (day-1)); return d; }
 function weekNumberForDay(day){ return Math.max(1, Math.ceil(day/7)); }
 
+/* ── Calendar-date helpers for the daily task reset ─────────────────────── */
+function getTodayDateKey(){
+  /* Returns the LOCAL calendar date as "YYYY-MM-DD" so resets happen
+     at the user's actual midnight, not UTC midnight.                  */
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+function checkDailyReset(){
+  /* Called once on startup.  If the stored task record for the current
+     cycle-day was created on a PREVIOUS calendar date, the user has
+     crossed midnight — wipe the checkboxes so they get a fresh list.
+     Previous (completed) cycle days are untouched.                    */
+  const today   = getTodayDateKey();
+  const cycleDay = getCurrentDay();
+  const logs    = getLogs();
+  const record  = logs[cycleDay];
+
+  if (record && record.taskDate && record.taskDate !== today && !record.isComplete){
+    /* New calendar day for an incomplete cycle day → reset daily tasks only */
+    logs[cycleDay] = { tasks:{}, taskDate: today };
+    DB.set(ck('dayLogs'), logs);
+    showSyncToast(LANG==='fil' ? '📅 Bagong araw — i-reset ang mga gawain' : '📅 New day — tasks reset for today');
+  } else if (!record || !record.taskDate){
+    /* First ever open, or record missing a date stamp — stamp today */
+    if (!logs[cycleDay]) logs[cycleDay] = { tasks:{} };
+    logs[cycleDay].taskDate = today;
+    DB.set(ck('dayLogs'), logs);
+  }
+}
+
 /* ══ WEEKLY TASKS — Monday-start calendar week key, based on the device's real local date ══ */
 function getCalendarWeekKey(){
   const now = new Date();
@@ -1429,6 +1577,9 @@ const T = {
     'bn-tasks':'Tasks','bn-feeding':'Feeding','bn-weight':'Weight','bn-expense':'Expense',
     'home-h1':'Good morning, {name} 👋','home-sub':'Day {day} of 120 · {date} · {pig} is on track',
     'home-tasks-title':"Today's Tasks",'home-log-today':'+ Log Today','stat-day':'Current Day','stat-adg':'Avg Daily Gain',
+    'tasks-completed-col':'Completed Tasks','tasks-pending-col':'Pending Tasks',
+    'tasks-none-yet':'No tasks completed yet.','tasks-all-done':'All tasks completed! 🎉',
+    'view-all-tasks-btn':'View All Tasks →',
     'stat-wt':'Current Weight','stat-spent':'Total Spent','on-track':'✅ On track (600–700)','below-target':'⚠️ Below target',
     'gate-progress-lbl':'Progress','gate-sub':'Complete all required tasks to unlock the next day.',
     'gate-btn-text':'Complete all tasks to unlock ✓','gate-btn-unlocked':'✅ Mark Day {day} as Complete — Proceed to Day {next}',
@@ -1467,6 +1618,7 @@ const T = {
     'obs-waste-ok':'Normal','obs-waste-bad':'Loose/Watery','alert-diarrhea':'⚠️ Possible diarrhea. Reduce feed by 20%. Consult a vet if it continues.',
     'btn-save-obs':'Save Observation ✓','health-history':'Health Log History','health-empty':'No health logs yet — save your first observation.',
     'wt-sub':'Weekly weigh-ins','adg-label':"This Week's ADG",'adg-target':'Target Range: 600 – 700 g/day',
+    'adg-status-healthy':'Healthy','adg-status-below':'Below Target','adg-status-poor':'Poor Growth','adg-status-excellent':'Excellent Growth',
     'wt-record':'Record New Weight','wt-save':'Save','wt-history':'Weigh-In History','baseline':'Baseline',
     'exp-sub':'Day {day} · Live cost tracking','roi-label':'Projected Net Profit','breakdown':'Expense Breakdown',
     'recent-entries':'Recent Entries','add-expense':'Add Expense','field-category':'Category','field-desc':'Description',
@@ -1517,10 +1669,23 @@ const T = {
     'del-health-title':'Delete Health Log','del-health-msg':'Are you sure you want to delete this health observation? This action cannot be undone.',
     'editing-log-from':'Editing log from {date}',
     'status-healthy':'Healthy','status-monitor':'Needs Monitoring','status-risk':'At Risk','status-critical':'Critical',
+    'critical-alert-title':'Critical Health Alert',
+    'critical-alert-body1':"The pig's health observations indicate a CRITICAL condition.",
+    'critical-alert-body2':'Immediate veterinary attention is strongly recommended.',
+    'critical-alert-body3':'Please contact your veterinarian as soon as possible.',
+    'btn-call-vet':'📞 Call a Vet',
+    'no-vet-title':'No veterinarian contacts found.','no-vet-sub':'Please add a veterinarian in your Contact List.',
+    'add-vet-btn':'+ Add Veterinarian','add-vet-title':'Add Veterinarian',
+    'field-vet-name':'Name','field-vet-role':'Role / Specialty','field-vet-location':'Location','field-vet-phone':'Phone Number',
+    'add-vet-required':'❌ Name and phone number are required.','vet-added-ok':'✅ Veterinarian added.',
+    'notif-critical-title':'🚨 Critical Health Alert',
+    'notif-critical-msg':'{pig} has been marked as Critical. Immediate veterinary assistance is recommended.',
+    'dash-crit-msg':'🚨 {pig} requires immediate veterinary attention.',
+    'view-health-log-btn':'View Health Log →',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':"This Week's FCR",
     'fcr-trend-title':"📉 This Week's FCR Trend",'fcr-trend-hint':'Lower values indicate better feed efficiency.',
     'fcr-history-title':'📋 FCR History',
-    'fcr-status-excellent':'Excellent','fcr-status-good':'Good','fcr-status-average':'Average','fcr-status-needs':'Needs Improvement','fcr-status-poor':'Poor',
+    'fcr-status-excellent':'Excellent','fcr-status-good':'Good','fcr-status-average':'Average','fcr-status-acceptable':'Acceptable','fcr-status-needs':'Needs Improvement','fcr-status-poor':'Poor',
     'fhr-feed-consumed':'Feed Consumed',
     'rec-digestive-title':'⚠️ Possible Digestive Problem',
     'rec-digestive-1':'Ensure clean drinking water.','rec-digestive-2':'Reduce feed by 20%.',
@@ -1538,6 +1703,12 @@ const T = {
     'del-title':'Delete Expense','del-msg':'Are you sure you want to delete this expense? This action cannot be undone and the ROI calculations will be updated.',
     'del-cancel':'Cancel','del-confirm':'Delete',
     'exp-added-ok':'✅ Expense added successfully.','exp-deleted-ok':'🗑️ Expense deleted successfully.',
+    'exp-updated-ok':'✅ Expense updated successfully.','edit-expense':'Edit Expense','btn-save-exp-changes':'Save Changes ✓',
+    'editing-expense':'Editing this expense','more-options':'More Options',
+    'task-locked-title':'Task Locked','go-to-health-btn':'Go to Health Monitor →',
+    'task-locked-behavior':"Complete today's Behavior observation in the Health Monitor to unlock this task.",
+    'task-locked-physical':"Complete today's Physical observation in the Health Monitor to unlock this task.",
+    'task-locked-daily-logs':"Complete Vitality Inspection, Respiratory Check, and Temp & Ventilation before recording today's daily logs.",
     'exp-empty-title':'No expenses recorded yet.','exp-empty-sub':'Add your first expense using the + button.',
     'wk-progress-lbl':'Weekly Progress','wk-done-title':'Weekly Tasks Completed','wk-done-sub':'You have finished all optional tasks for this week.','wk-next-reset':'Next reset',
     'set-notif':'🔔 Notifications','set-about':'ℹ️ About ASF',
@@ -1564,6 +1735,9 @@ const T = {
     'bn-tasks':'Gawain','bn-feeding':'Pakain','bn-weight':'Timbang','bn-expense':'Gastos',
     'home-h1':'Magandang umaga, {name} 👋','home-sub':'Araw {day} ng 120 · {date} · Maayos ang {pig}',
     'home-tasks-title':'Gawain Ngayong Araw','home-log-today':'+ I-log Ngayon','stat-day':'Kasalukuyang Araw','stat-adg':'Average na Paglaki',
+    'tasks-completed-col':'Nagawang Gawain','tasks-pending-col':'Natitirang Gawain',
+    'tasks-none-yet':'Wala pang nagawang gawain.','tasks-all-done':'Tapos na ang lahat ng gawain! 🎉',
+    'view-all-tasks-btn':'Tingnan Lahat ng Gawain →',
     'stat-wt':'Kasalukuyang Timbang','stat-spent':'Kabuuang Gastos','on-track':'✅ Nasa tamang daan (600–700)','below-target':'⚠️ Mababa sa target',
     'gate-progress-lbl':'Pag-unlad','gate-sub':'Kumpletuhin ang lahat ng kinakailangang gawain para masulong.',
     'gate-btn-text':'Kumpletuhin ang lahat para ma-unlock ✓','gate-btn-unlocked':'✅ Markahan ang Araw {day} na Tapos — Pumunta sa Araw {next}',
@@ -1602,6 +1776,7 @@ const T = {
     'obs-waste-ok':'Normal','obs-waste-bad':'Maluwag/Matubig','alert-diarrhea':'⚠️ Posibleng pagtatae. Bawasan ang feed ng 20%. Kumonsulta sa beterinaryo.',
     'btn-save-obs':'I-save ang Obserbasyon ✓','health-history':'Kasaysayan ng Health Log','health-empty':'Walang health log pa — i-save ang unang obserbasyon.',
     'wt-sub':'Lingguhang pagtitimbang','adg-label':'ADG ng Linggong Ito','adg-target':'Target na Saklaw: 600 – 700 g/araw',
+    'adg-status-healthy':'Malusog','adg-status-below':'Mababa sa Target','adg-status-poor':'Mahinang Paglaki','adg-status-excellent':'Napakahusay na Paglaki',
     'wt-record':'Itala ang Timbang','wt-save':'I-save','wt-history':'Kasaysayan ng Pagtitimbang','baseline':'Baseline',
     'exp-sub':'Araw {day} · Live na gastos','roi-label':'Inaasahang Netong Kita','breakdown':'Breakdown ng Gastos',
     'recent-entries':'Mga Entry','add-expense':'Magdagdag ng Gastos','field-category':'Kategorya','field-desc':'Paglalarawan',
@@ -1652,10 +1827,23 @@ const T = {
     'del-health-title':'Tanggalin ang Health Log','del-health-msg':'Sigurado ka bang tatanggalin ang health observation na ito? Hindi na ito mababawi.',
     'editing-log-from':'Ine-edit ang log mula {date}',
     'status-healthy':'Malusog','status-monitor':'Kailangan ng Pagmamatyag','status-risk':'Nanganganib','status-critical':'Kritikal',
+    'critical-alert-title':'Kritikal na Alerto sa Kalusugan',
+    'critical-alert-body1':'Ipinapakita ng mga obserbasyon na KRITIKAL ang kondisyon ng baboy.',
+    'critical-alert-body2':'Mahigpit na inirerekomenda ang agarang atensyon ng beterinaryo.',
+    'critical-alert-body3':'Mangyaring makipag-ugnayan sa iyong beterinaryo sa lalong madaling panahon.',
+    'btn-call-vet':'📞 Tumawag sa Vet',
+    'no-vet-title':'Walang nahanap na kontak ng beterinaryo.','no-vet-sub':'Mangyaring magdagdag ng beterinaryo sa iyong Contact List.',
+    'add-vet-btn':'+ Magdagdag ng Beterinaryo','add-vet-title':'Magdagdag ng Beterinaryo',
+    'field-vet-name':'Pangalan','field-vet-role':'Tungkulin / Espesyalidad','field-vet-location':'Lokasyon','field-vet-phone':'Numero ng Telepono',
+    'add-vet-required':'❌ Kailangan ang pangalan at numero ng telepono.','vet-added-ok':'✅ Naidagdag ang beterinaryo.',
+    'notif-critical-title':'🚨 Kritikal na Alerto sa Kalusugan',
+    'notif-critical-msg':'Si {pig} ay minarkahan bilang Kritikal. Inirerekomenda ang agarang tulong beterinaryo.',
+    'dash-crit-msg':'🚨 Kailangan ni {pig} ng agarang atensyon ng beterinaryo.',
+    'view-health-log-btn':'Tingnan ang Health Log →',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':'FCR ngayong Linggo',
     'fcr-trend-title':'📉 FCR Trend ngayong Linggo','fcr-trend-hint':'Ang mas mababang halaga ay nagpapakita ng mas mahusay na paggamit ng pagkain.',
     'fcr-history-title':'📋 Kasaysayan ng FCR',
-    'fcr-status-excellent':'Napakahusay','fcr-status-good':'Mahusay','fcr-status-average':'Katamtaman','fcr-status-needs':'Kailangan ng Pagpapabuti','fcr-status-poor':'Mahina',
+    'fcr-status-excellent':'Napakahusay','fcr-status-good':'Mahusay','fcr-status-average':'Katamtaman','fcr-status-acceptable':'Katanggap-tanggap','fcr-status-needs':'Kailangan ng Pagpapabuti','fcr-status-poor':'Mahina',
     'fhr-feed-consumed':'Kinain na Feed',
     'rec-digestive-title':'⚠️ Posibleng Problema sa Digestive',
     'rec-digestive-1':'Tiyakin ang malinis na inuming tubig.','rec-digestive-2':'Bawasan ang feed ng 20%.',
@@ -1673,6 +1861,12 @@ const T = {
     'del-title':'Tanggalin ang Gastos','del-msg':'Sigurado ka bang tatanggalin ang gastos na ito? Hindi na ito mababawi at ma-update ang ROI.',
     'del-cancel':'Kanselahin','del-confirm':'Tanggalin',
     'exp-added-ok':'✅ Matagumpay na naidagdag ang gastos.','exp-deleted-ok':'🗑️ Matagumpay na tinanggal ang gastos.',
+    'exp-updated-ok':'✅ Matagumpay na na-update ang gastos.','edit-expense':'I-edit ang Gastos','btn-save-exp-changes':'I-save ang Pagbabago ✓',
+    'editing-expense':'Ineedit ang gastos na ito','more-options':'Karagdagang Opsyon',
+    'task-locked-title':'Naka-lock ang Gawain','go-to-health-btn':'Pumunta sa Health Monitor →',
+    'task-locked-behavior':'Kumpletuhin muna ang obserbasyon sa Behavior sa Health Monitor para ma-unlock ang gawaing ito.',
+    'task-locked-physical':'Kumpletuhin muna ang obserbasyon sa Physical sa Health Monitor para ma-unlock ang gawaing ito.',
+    'task-locked-daily-logs':'Kumpletuhin muna ang Vitality Inspection, Respiratory Check, at Temp & Ventilation bago itala ang mga daily log ngayong araw.',
     'exp-empty-title':'Walang gastos na naitala.','exp-empty-sub':'Magdagdag ng unang gastos gamit ang + button.',
     'wk-progress-lbl':'Lingguhang Pag-unlad','wk-done-title':'Tapos na ang Lingguhang Gawain','wk-done-sub':'Natapos mo na ang lahat ng opsyonal na gawain ngayong linggo.','wk-next-reset':'Susunod na reset',
     'set-notif':'🔔 Mga Notipikasyon','set-about':'ℹ️ Tungkol sa ASF',
@@ -1759,6 +1953,72 @@ const getExpenses = () => DB.get(ck('expenses')) || [];
 const setExpenses = (v) => DB.set(ck('expenses'), v);
 const getHealthLogs = () => DB.get(ck('healthLogs')) || [];
 const setHealthLogs = (v) => DB.set(ck('healthLogs'), v);
+
+/* Vet Contacts — seeded once with the two demo veterinarians so existing
+   behavior/appearance is unchanged; from then on it's a real persisted list
+   so "Call a Vet" → Contact List can show a genuine empty state + Add flow. */
+const VET_SEED = [
+  {id:1, name:'Dr. Ramon Santos', role:'Vet · Swine Specialist', location:'Magalang, Pampanga', phone:'+639171234567', tag:'tag-vet', tagClass:'blue', avatarBg:'var(--b100)', avatarIco:'👨‍⚕️'},
+  {id:2, name:'Dr. Maria Reyes',  role:'Animal Health Officer',  location:'San Fernando, Pampanga', phone:'+639289876543', tag:'tag-gov-vet', tagClass:'green', avatarBg:'var(--g100)', avatarIco:'👩‍⚕️'},
+];
+function getVetContacts(){
+  let v = DB.get(ck('vetContacts'));
+  if (v === null || v === undefined){ v = VET_SEED.slice(); setVetContacts(v); }
+  return v;
+}
+const setVetContacts = (v) => DB.set(ck('vetContacts'), v);
+let nextVetId = 1000;
+
+/* ══════════════════════════════════════════════════════
+   DAILY TASKS ⇄ HEALTH MONITOR DEPENDENCY
+   Tasks 2 (Vitality Inspection), 6 (Respiratory Check) and 8 (Temp &
+   Ventilation) require today's Health Monitor observation to be saved
+   first; Task 10 (Record Daily Logs) additionally requires 2, 6 and 8 to
+   all be checked. "Today" is both the current cycle day AND today's real
+   calendar date (via the log's save timestamp) so a fresh calendar day
+   re-locks everything even if the cycle day counter hasn't advanced yet —
+   matching checkDailyReset()'s own definition of "a new day began".
+══════════════════════════════════════════════════════ */
+function localDateKeyFromISO(iso){
+  /* Same local-calendar-date logic as getTodayDateKey(), applied to a saved
+     ISO timestamp — avoids a UTC/local mismatch near midnight that a naive
+     iso.slice(0,10) would have. */
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function getTodayHealthLog(){
+  const day = getCurrentDay();
+  const today = getTodayDateKey();
+  const logs = getHealthLogs().filter(h => h.day === day && localDateKeyFromISO(h.timestamp) === today);
+  return logs.length ? logs[logs.length-1] : null;
+}
+function isBehaviorLoggedToday(){ const l = getTodayHealthLog(); return !!(l && l.behavior); }
+function isPhysicalLoggedToday(){ const l = getTodayHealthLog(); return !!(l && l.physical); }
+/* Returns null when task `id` is unlocked, or the localized lock message
+   when it's still locked. `tasksToday` is the current day's tasks map
+   (logs[day].tasks) so Task 10 can check whether 2/6/8 are all done. */
+function taskLockMessage(id, tasksToday){
+  if (id === '2') return isBehaviorLoggedToday() ? null : t('task-locked-behavior');
+  if (id === '6' || id === '8') return isPhysicalLoggedToday() ? null : t('task-locked-physical');
+  if (id === '10'){
+    const req = ['2','6','8'];
+    return req.every(r => !!(tasksToday||{})[r]) ? null : t('task-locked-daily-logs');
+  }
+  return null;
+}
+function showTaskLockedMessage(id){
+  const tasksToday = getLogs()[getCurrentDay()]?.tasks || {};
+  const msg = taskLockMessage(id, tasksToday);
+  if (!msg) return; /* became unlocked between render and tap — just let it through visually */
+  const msgEl = document.getElementById('task-locked-msg'); if (msgEl) msgEl.textContent = msg;
+  document.getElementById('task-locked-modal').classList.add('show');
+}
+function closeTaskLockedModal(){ document.getElementById('task-locked-modal').classList.remove('show'); }
+function goToHealthFromLock(){ closeTaskLockedModal(); navTo('health'); }
 const getPigImages = () => DB.get(ck('pigWeeklyImages')) || [];
 const setPigImages = (v) => DB.set(ck('pigWeeklyImages'), v);
 const getPigImagesFor = (pigId) => getPigImages().filter(p => p.pig_id === pigId).sort((a,b)=>a.week_number-b.week_number);
@@ -1810,12 +2070,16 @@ function deletePigCascade(pigId){
 
 
 function countDoneTasks(){ const logs=getLogs(); const day=getCurrentDay(); const tasks=logs[day]?.tasks||{}; return TASK_DEFS.filter(d=>tasks[d.id]).length; }
-function taskRowHTML(def, done){
+function taskRowHTML(def, done, lockMsg){
   const fg = def.fg ? `color:${def.fg};` : '';
-  return `<button class="task-row ${done?'done-row':''}" onclick="toggleCheck('${def.id}')">
+  const isLocked = !done && !!lockMsg; /* an already-done task is never re-locked visually */
+  const cls = (done?'done-row':'') + (isLocked?' prereq-locked':'');
+  const handler = isLocked ? `onclick="showTaskLockedMessage('${def.id}')"` : `onclick="toggleCheck('${def.id}')"`;
+  const circle = done ? '✓' : (isLocked ? '🔒' : '');
+  return `<button class="task-row ${cls}" ${handler}>
     <div class="task-ic" style="background:${def.bg};${fg}">${def.icon}</div>
     <div class="task-info"><div class="task-name" data-t="${def.t}">${t(def.t)}</div><div class="task-sub" data-t="${def.s}">${t(def.s)}</div></div>
-    <div class="check-circle ${done?'done':''}">${done?'✓':''}</div>
+    <div class="check-circle ${done?'done':''}">${circle}</div>
   </button>`;
 }
 function weeklyTaskRowHTML(def, done, locked){
@@ -1835,46 +2099,137 @@ function stage(weight){
 }
 function fmt(n){ return Number(n).toLocaleString('en-PH',{maximumFractionDigits:0}); }
 function fmt1(n){ return Number(n).toLocaleString('en-PH',{minimumFractionDigits:1,maximumFractionDigits:1}); }
+/* Feed-weight formatter — up to 2 decimal places, trailing zeros trimmed
+   (1 -> "1", 1.5 -> "1.5", 1.25 -> "1.25", 1.60 -> "1.6"). Used for the
+   Morning/Afternoon feed split so an odd Daily Feed Allowance (e.g. 2.5 kg
+   ÷ 2 = 1.25 kg) is never lossy-rounded to a value whose halves no longer
+   sum back to the daily total (fmt1() forces exactly 1 decimal, which
+   would round 1.25 up to "1.3"). */
+function fmtKg(n){ return parseFloat(Number(n).toFixed(2)).toString(); }
+
+/* ══════════════════════════════════════════════════════
+   OFFICIAL ATI FARM ADMINISTRATION MANUAL FORMULAS (Pig Finishers)
+   ────────────────────────────────────────────────────────
+   ADG (g/day) = ((Current Weight − Starting Weight) ÷ Fattening Days) × 1000
+   FCR         = Total Feed Consumed (kg) ÷ (Current Weight − Starting Weight)
+
+   Starting Weight / Start Date are read live from the Pig/Batch profile
+   (Growth module — Settings ▸ Pig/Batch Profile). Current Weight is the
+   latest weigh-in recorded in the Weight & ADG tracker. Total Feed
+   Consumed is the sum of every entry in the Feed Log (see feedLogs below)
+   — real recorded feed, per the manual's own requirement that "feeds
+   given must be recorded". Every input is re-read from the persisted DB
+   on every loadData() call, so ADG/FCR recalculate automatically the
+   instant a new weight, starting weight, start date, or day of feeding is
+   saved — no manual entry or page refresh required.
+
+   Status thresholds are kept as named constants so they can be tuned
+   later without touching the calculation logic itself.
+══════════════════════════════════════════════════════ */
+const ADG_TARGET_MIN     = 600;  // g/day — lower bound of "Healthy"
+const ADG_TARGET_MAX     = 700;  // g/day — upper bound of "Healthy"
+const ADG_BELOW_MIN      = 500;  // g/day — lower bound of "Below Target"
+const FCR_EXCELLENT_MAX  = 2.8;  // FCR <= this        => Excellent
+const FCR_ACCEPTABLE_MAX = 3.0;  // FCR <= this (>2.8) => Acceptable; above => Needs Improvement
+
+/* Calendar days from the batch Start Date to the latest weigh-in date —
+   the "Fattening Days" / "Finishing days" of the ATI manual ("the starting
+   and delivery date are needed to compute the fattening period"). Plain
+   calendar-day difference, matching the manual's own worked examples
+   (e.g. 110 finishing days, 115 finishing days — flat day counts with no
+   special inclusive/exclusive adjustment). Returns null if there's no
+   weight data or start date yet. Recalculates instantly whenever Start
+   Date changes or a new weight is logged. */
+function fatteningDaysElapsed(){
+  const batch = getPigBatchProfile();
+  const wlogs = getWeightLogs();
+  if (!wlogs.length || !batch.startDate) return null;
+  const latest = wlogs[wlogs.length-1];
+  const start = new Date(batch.startDate+'T00:00:00');
+  const end   = new Date((latest.date||batch.startDate)+'T00:00:00');
+  if (isNaN(start) || isNaN(end)) return null;
+  return Math.round((end-start)/86400000);
+}
+
+/* Average Daily Gain — ADG = ((Current Weight − Starting Weight) ÷ Fattening Days) × 1000 */
 function currentADG(){
-  const logs=getWeightLogs(); if (logs.length<2) return null;
-  const a=logs[logs.length-2], b=logs[logs.length-1];
-  const days=(new Date(b.date)-new Date(a.date))/86400000 || (b.day-a.day) || 7;
-  return Math.round(((b.weight-a.weight)*1000)/Math.max(1,days));
+  const batch = getPigBatchProfile();
+  const wlogs = getWeightLogs();
+  if (!wlogs.length || batch.startWeight==null) return null;
+  const days = fatteningDaysElapsed();
+  if (!days || days <= 0) return null;
+  const currentWeight = wlogs[wlogs.length-1].weight;
+  const gain = currentWeight - batch.startWeight;
+  return (gain / days) * 1000;
+}
+/* ADG status tiers per the ATI manual (600–700 Healthy · 500–599 Below Target ·
+   <500 Poor Growth · >700 Excellent Growth). */
+function adgStatus(adg){
+  if (adg === null || adg === undefined) return null;
+  if (adg < ADG_BELOW_MIN)   return { key:'poor',      cls:'red',   emoji:'🔴', label:t('adg-status-poor') };
+  if (adg < ADG_TARGET_MIN)  return { key:'below',     cls:'amber', emoji:'🟡', label:t('adg-status-below') };
+  if (adg <= ADG_TARGET_MAX) return { key:'healthy',   cls:'green', emoji:'🟢', label:t('adg-status-healthy') };
+  return { key:'excellent', cls:'blue', emoji:'🔵', label:t('adg-status-excellent') };
 }
 
 /* ══════════════════════════════════════════════════════
    FEED CONVERSION RATIO (FCR)
-   FCR = Total Feed Consumed (kg) ÷ Weight Gain (kg) over the same period.
-   Feed consumed is derived automatically from the stage-based daily feed
-   allowance (see stage() in the Feeding section) averaged across the two
-   endpoint weights, multiplied by the number of days in the period — so it
-   recalculates live whenever a new weight is recorded, with no separate
-   manual "feed entry" required. Feed/expense edits still trigger loadData()
-   elsewhere in the app, which re-derives every FCR value fresh each time.
+   FCR = Total Amount of Feeds Given ÷ Total Gain in Weight
+   Per the ATI manual, the amount of feed given "must be recorded" — it is
+   not an estimate. feedLogs is that record: one persisted entry per
+   completed day, auto-logged (see confirmAdvanceDay()) using that day's
+   actual stage-based daily feed allowance, so no manual number entry is
+   ever required, but the figure is still a genuine recorded total rather
+   than a backward projection. Total Feed Consumed = sum of every feedLogs
+   entry recorded since the batch Start Date.
 ══════════════════════════════════════════════════════ */
+const getFeedLogs = () => DB.get(ck('feedLogs')) || [];
+const setFeedLogs = (v) => DB.set(ck('feedLogs'), v);
+/* Auto-record the feed given for a completed day (called from confirmAdvanceDay()). */
+function addFeedLogEntry(day, date, feedKg){
+  const logs = getFeedLogs();
+  logs.push({ day, date, feedKg });
+  setFeedLogs(logs);
+}
+/* Sum of recorded feedLogs entries whose date falls after prevLog.date and
+   on/before currLog.date — used to break the recorded total down per
+   weigh-in period for the FCR trend chart/history (no re-estimation). */
 function feedConsumedForPeriod(prevLog, currLog){
-  const days = (new Date(currLog.date)-new Date(prevLog.date))/86400000 || (currLog.day-prevLog.day) || 7;
-  const avgDailyFeed = (stage(prevLog.weight).feed + stage(currLog.weight).feed) / 2;
-  return { feedKg: avgDailyFeed * Math.max(1, days), days: Math.max(1, days) };
+  const feedKg = getFeedLogs()
+    .filter(f => f.date > prevLog.date && f.date <= currLog.date)
+    .reduce((s,f) => s+f.feedKg, 0);
+  return { feedKg };
 }
 function fcrForPeriod(prevLog, currLog){
   const gain = currLog.weight - prevLog.weight;
-  if (gain <= 0) return { fcr:null, feedKg: feedConsumedForPeriod(prevLog,currLog).feedKg };
   const { feedKg } = feedConsumedForPeriod(prevLog, currLog);
+  if (gain <= 0) return { fcr:null, feedKg };
   return { fcr: feedKg / gain, feedKg };
 }
-function currentFCR(){
-  const logs = getWeightLogs(); if (logs.length < 2) return null;
-  const { fcr } = fcrForPeriod(logs[logs.length-2], logs[logs.length-1]);
-  return fcr;
+/* Total Amount of Feeds Given since the batch Start Date — the sum of every
+   recorded feedLogs entry (not an estimate). */
+function totalFeedConsumed(){
+  const batch = getPigBatchProfile();
+  if (!batch.startDate) return 0;
+  return getFeedLogs()
+    .filter(f => f.date >= batch.startDate)
+    .reduce((s,f) => s+f.feedKg, 0);
 }
+/* Feed Conversion Ratio — FCR = Total Feed Consumed ÷ (Current Weight − Starting Weight) */
+function currentFCR(){
+  const batch = getPigBatchProfile();
+  const wlogs = getWeightLogs();
+  if (!wlogs.length || batch.startWeight==null) return null;
+  const gain = wlogs[wlogs.length-1].weight - batch.startWeight;
+  if (gain <= 0) return null;
+  return totalFeedConsumed() / gain;
+}
+/* FCR status tiers per the ATI manual (<=2.8 Excellent · 2.81–3.0 Acceptable · >3.0 Needs Improvement). */
 function fcrStatus(fcr){
   if (fcr === null || fcr === undefined) return null;
-  if (fcr <= 2.5) return { key:'excellent', emoji:'🟢', label:t('fcr-status-excellent') };
-  if (fcr <= 2.8) return { key:'good', emoji:'🟢', label:t('fcr-status-good') };
-  if (fcr <= 3.2) return { key:'average', emoji:'🟡', label:t('fcr-status-average') };
-  if (fcr <= 3.8) return { key:'needs', emoji:'🟠', label:t('fcr-status-needs') };
-  return { key:'poor', emoji:'🔴', label:t('fcr-status-poor') };
+  if (fcr <= FCR_EXCELLENT_MAX)  return { key:'excellent', emoji:'🟢', label:t('fcr-status-excellent') };
+  if (fcr <= FCR_ACCEPTABLE_MAX) return { key:'average',   emoji:'🟡', label:t('fcr-status-acceptable') };
+  return { key:'needs', emoji:'🟠', label:t('fcr-status-needs') };
 }
 function weeklyFCRSeries(){
   const logs = getWeightLogs(); const out = [];
@@ -1922,9 +2277,22 @@ function markAllNotifsRead(){
 }
 
 function toggleCheck(id){
-  const day=getCurrentDay(); const logs=getLogs();
-  if (!logs[day]) logs[day]={tasks:{}};
-  if (!logs[day].tasks) logs[day].tasks={};
+  const day  = getCurrentDay();
+  const logs = getLogs();
+  if (!logs[day]) logs[day] = { tasks:{}, taskDate: getTodayDateKey() };
+  if (!logs[day].tasks) logs[day].tasks = {};
+  /* Stamp the calendar date so we can detect a new day on next open */
+  if (!logs[day].taskDate) logs[day].taskDate = getTodayDateKey();
+  /* Guard against checking a task whose Health Monitor prerequisite isn't
+     met yet — the row's onclick already routes locked taps to
+     showTaskLockedMessage() instead, but this keeps toggleCheck() itself
+     safe if it's ever called directly. Unchecking an already-done task is
+     always allowed. */
+  const alreadyDone = !!logs[day].tasks[id];
+  if (!alreadyDone && taskLockMessage(id, logs[day].tasks)){
+    showTaskLockedMessage(id);
+    return;
+  }
   logs[day].tasks[id] = !logs[day].tasks[id];
   DB.set(ck('dayLogs'), logs);
   loadData();
@@ -1945,6 +2313,14 @@ function confirmAdvanceDay(){
   if (!logs[day]) logs[day]={};
   logs[day].isComplete = true;
   DB.set(ck('dayLogs'), logs);
+  /* Auto-record today's feed given (per the ATI manual — feed given must be
+     recorded, not estimated) using the current stage's daily allowance.
+     Guarded so re-completing the same day never double-records. */
+  const wlogsForFeed = getWeightLogs();
+  if (wlogsForFeed.length && !getFeedLogs().some(f => f.day === day)){
+    const stForFeed = stage(wlogsForFeed[wlogsForFeed.length-1].weight);
+    addFeedLogEntry(day, getTodayDateKey(), stForFeed.feed);
+  }
   DB.set(ck('currentDay'), Math.min(120, day+1));
   document.getElementById('day-modal').classList.remove('show');
   navTo('home');
@@ -1954,21 +2330,54 @@ function confirmAdvanceDay(){
    HEALTH MONITOR — full multi-category observation system
 ══════════════════════════════════════════════════════ */
 /* ── Simplified 4-category, 2-option schema (matches Health Monitor screenshot) ── */
+/* Tier = severity points: 0 Healthy · 1 Needs Monitoring · 2 At Risk · 3 Critical
+   (per the ATI-aligned Automatic Health Status Evaluation ruleset) */
 const BEHAVIOR_OPTS = [
-  {key:'normal',   ico:'😊', label:'Normal',     sub:'Bright & Alert Eyes, Active Behavior', tier:0},
-  {key:'lethargic',ico:'😔', label:'Lethargic',  sub:'', tier:1},
+  {key:'normal',      ico:'😊', label:'Normal',                     sub:'Bright & Alert Eyes, Active Behavior', tier:0},
+  {key:'sleepy',      ico:'😴', label:'Sleeping More Than Usual',   sub:'', tier:1},
+  {key:'less_active', ico:'🚶', label:'Less Active',                sub:'', tier:1},
+  {key:'lethargic',   ico:'😔', label:'Lethargic',                  sub:'', tier:2},
+  {key:'isolated',    ico:'🚶', label:'Isolated From Group',        sub:'', tier:2},
+  {key:'unable_stand',ico:'😫', label:'Unable to Stand',            sub:'', tier:3},
 ];
 const APPETITE_OPTS = [
-  {key:'normal', ico:'😊', label:'Eating Normally', sub:'', tier:0},
-  {key:'inapp',  ico:'😶', label:'Inappetence',     sub:'', tier:1},
+  {key:'normal',      ico:'😊', label:'Eating Normally',                    sub:'', tier:0},
+  {key:'eating_less', ico:'🍽', label:'Eating Less',                        sub:'', tier:1},
+  {key:'no_appetite', ico:'🚫', label:'No Appetite',                        sub:'', tier:2},
+  {key:'refusing',    ico:'❌', label:'Completely Refusing Feed and Water', sub:'', tier:3},
 ];
 const PHYSICAL_OPTS = [
-  {key:'pinkish',     ico:'🐷', label:'Pinkish Skin', sub:'Normal color',  tier:0},
-  {key:'bruise_free', ico:'✅', label:'Bruise Free',  sub:'No injuries',   tier:0},
+  {key:'pinkish',                 ico:'🐷', label:'Pinkish Skin',            sub:'Normal color', tier:0},
+  {key:'bruise_free',             ico:'✅', label:'Bruise Free',             sub:'No injuries',  tier:0},
+  {key:'bright_eyes',             ico:'👁', label:'Bright Eyes',             sub:'', tier:0},
+  {key:'normal_nose',             ico:'👃', label:'Normal Nose',             sub:'', tier:0},
+  {key:'normal_breathing',        ico:'🫁', label:'Normal Breathing',        sub:'', tier:0},
+  {key:'normal_walking',          ico:'🚶', label:'Normal Walking',          sub:'', tier:0},
+  {key:'watery_eyes',             ico:'💧', label:'Watery Eyes',             sub:'', tier:1},
+  {key:'sneezing',                ico:'🤧', label:'Sneezing',                sub:'', tier:1},
+  {key:'mild_nasal',              ico:'🟡', label:'Mild Nasal Discharge',    sub:'', tier:1},
+  {key:'minor_bruises',           ico:'🟣', label:'Minor Bruises',           sub:'', tier:1},
+  {key:'mild_lameness',           ico:'🦵', label:'Mild Lameness',           sub:'', tier:1},
+  {key:'fever',                   ico:'🌡', label:'Fever',                   sub:'', tier:2},
+  {key:'coughing',                ico:'😷', label:'Coughing',                sub:'', tier:2},
+  {key:'labored_breathing',       ico:'😮‍💨', label:'Labored Breathing',       sub:'', tier:2},
+  {key:'wounds',                  ico:'🩹', label:'Wounds',                  sub:'', tier:2},
+  {key:'limping',                 ico:'🦶', label:'Limping',                 sub:'', tier:2},
+  {key:'swollen_joints',          ico:'🦴', label:'Swollen Joints',          sub:'', tier:2},
+  {key:'severe_labored_breathing',ico:'🫁', label:'Severe Labored Breathing',sub:'', tier:3},
+  {key:'heavy_bleeding',          ico:'🩸', label:'Heavy Bleeding',          sub:'', tier:3},
+  {key:'unable_walk',             ico:'🚫', label:'Unable to Walk',          sub:'', tier:3},
+  {key:'severe_lameness',         ico:'🦵', label:'Severe Lameness',         sub:'', tier:3},
+  {key:'severe_swelling',         ico:'💧', label:'Severe Body Swelling',    sub:'', tier:3},
+  {key:'high_fever',              ico:'🌡', label:'High Fever',              sub:'', tier:3},
+  {key:'collapse',                ico:'😵', label:'Collapse',                sub:'', tier:3},
 ];
 const WASTE_OPTS = [
-  {key:'normal', ico:'✅', label:'Normal',       sub:'Solid Fecal Consistency', tier:0},
-  {key:'loose',  ico:'⚠️', label:'Loose/Watery', sub:'',                        tier:2},
+  {key:'normal',          ico:'✅', label:'Normal',            sub:'Solid Fecal Consistency', tier:0},
+  {key:'soft_stool',      ico:'💩', label:'Slightly Soft Stool',sub:'', tier:1},
+  {key:'loose',           ico:'⚠️', label:'Loose/Watery Stool', sub:'', tier:2},
+  {key:'bloody_diarrhea', ico:'🩸', label:'Bloody Diarrhea',    sub:'', tier:3},
+  {key:'black_stool',     ico:'⚫', label:'Black Stool',        sub:'', tier:3},
 ];
 /* ADDITIONAL_OPTS kept as empty stub so nothing references an undefined const */
 const ADDITIONAL_OPTS = [];
@@ -1980,12 +2389,15 @@ const HEALTH_GROUPS = [
 ];
 function findOpt(opts, key){ return opts.find(o=>o.key===key); }
 
-/* Status derived from the 4 core categories only */
+/* Overall Health Status = the HIGHEST severity tier detected among the four
+   selected observations (Behavior/Appetite/Physical/Waste). No escalation by
+   count — one Critical selection alone makes the whole result Critical, one
+   At Risk selection alone makes it At Risk, etc., per the evaluation spec. */
 function computeHealthStatus(obs){
-  let maxTier = 0, tierCounts = {0:0,1:0,2:0,3:0};
+  let maxTier = 0;
   const consider = (opts, key) => {
     const o = findOpt(opts, key);
-    if (o){ tierCounts[o.tier]++; if (o.tier > maxTier) maxTier = o.tier; }
+    if (o && o.tier > maxTier) maxTier = o.tier;
   };
   consider(BEHAVIOR_OPTS, obs.behavior);
   consider(APPETITE_OPTS, obs.appetite);
@@ -1993,7 +2405,7 @@ function computeHealthStatus(obs){
   consider(WASTE_OPTS,    obs.waste);
   if (maxTier >= 3) return 'critical';
   if (maxTier === 2) return 'risk';
-  if (maxTier === 1) return tierCounts[1] >= 2 ? 'risk' : 'monitor';
+  if (maxTier === 1) return 'monitor';
   return 'healthy';
 }
 function statusMeta(status){
@@ -2005,9 +2417,11 @@ function statusMeta(status){
   };
   return map[status];
 }
-/* Recommendation: show only the diarrhea alert (Loose/Watery waste + Inappetence appetite) */
+/* Recommendation: show the diarrhea alert when Loose/Watery waste is paired
+   with any reduced appetite (Eating Less / No Appetite / Refusing Feed). */
 function computeRecommendation(obs){
-  if (obs.waste === 'loose' && obs.appetite === 'inapp'){
+  const appTier = findOpt(APPETITE_OPTS, obs.appetite)?.tier || 0;
+  if (obs.waste === 'loose' && appTier >= 1){
     return { title:t('rec-digestive-title'), body:[t('rec-digestive-1'),t('rec-digestive-2'),t('rec-digestive-3'),t('rec-digestive-4'),t('rec-digestive-5')] };
   }
   return null;
@@ -2105,6 +2519,32 @@ function saveHealth(){
   showSyncToast(wasEditing ? t('health-updated-ok') : t('health-saved-ok'));
   resetHealthForm();
   if (wasEditing) navTo('healthlogs'); else loadData();
+  /* Critical Alert workflow: fires regardless of new-entry vs. edit, per spec
+     ("Whenever the user taps Save Observation..."). Notifications/Dashboard
+     banner are derived live from getLatestHealthLog() inside loadData(), so
+     they're already in sync — this just handles the immediate popup. */
+  if (status === 'critical') showCriticalAlertModal();
+}
+/* Most recent health log by real save timestamp (not array order), so an
+   edited older entry can't masquerade as "latest" and vice-versa. Powers the
+   Dashboard critical banner and the Notifications critical item. */
+function getLatestHealthLog(){
+  const logs = getHealthLogs();
+  if (!logs.length) return null;
+  return logs.slice().sort((a,b)=> new Date(a.timestamp) - new Date(b.timestamp)).pop();
+}
+function showCriticalAlertModal(){
+  document.getElementById('critical-alert-modal').classList.add('show');
+}
+function closeCriticalAlertModal(){
+  document.getElementById('critical-alert-modal').classList.remove('show');
+}
+function callVetFromCritical(){
+  closeCriticalAlertModal();
+  navTo('contacts');
+}
+function viewHealthLogFromCritBanner(){
+  navTo('healthlogs');
 }
 
 /* ── Health Logs page: list, filters, render ── */
@@ -2165,6 +2605,44 @@ function openHealthLogsForDay(day){
   navTo('healthlogs');
 }
 
+/* ── Contact List: Veterinarians (dynamic — powers the Critical Alert's
+   "Call a Vet" flow, including the "no contacts saved" empty state) ── */
+function renderVetContacts(){
+  const el = document.getElementById('vets-list'); if (!el) return;
+  const vets = getVetContacts();
+  if (!vets.length){
+    el.innerHTML = `<div class="vet-empty">
+      <div class="ve-ico">🩺</div>
+      <div class="ve-title">${t('no-vet-title')}</div>
+      <div class="ve-sub">${t('no-vet-sub')}</div>
+      <button class="btn btn-primary" onclick="openAddVetModal()">${t('add-vet-btn')}</button>
+    </div>`;
+    return;
+  }
+  el.innerHTML = vets.map(v => `<div class="contact-card">
+    <div class="cc-head"><div class="cc-avatar" style="background:${v.avatarBg||'var(--b100)'};">${v.avatarIco||'👨‍⚕️'}</div><div><div class="cc-name">${v.name}</div><div class="cc-role">${v.role}</div><div style="font-size:9.5px;color:var(--n400);margin-top:2px;">📍 ${v.location}</div></div><span class="badge ${v.tagClass||'blue'}" style="margin-left:auto;">${t(v.tag||'tag-vet')}</span></div>
+    <a href="tel:${v.phone}" class="call-btn" style="background:linear-gradient(135deg,var(--g600),var(--g400));color:#fff;text-decoration:none;"><span>${t('btn-call')}</span></a>
+  </div>`).join('') + `<button class="btn btn-outline btn-full" style="margin-bottom:11px;" onclick="openAddVetModal()">${t('add-vet-btn')}</button>`;
+}
+function openAddVetModal(){
+  ['av-name','av-role','av-location','av-phone'].forEach(id=>{ const e=document.getElementById(id); if (e) e.value=''; });
+  document.getElementById('add-vet-modal').classList.add('show');
+}
+function closeAddVetModal(){ document.getElementById('add-vet-modal').classList.remove('show'); }
+function saveVetContact(){
+  const name = document.getElementById('av-name').value.trim();
+  const role = document.getElementById('av-role').value.trim();
+  const location = document.getElementById('av-location').value.trim();
+  const phone = document.getElementById('av-phone').value.trim();
+  if (!name || !phone){ showSyncToast(t('add-vet-required')); return; }
+  const vets = getVetContacts();
+  vets.push({ id: nextVetId++, name, role: role||t('tag-vet'), location, phone, tag:'tag-vet', tagClass:'blue', avatarBg:'var(--b100)', avatarIco:'👨‍⚕️' });
+  setVetContacts(vets);
+  closeAddVetModal();
+  showSyncToast(t('vet-added-ok'));
+  renderVetContacts();
+}
+
 function onFeedPriceChange(){ const v=parseFloat(document.getElementById('feed-price-inp').value); if (!isNaN(v)) FEED_PRICE.val=v; loadData(); }
 function saveWeightDirect(weight){
   const wlogs=getWeightLogs();
@@ -2180,15 +2658,42 @@ function saveWeight(){
 }
 function openAddExpense(){ navTo('addexpense'); }
 function resetAddExpenseForm(){
+  editingExpenseId = null;
   expCategory = 'Feed';
   document.querySelectorAll('#exp-cat-grid .cat-box').forEach(b => b.classList.toggle('selected', b.dataset.cat==='Feed'));
   const d=document.getElementById('exp-desc2'), a=document.getElementById('exp-amt2'), n=document.getElementById('exp-note2'), dt=document.getElementById('exp-date2');
   if (d) d.value=''; if (a) a.value=''; if (n) n.value='';
   if (dt) dt.value = dayToDate(getCurrentDay()).toLocaleDateString(LANG==='fil'?'tl-PH':'en-US',{month:'long',day:'numeric',year:'numeric'});
+  const banner = document.getElementById('addexpense-edit-banner');
+  if (banner){ banner.innerHTML = ''; banner.style.display = 'none'; }
+  const titleEl = document.getElementById('addexpense-title'); if (titleEl) titleEl.textContent = t('add-expense');
+  const saveBtn = document.getElementById('exp-save-btn'); if (saveBtn) saveBtn.textContent = t('btn-save-exp');
 }
 function selectExpCat(cat){
   expCategory = cat;
   document.querySelectorAll('#exp-cat-grid .cat-box').forEach(b => b.classList.toggle('selected', b.dataset.cat===cat));
+}
+/* Open the Add Expense page pre-filled with an existing expense's values so
+   the user can edit it in place. Reuses the same form/page as "Add" —
+   navTo('addexpense') resets the form first, so editingExpenseId and the
+   field values are (re)applied immediately afterward. */
+function editExpense(id){
+  const exp = getExpenses().find(e => e.id === id); if (!exp) return;
+  navTo('addexpense');
+  editingExpenseId = id;
+  selectExpCat(exp.category);
+  const d=document.getElementById('exp-desc2'), a=document.getElementById('exp-amt2'), n=document.getElementById('exp-note2'), dt=document.getElementById('exp-date2');
+  if (d) d.value = exp.description;
+  if (a) a.value = exp.amount;
+  if (dt) dt.value = exp.date;
+  if (n) n.value = exp.note || '';
+  const banner = document.getElementById('addexpense-edit-banner');
+  if (banner){
+    banner.style.display = 'flex';
+    banner.innerHTML = `<span>✏️ ${t('editing-expense')}</span><button onclick="resetAddExpenseForm(); navTo('expense');">${t('cancel-edit')}</button>`;
+  }
+  const titleEl = document.getElementById('addexpense-title'); if (titleEl) titleEl.textContent = t('edit-expense');
+  const saveBtn = document.getElementById('exp-save-btn'); if (saveBtn) saveBtn.textContent = t('btn-save-exp-changes');
 }
 function addExpense(){
   const description=document.getElementById('exp-desc2').value.trim();
@@ -2197,10 +2702,41 @@ function addExpense(){
   const dateVal=document.getElementById('exp-date2').value.trim();
   if (!description||!amount){ showSyncToast(LANG==='fil'?'Punan ang lahat ng field':'Please fill all fields', true); return; }
   const expenses=getExpenses();
-  expenses.push({ id: nextExpenseId++, category: expCategory, description, amount, date: dateVal || (LANG==='fil'?'Ngayon':'Today'), note });
+  const wasEditing = !!editingExpenseId;
+  if (wasEditing){
+    const rec = expenses.find(e => e.id === editingExpenseId);
+    if (rec) Object.assign(rec, { category: expCategory, description, amount, date: dateVal || rec.date, note });
+  } else {
+    expenses.push({ id: nextExpenseId++, category: expCategory, description, amount, date: dateVal || (LANG==='fil'?'Ngayon':'Today'), note });
+  }
   setExpenses(expenses);
+  editingExpenseId = null;
   navTo('expense');
-  showSyncToast(t('exp-added-ok'));
+  /* navTo() re-renders loadData(), which recalculates Total Spent, the
+     Expense Breakdown bars/percentages, Projected Net Profit and ROI from
+     the same shared totalSpent/byCat values — so both this page and the
+     Dashboard update immediately with no extra refresh call needed. */
+  showSyncToast(wasEditing ? t('exp-updated-ok') : t('exp-added-ok'));
+}
+
+/* ══ EXPENSE ITEM ⋮ MORE OPTIONS — Edit / Delete ══ */
+function openExpenseActions(id){
+  pendingExpenseActionId = id;
+  document.getElementById('expense-actions-modal').classList.add('show');
+}
+function closeExpenseActionsModal(){
+  document.getElementById('expense-actions-modal').classList.remove('show');
+  pendingExpenseActionId = null;
+}
+function editExpenseFromMenu(){
+  const id = pendingExpenseActionId;
+  closeExpenseActionsModal();
+  if (id != null) editExpense(id);
+}
+function deleteExpenseFromMenu(){
+  const id = pendingExpenseActionId;
+  closeExpenseActionsModal();
+  if (id != null) confirmDeleteExpense(id);
 }
 
 /* ══ DELETE CONFIRMATION — shared by Expense + Health Log + Pig deletion ══ */
@@ -3212,11 +3748,15 @@ function PROFILE_PLACEHOLDER(name){
 function loadData(){
   const day=getCurrentDay(); const logs=getLogs(); const tasks=logs[day]?.tasks||{};
   const wlogs=getWeightLogs(); const latest=wlogs[wlogs.length-1]; const adg=currentADG();
-  const onTrack = adg===null ? true : (adg>=600 && adg<=700);
+  const batch = getPigBatchProfile();
+  const onTrack = adg===null ? true : (adg>=ADG_TARGET_MIN && adg<=ADG_TARGET_MAX);
   const st=stage(latest.weight);
   const expenses=getExpenses(); const totalSpent=expenses.reduce((s,e)=>s+Number(e.amount),0);
-  const feedSpent=expenses.filter(e=>e.category==='Feed').reduce((s,e)=>s+Number(e.amount),0);
-  const otherSpent=totalSpent-feedSpent;
+  /* Single source of truth for the category breakdown — shared by the
+     Expense page's Total Spent recap line and the Expense Breakdown bars
+     further down, so both always agree. */
+  const byCat={Feed:0,Medicine:0,Supplements:0,Others:0};
+  expenses.forEach(e=>{ byCat[e.category]=(byCat[e.category]||0)+Number(e.amount); });
   const set=(id,val)=>{ const el=document.getElementById(id); if (el) el.textContent=val; };
 
   set('d-day', day);
@@ -3226,20 +3766,58 @@ function loadData(){
   set('d-adg-sc', onTrack?t('on-track'):t('below-target'));
   set('d-wt', fmt1(latest.weight)+' kg');
   if (wlogs.length>1) set('d-wt-sc', '↑ +'+fmt1(latest.weight-wlogs[0].weight)+' kg');
-  set('d-spent', '₱'+fmt(totalSpent));
-  set('d-spent-sc', 'Feed ₱'+fmt(feedSpent)+(LANG==='fil'?' · Iba ₱':' · Other ₱')+fmt(otherSpent));
+
+  /* ══ Projected Net Profit & ROI — single source of truth, shared by the
+     Dashboard summary card and (as Total Spent) the Expense & ROI page.
+     Recalculates automatically on every loadData() call, i.e. whenever an
+     expense is added/edited/deleted or feed/medicine/supplement/other
+     costs change — both screens refresh immediately, no manual reload. ══ */
+  const totalInvested=totalSpent; const projectedRevenue=latest.weight*MARKET_PRICE_PER_KG*1.55;
+  const netProfit=projectedRevenue-totalInvested; const roi=totalInvested?(netProfit/totalInvested)*100:0;
+  const profitable = netProfit>=0;
+  set('d-profit', '₱'+fmt(netProfit));
+  const profitEl=document.getElementById('d-profit'); if (profitEl) profitEl.className='sv '+(profitable?'good':'warn');
+  set('d-profit-sc', (profitable?'🟢 ':'🔴 ')+'ROI: '+(roi>=0?'+':'')+roi.toFixed(1)+'%');
+  const profitScEl=document.getElementById('d-profit-sc'); if (profitScEl) profitScEl.className='sc '+(profitable?'up':'dn');
+
+  /* ══ Dashboard Critical Health banner — shows only while the MOST RECENT
+     health observation is Critical; disappears automatically the moment a
+     newer, non-critical observation is saved (loadData() re-runs this on
+     every save). ══ */
+  const latestHealth = getLatestHealthLog();
+  const critBanner = document.getElementById('dash-crit-banner');
+  if (critBanner){
+    if (latestHealth && latestHealth.status === 'critical'){
+      set('dash-crit-msg', t('dash-crit-msg',{pig:PIG_NAME}));
+      critBanner.classList.add('show');
+    } else {
+      critBanner.classList.remove('show');
+    }
+  }
 
   buildWeightChart('home-chart-svg','home-chart-badges');
 
-  const homeTasks=document.getElementById('home-tasks-list');
-  if (homeTasks){ const preview=[TASK_DEFS[2],TASK_DEFS[0],TASK_DEFS[9]]; homeTasks.innerHTML = preview.map(d=>taskRowHTML(d,!!tasks[d.id])).join(''); }
+  /* ══ Dashboard "Today's Tasks" — read-only summary, split into Completed
+     and Pending columns. No checkboxes/onclick handlers here; task
+     management only happens on the Tasks (Activities) page — toggleCheck()
+     there calls loadData(), so this view stays in sync automatically. ══ */
+  const taskSumRow = (d) => {
+    const fg = d.fg ? `color:${d.fg};` : '';
+    return `<div class="task-sum-item"><div class="task-ic" style="background:${d.bg};${fg}">${d.icon}</div><div class="task-name">${t(d.t)}</div></div>`;
+  };
+  const doneDefs = TASK_DEFS.filter(d => !!tasks[d.id]);
+  const pendingDefs = TASK_DEFS.filter(d => !tasks[d.id]);
+  const homeTasksDone = document.getElementById('home-tasks-done');
+  if (homeTasksDone) homeTasksDone.innerHTML = doneDefs.length ? doneDefs.map(taskSumRow).join('') : `<div class="task-sum-empty">${t('tasks-none-yet')}</div>`;
+  const homeTasksPending = document.getElementById('home-tasks-pending');
+  if (homeTasksPending) homeTasksPending.innerHTML = pendingDefs.length ? pendingDefs.map(taskSumRow).join('') : `<div class="task-sum-empty">${t('tasks-all-done')}</div>`;
   const doneCount=countDoneTasks();
   set('home-task-badge', `${doneCount} / ${TASK_DEFS.length}`);
   set('home-task-pct', Math.round((doneCount/TASK_DEFS.length)*100)+'%');
   const htb=document.getElementById('home-task-bar'); if (htb) htb.style.width=Math.round((doneCount/TASK_DEFS.length)*100)+'%';
 
-  const amEl=document.getElementById('am-tasks'); if (amEl) amEl.innerHTML = TASK_DEFS.filter(d=>d.period==='am').map(d=>taskRowHTML(d,!!tasks[d.id])).join('');
-  const pmEl=document.getElementById('pm-tasks'); if (pmEl) pmEl.innerHTML = TASK_DEFS.filter(d=>d.period==='pm').map(d=>taskRowHTML(d,!!tasks[d.id])).join('');
+  const amEl=document.getElementById('am-tasks'); if (amEl) amEl.innerHTML = TASK_DEFS.filter(d=>d.period==='am').map(d=>taskRowHTML(d,!!tasks[d.id],taskLockMessage(d.id,tasks))).join('');
+  const pmEl=document.getElementById('pm-tasks'); if (pmEl) pmEl.innerHTML = TASK_DEFS.filter(d=>d.period==='pm').map(d=>taskRowHTML(d,!!tasks[d.id],taskLockMessage(d.id,tasks))).join('');
   const wkWrap=document.getElementById('wk-tasks-wrap');
   if (wkWrap){
     const wkRec = getCurrentWeekRecord();
@@ -3280,7 +3858,13 @@ function loadData(){
   set('feed-stage-name', st.name+' 🐷');
   set('feed-stage-sub', `${PIG_NAME} · ${LANG==='fil'?'Timbang':'Weight'}: ${fmt1(latest.weight)} kg`);
   set('feed-allowance-val', fmt1(st.feed)+' kg / '+(LANG==='fil'?'araw':'day'));
-  set('fs-am-val', fmt1(st.feed/2)); set('fs-pm-val', fmt1(st.feed/2));
+  /* Morning/Afternoon feed cards — number + lowercase "kg" on one line,
+     feeding time on its own separate line beneath (no "kg ·" prefix).
+     Morning and Afternoon are each exactly half of the Daily Feed
+     Allowance, so they always sum back to it exactly; fmtKg() only
+     affects how that value is displayed, never the underlying math. */
+  const halfFeed = st.feed/2;
+  set('fs-am-val', fmtKg(halfFeed)+' kg'); set('fs-pm-val', fmtKg(halfFeed)+' kg');
   const fpInp=document.getElementById('feed-price-inp'); if (fpInp && document.activeElement!==fpInp) fpInp.value=FEED_PRICE.val.toFixed(2);
   set('feed-cost-val', '₱'+fmt1(st.feed*FEED_PRICE.val));
   const stbody=document.getElementById('stage-tbody');
@@ -3296,8 +3880,9 @@ function loadData(){
   if (adgVal){ adgVal.innerHTML = (adg===null?'—':fmt(adg))+' <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;">g/day</span>'; adgVal.className='adg-value'+(onTrack?'':' warn'); }
   const adgBar=document.getElementById('adg-hero-bar');
   if (adgBar){ const pctBar = adg===null?0:Math.max(4,Math.min(100,(adg/800)*100)); adgBar.style.width=pctBar+'%'; adgBar.className='adg-fill'+(onTrack?'':' warn'); }
-  const adgStatus=document.getElementById('adg-status');
-  if (adgStatus) adgStatus.innerHTML = adg===null?'':(onTrack?`<span class="badge green">${t('on-track')}</span>`:`<span class="badge red">${t('below-target')}</span>`);
+  const adgStatusEl=document.getElementById('adg-status');
+  const aStat = adgStatus(adg);
+  if (adgStatusEl) adgStatusEl.innerHTML = aStat ? `<span class="badge ${aStat.cls}">${aStat.emoji} ${aStat.label}</span>` : '';
 
   const whl=document.getElementById('weight-history-list');
   if (whl){
@@ -3316,11 +3901,26 @@ function loadData(){
   if (fcrValEl){
     const display = fcr===null ? '—' : fcr.toFixed(2);
     const changed = lastDisplayedFCR !== null && lastDisplayedFCR !== display;
-    fcrValEl.innerHTML = `<span class="${changed?'fcr-animate':''}" style="color:${fStatus && (fStatus.key==='needs'||fStatus.key==='poor') ? 'var(--r400)' : 'var(--g600)'};">${display}</span> <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;">${t('fcr-this-week')}</span>`;
+    fcrValEl.innerHTML = `<span class="${changed?'fcr-animate':''}" style="color:${fStatus && fStatus.key==='needs' ? 'var(--r400)' : 'var(--g600)'};">${display}</span> <span style="font-size:16px;color:var(--n400);font-family:var(--sans);font-weight:400;">${t('fcr-this-week')}</span>`;
     lastDisplayedFCR = display;
   }
   const fcrBadgeEl = document.getElementById('fcr-status-badge');
   if (fcrBadgeEl) fcrBadgeEl.innerHTML = fStatus ? `<span class="fcr-badge ${fStatus.key}">${fStatus.emoji} ${fStatus.label}</span>` : '';
+
+  /* ══ Persist ADG/FCR calculation inputs + results (requirement: values
+     must remain available after closing/reopening the app). The source
+     inputs (weightLogs, pigBatchProfile) are already saved via DB on every
+     edit; this snapshot additionally records the derived outputs so the
+     full calculation — inputs and results — is stored in the local DB. ══ */
+  DB.set(ck('adgFcrSnapshot'), {
+    startWeight: batch.startWeight,
+    startDate: batch.startDate,
+    currentWeight: wlogs.length ? wlogs[wlogs.length-1].weight : null,
+    totalFeedConsumed: Math.round(totalFeedConsumed()*100)/100,
+    adg: adg===null ? null : Math.round(adg*100)/100,
+    fcr: fcr===null ? null : Math.round(fcr*100)/100,
+    updatedAt: new Date().toISOString(),
+  });
 
   buildFCRTrendChart('fcr-trend-svg');
 
@@ -3343,13 +3943,17 @@ function loadData(){
     fhl.innerHTML = rowsHtml || `<div style="font-size:11.5px;color:var(--n400);">—</div>`;
   }
 
-  const totalInvested=totalSpent; const projectedRevenue=latest.weight*MARKET_PRICE_PER_KG*1.55;
-  const netProfit=projectedRevenue-totalInvested; const roi=totalInvested?(netProfit/totalInvested)*100:0;
-  set('exp-roi-val', '₱ '+fmt(netProfit));
-  set('exp-roi-pct', 'ROI: '+(roi>=0?'+':'')+roi.toFixed(1)+'%');
+  /* Total Spent card (Expense & ROI page) — reuses the same totalSpent/byCat
+     computed at the top of loadData(), so it's always in sync with the
+     Dashboard's Projected Net Profit & ROI card and the breakdown bars below. */
+  set('exp-total-val', '₱ '+fmt(totalSpent));
+  set('exp-total-sc', [
+    `${t('cat-feed')} ₱${fmt(byCat.Feed)}`,
+    `${t('cat-medicine')} ₱${fmt(byCat.Medicine)}`,
+    `${t('cat-supplements')} ₱${fmt(byCat.Supplements)}`,
+    `${t('cat-others')} ₱${fmt(byCat.Others)}`,
+  ].join('  ·  '));
 
-  const byCat={Feed:0,Medicine:0,Supplements:0,Others:0};
-  expenses.forEach(e=>{ byCat[e.category]=(byCat[e.category]||0)+Number(e.amount); });
   const catColors={Feed:'var(--g400)',Medicine:'var(--r400)',Supplements:'var(--b400)',Others:'var(--a400)'};
   const catIcons={Feed:'🌾',Medicine:'💊',Supplements:'🧪',Others:'📦'};
   const expB=document.getElementById('exp-breakdown');
@@ -3361,13 +3965,19 @@ function loadData(){
   }
   const recentList=document.getElementById('exp-recent-list');
   if (recentList){
-    recentList.innerHTML = expenses.slice().reverse().slice(0,8).map(e=>`<div class="exp-item" data-expense-id="${e.id}"><div class="exp-ic" style="background:${catColors[e.category]}22;">${catIcons[e.category]}</div><div class="exp-info"><div class="exp-name">${e.description}</div><div class="exp-date">${e.category} · ${e.date}</div></div><div class="exp-amt">₱${fmt(e.amount)}</div><button class="exp-del-btn" onclick="confirmDeleteExpense(${e.id})" aria-label="Delete">⋮</button></div>`).join('')
+    recentList.innerHTML = expenses.slice().reverse().slice(0,8).map(e=>`<div class="exp-item" data-expense-id="${e.id}"><div class="exp-ic" style="background:${catColors[e.category]}22;">${catIcons[e.category]}</div><div class="exp-info"><div class="exp-name">${e.description}</div><div class="exp-date">${e.category} · ${e.date}</div></div><div class="exp-amt">₱${fmt(e.amount)}</div><button class="exp-del-btn" onclick="openExpenseActions(${e.id})" aria-label="More options">⋮</button></div>`).join('')
       || `<div class="exp-empty"><div class="ee-ico">📄</div><div class="ee-title">${t('exp-empty-title')}</div><div class="ee-sub">${t('exp-empty-sub')}</div></div>`;
   }
 
   const np=document.getElementById('notif-panel-body');
   if (np){
     const items=[];
+    /* Critical Health Alert — derived live from the most recent health log,
+       so it appears the instant a Critical observation is saved and clears
+       itself once a newer, non-critical observation replaces it. */
+    if (latestHealth && latestHealth.status === 'critical'){
+      items.push({cls:'red', ic:'🚨', title: t('notif-critical-title'), msg: t('notif-critical-msg',{pig:PIG_NAME}), time: latestHealth.time || (LANG==='fil'?'Ngayon':'Today')});
+    }
     if (!onTrack && adg!==null) items.push({cls:'red',ic:'⚠️',title: LANG==='fil'?`Health Alert — Araw ${day}`:`Growth Alert — Day ${day}`, msg: LANG==='fil'?`Ang ADG ay ${fmt(adg)} g/d, mas mababa sa target.`:`ADG is ${fmt(adg)} g/d, below the 600–700 target.`, time: LANG==='fil'?'Ngayon':'Today'});
     if (doneCount<TASK_DEFS.length) items.push({cls:'amber',ic:'✅',title: LANG==='fil'?'May Natitirang Gawain':'Tasks Pending', msg: LANG==='fil'?`${TASK_DEFS.length-doneCount} pang gawain.`:`${TASK_DEFS.length-doneCount} task(s) left today.`, time:'7:00 AM'});
     items.push({cls:'',ic:'⚖️',title: LANG==='fil'?'Lingguhang Timbang':'Weekly Weigh-In Due', msg: LANG==='fil'?`Itala ang timbang ni ${PIG_NAME}.`:`Record ${PIG_NAME}'s weight for this week's ADG.`, time:'7:00 AM'});
@@ -3384,6 +3994,7 @@ function loadData(){
   renderPigWeightHistoryAndChart();
   renderPigNotes();
   renderSettings();
+  renderVetContacts();
 }
 function buildCal(id){
   const el=document.getElementById(id); if (!el) return;
@@ -3399,6 +4010,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Sync global PIG_NAME alias from whatever was last saved */
   PIG_NAME = getPigBatchProfile().pigName;
+
+  /* ── Daily reset check: wipe tasks if calendar date has changed ── */
+  checkDailyReset();
 
   applyLang();
   loadData();
