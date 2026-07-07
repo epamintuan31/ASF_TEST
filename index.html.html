@@ -1295,9 +1295,8 @@ input[type=file]{display:none;}
       <div class="dm-emoji">🚨</div>
       <div class="dm-title" data-t="critical-alert-title">Critical Health Alert</div>
       <div class="dm-sub">
-        <span data-t="critical-alert-body1">The pig's health observations indicate a CRITICAL condition.</span><br><br>
-        <span data-t="critical-alert-body2">Immediate veterinary attention is strongly recommended.</span><br><br>
-        <span data-t="critical-alert-body3">Please contact your veterinarian as soon as possible.</span>
+        <span data-t="critical-alert-body1">The pig's health score has reached the Critical level.</span><br><br>
+        <span data-t="critical-alert-body2">Immediate veterinary attention is recommended.</span>
       </div>
       <div style="display:flex;gap:9px;">
         <button class="btn btn-outline btn-full" onclick="closeCriticalAlertModal()" data-t="del-cancel">Cancel</button>
@@ -1616,6 +1615,15 @@ const T = {
     'obs-normal':'Normal','obs-lethargic':'Lethargic',
     'obs-appetite':'Appetite','obs-eating':'Eating Normally','obs-inapp':'Inappetence','obs-waste':'Waste Condition',
     'obs-waste-ok':'Normal','obs-waste-bad':'Loose/Watery','alert-diarrhea':'⚠️ Possible diarrhea. Reduce feed by 20%. Consult a vet if it continues.',
+    /* Health observation chip labels (Behavior/Appetite/Physical/Waste) —
+       displayed text only; the stored `key` values never change with language. */
+    'beh-normal':'Normal','beh-sleepy':'Sleeping More Than Usual','beh-less_active':'Less Active','beh-lethargic':'Lethargic','beh-isolated':'Isolated From Group','beh-unable_stand':'Unable to Stand',
+    'app-normal':'Eating Normally','app-eating_less':'Eating Less','app-no_appetite':'No Appetite','app-refusing':'Refusing Feed and Water',
+    'phy-pinkish':'Pinkish Skin','phy-bruise_free':'Bruise Free','phy-bright_eyes':'Bright Eyes','phy-normal_nose':'Normal Nose','phy-normal_breathing':'Normal Breathing','phy-normal_walking':'Normal Walking',
+    'phy-watery_eyes':'Watery Eyes','phy-sneezing':'Sneezing','phy-mild_nasal':'Mild Nasal Discharge','phy-minor_bruises':'Minor Bruises','phy-mild_lameness':'Mild Lameness',
+    'phy-fever':'Fever','phy-coughing':'Coughing','phy-labored_breathing':'Labored Breathing','phy-wounds':'Wounds','phy-limping':'Limping','phy-swollen_joints':'Swollen Joints',
+    'phy-severe_labored_breathing':'Severe Labored Breathing','phy-heavy_bleeding':'Heavy Bleeding','phy-unable_walk':'Unable to Walk','phy-severe_lameness':'Severe Lameness','phy-severe_swelling':'Severe Body Swelling','phy-high_fever':'High Fever','phy-collapse':'Collapse',
+    'was-normal':'Normal','was-soft_stool':'Slightly Soft Stool','was-loose':'Loose/Watery Stool','was-bloody_diarrhea':'Bloody Diarrhea','was-black_stool':'Black Stool',
     'btn-save-obs':'Save Observation ✓','health-history':'Health Log History','health-empty':'No health logs yet — save your first observation.',
     'wt-sub':'Weekly weigh-ins','adg-label':"This Week's ADG",'adg-target':'Target Range: 600 – 700 g/day',
     'adg-status-healthy':'Healthy','adg-status-below':'Below Target','adg-status-poor':'Poor Growth','adg-status-excellent':'Excellent Growth',
@@ -1670,16 +1678,15 @@ const T = {
     'editing-log-from':'Editing log from {date}',
     'status-healthy':'Healthy','status-monitor':'Needs Monitoring','status-risk':'At Risk','status-critical':'Critical',
     'critical-alert-title':'Critical Health Alert',
-    'critical-alert-body1':"The pig's health observations indicate a CRITICAL condition.",
-    'critical-alert-body2':'Immediate veterinary attention is strongly recommended.',
-    'critical-alert-body3':'Please contact your veterinarian as soon as possible.',
+    'critical-alert-body1':"The pig's health score has reached the Critical level.",
+    'critical-alert-body2':'Immediate veterinary attention is recommended.',
     'btn-call-vet':'📞 Call a Vet',
     'no-vet-title':'No veterinarian contacts found.','no-vet-sub':'Please add a veterinarian in your Contact List.',
     'add-vet-btn':'+ Add Veterinarian','add-vet-title':'Add Veterinarian',
     'field-vet-name':'Name','field-vet-role':'Role / Specialty','field-vet-location':'Location','field-vet-phone':'Phone Number',
     'add-vet-required':'❌ Name and phone number are required.','vet-added-ok':'✅ Veterinarian added.',
     'notif-critical-title':'🚨 Critical Health Alert',
-    'notif-critical-msg':'{pig} has been marked as Critical. Immediate veterinary assistance is recommended.',
+    'notif-critical-msg':'{pig} has reached a Critical health status. Immediate veterinary attention is recommended.',
     'dash-crit-msg':'🚨 {pig} requires immediate veterinary attention.',
     'view-health-log-btn':'View Health Log →',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':"This Week's FCR",
@@ -1766,14 +1773,21 @@ const T = {
     'stage-guide':'Gabay sa Yugto','col-stage':'Yugto','col-wt':'Timbang','col-feed':'Pagkain/araw',
     'stage-early':'Maagang','stage-mid':'Kalagitnaan ←','stage-late':'Huli',
     'health-sub':'Talaan ng obserbasyon',
-    'obs-behavior':'Kilos','obs-behavior-lbl':'Kilos',
-    'obs-appetite':'Gana','obs-appetite-lbl':'Gana',
-    'obs-physical':'Pisikal','obs-physical-lbl':'Pisikal',
-    'obs-waste':'Dumi','obs-waste-lbl':'Dumi',
+    'obs-behavior':'Pag-uugali','obs-behavior-lbl':'Pag-uugali',
+    'obs-appetite':'Gana sa Pagkain','obs-appetite-lbl':'Gana sa Pagkain',
+    'obs-physical':'Pisikal na Kalagayan','obs-physical-lbl':'Pisikal na Kalagayan',
+    'obs-waste':'Kalagayan ng Dumi','obs-waste-lbl':'Kalagayan ng Dumi',
     'obs-notes':'Tala','obs-notes-lbl':'Tala',
     'obs-normal':'Normal','obs-lethargic':'Walang Lakas',
-    'obs-appetite':'🍽️ Gana','obs-eating':'Kumakain nang Normal','obs-inapp':'Walang Gana','obs-waste':'💩 Dumi',
+    'obs-eating':'Kumakain nang Normal','obs-inapp':'Walang Gana',
     'obs-waste-ok':'Normal','obs-waste-bad':'Maluwag/Matubig','alert-diarrhea':'⚠️ Posibleng pagtatae. Bawasan ang feed ng 20%. Kumonsulta sa beterinaryo.',
+    'beh-normal':'Normal','beh-sleepy':'Mas Madalas Matulog','beh-less_active':'Hindi Gaanong Aktibo','beh-lethargic':'Matamlay','beh-isolated':'Hiwalay sa Grupo','beh-unable_stand':'Hindi Makatayo',
+    'app-normal':'Normal ang Pagkain','app-eating_less':'Kaunti ang Pagkain','app-no_appetite':'Walang Gana Kumain','app-refusing':'Ayaw Kumain at Uminom',
+    'phy-pinkish':'Kulay Rosas ang Balat','phy-bruise_free':'Walang Pasa','phy-bright_eyes':'Maliwanag ang Mata','phy-normal_nose':'Normal ang Ilong','phy-normal_breathing':'Normal ang Paghinga','phy-normal_walking':'Normal ang Paglakad',
+    'phy-watery_eyes':'Lumuluha ang Mata','phy-sneezing':'Bumabahing','phy-mild_nasal':'May Sipon','phy-minor_bruises':'May Pasa','phy-mild_lameness':'Bahagyang Pilay',
+    'phy-fever':'May Lagnat','phy-coughing':'Umuubo','phy-labored_breathing':'Hirap Huminga','phy-wounds':'Sugat','phy-limping':'Paika-ika','phy-swollen_joints':'Namamagang Kasukasuan',
+    'phy-severe_labored_breathing':'Matinding Hirap sa Paghinga','phy-heavy_bleeding':'Matinding Pagdurugo','phy-unable_walk':'Hindi Makalakad','phy-severe_lameness':'Matinding Pilay','phy-severe_swelling':'Pamamaga ng Katawan','phy-high_fever':'Mataas na Lagnat','phy-collapse':'Bumagsak',
+    'was-normal':'Normal','was-soft_stool':'Medyo Malambot ang Dumi','was-loose':'Malabnaw ang Dumi','was-bloody_diarrhea':'Madugong Pagtatae','was-black_stool':'Maitim na Dumi',
     'btn-save-obs':'I-save ang Obserbasyon ✓','health-history':'Kasaysayan ng Health Log','health-empty':'Walang health log pa — i-save ang unang obserbasyon.',
     'wt-sub':'Lingguhang pagtitimbang','adg-label':'ADG ng Linggong Ito','adg-target':'Target na Saklaw: 600 – 700 g/araw',
     'adg-status-healthy':'Malusog','adg-status-below':'Mababa sa Target','adg-status-poor':'Mahinang Paglaki','adg-status-excellent':'Napakahusay na Paglaki',
@@ -1826,18 +1840,17 @@ const T = {
     'live-status-lbl':'Kasalukuyang Katayuan:',
     'del-health-title':'Tanggalin ang Health Log','del-health-msg':'Sigurado ka bang tatanggalin ang health observation na ito? Hindi na ito mababawi.',
     'editing-log-from':'Ine-edit ang log mula {date}',
-    'status-healthy':'Malusog','status-monitor':'Kailangan ng Pagmamatyag','status-risk':'Nanganganib','status-critical':'Kritikal',
-    'critical-alert-title':'Kritikal na Alerto sa Kalusugan',
-    'critical-alert-body1':'Ipinapakita ng mga obserbasyon na KRITIKAL ang kondisyon ng baboy.',
-    'critical-alert-body2':'Mahigpit na inirerekomenda ang agarang atensyon ng beterinaryo.',
-    'critical-alert-body3':'Mangyaring makipag-ugnayan sa iyong beterinaryo sa lalong madaling panahon.',
-    'btn-call-vet':'📞 Tumawag sa Vet',
+    'status-healthy':'Malusog','status-monitor':'Kailangang Bantayan','status-risk':'Nanganganib','status-critical':'Kritikal',
+    'critical-alert-title':'Kritikal na Babala sa Kalusugan',
+    'critical-alert-body1':'Ang kalagayan ng baboy ay umabot na sa Kritikal na antas.',
+    'critical-alert-body2':'Inirerekomenda ang agarang pagpapatingin sa beterinaryo.',
+    'btn-call-vet':'📞 Tumawag sa Beterinaryo',
     'no-vet-title':'Walang nahanap na kontak ng beterinaryo.','no-vet-sub':'Mangyaring magdagdag ng beterinaryo sa iyong Contact List.',
     'add-vet-btn':'+ Magdagdag ng Beterinaryo','add-vet-title':'Magdagdag ng Beterinaryo',
     'field-vet-name':'Pangalan','field-vet-role':'Tungkulin / Espesyalidad','field-vet-location':'Lokasyon','field-vet-phone':'Numero ng Telepono',
     'add-vet-required':'❌ Kailangan ang pangalan at numero ng telepono.','vet-added-ok':'✅ Naidagdag ang beterinaryo.',
-    'notif-critical-title':'🚨 Kritikal na Alerto sa Kalusugan',
-    'notif-critical-msg':'Si {pig} ay minarkahan bilang Kritikal. Inirerekomenda ang agarang tulong beterinaryo.',
+    'notif-critical-title':'🚨 Kritikal na Babala',
+    'notif-critical-msg':'Umabot sa Kritikal na kalagayan ang {pig}. Agad na makipag-ugnayan sa beterinaryo.',
     'dash-crit-msg':'🚨 Kailangan ni {pig} ng agarang atensyon ng beterinaryo.',
     'view-health-log-btn':'Tingnan ang Health Log →',
     'fcr-label':'Feed Conversion Ratio (FCR)','fcr-this-week':'FCR ngayong Linggo',
@@ -1876,7 +1889,7 @@ const T = {
     'about-full-name':'Administrasyon para sa Swine Finisher','about-version':'Bersyon','about-developer':'Developer','about-institution':'Institusyon','about-campus':'Kampus',
     'about-desc':'Mobile na aplikasyon para sa pamamahala ng baboy na nagbibigay-gabay sa pagpapalaki ng swine finisher sa buong 120-araw na panahon.',
     'set-between':'pagitan',
-    'add-pig-btn':'Magdagdag ng Baboy','add-pig-title':'Magdagdag ng Baboy','edit-pig-title':'I-edit ang Baboy','save-pig-btn':'I-save ang Baboy','save-changes-btn':'I-save ang Pagbabago',
+    'add-pig-btn':'Magdagdag ng Baboy','add-pig-title':'Magdagdag ng Baboy','edit-pig-title':'I-edit ang Baboy','save-pig-btn':'I-save ang Baboy','save-changes-btn':'I-save ang Mga Pagbabago',
     'field-pig-name':'🐷 Pangalan ng Baboy','field-pig-id':'Pig ID','field-gender':'Kasarian','gender-male':'Lalaki','gender-female':'Babae',
     'field-breed':'Lahi','field-birthdate':'Petsa ng Kapanganakan','field-arrivaldate':'Petsa ng Pagdating','field-initial-weight':'Unang Timbang (kg)','field-pen':'Numero ng Kulungan',
     'sort-by':'Ayusin ayon sa','sort-name':'Pangalan','sort-age':'Edad','sort-latest':'Huling Upload','sort-completion':'Completion %','sort-weight':'Timbang',
@@ -2332,52 +2345,56 @@ function confirmAdvanceDay(){
 /* ── Simplified 4-category, 2-option schema (matches Health Monitor screenshot) ── */
 /* Tier = severity points: 0 Healthy · 1 Needs Monitoring · 2 At Risk · 3 Critical
    (per the ATI-aligned Automatic Health Status Evaluation ruleset) */
+/* `tk` = translation key for the chip label (T.en/T.fil hold the actual
+   text); `label` is kept as the canonical English fallback only. The
+   underlying `key` values (normal/lethargic/healthy/...) are what's actually
+   persisted to localStorage — language never touches stored data. */
 const BEHAVIOR_OPTS = [
-  {key:'normal',      ico:'😊', label:'Normal',                     sub:'Bright & Alert Eyes, Active Behavior', tier:0},
-  {key:'sleepy',      ico:'😴', label:'Sleeping More Than Usual',   sub:'', tier:1},
-  {key:'less_active', ico:'🚶', label:'Less Active',                sub:'', tier:1},
-  {key:'lethargic',   ico:'😔', label:'Lethargic',                  sub:'', tier:2},
-  {key:'isolated',    ico:'🚶', label:'Isolated From Group',        sub:'', tier:2},
-  {key:'unable_stand',ico:'😫', label:'Unable to Stand',            sub:'', tier:3},
+  {key:'normal',      tk:'beh-normal',      ico:'😊', label:'Normal',                     sub:'Bright & Alert Eyes, Active Behavior', tier:0},
+  {key:'sleepy',      tk:'beh-sleepy',      ico:'😴', label:'Sleeping More Than Usual',   sub:'', tier:1},
+  {key:'less_active', tk:'beh-less_active', ico:'🚶', label:'Less Active',                sub:'', tier:1},
+  {key:'lethargic',   tk:'beh-lethargic',   ico:'😔', label:'Lethargic',                  sub:'', tier:2},
+  {key:'isolated',    tk:'beh-isolated',    ico:'🚶', label:'Isolated From Group',        sub:'', tier:2},
+  {key:'unable_stand',tk:'beh-unable_stand',ico:'😫', label:'Unable to Stand',            sub:'', tier:3},
 ];
 const APPETITE_OPTS = [
-  {key:'normal',      ico:'😊', label:'Eating Normally',                    sub:'', tier:0},
-  {key:'eating_less', ico:'🍽', label:'Eating Less',                        sub:'', tier:1},
-  {key:'no_appetite', ico:'🚫', label:'No Appetite',                        sub:'', tier:2},
-  {key:'refusing',    ico:'❌', label:'Completely Refusing Feed and Water', sub:'', tier:3},
+  {key:'normal',      tk:'app-normal',      ico:'😊', label:'Eating Normally',          sub:'', tier:0},
+  {key:'eating_less', tk:'app-eating_less', ico:'🍽', label:'Eating Less',              sub:'', tier:1},
+  {key:'no_appetite', tk:'app-no_appetite', ico:'🚫', label:'No Appetite',              sub:'', tier:2},
+  {key:'refusing',    tk:'app-refusing',    ico:'❌', label:'Refusing Feed and Water',  sub:'', tier:3},
 ];
 const PHYSICAL_OPTS = [
-  {key:'pinkish',                 ico:'🐷', label:'Pinkish Skin',            sub:'Normal color', tier:0},
-  {key:'bruise_free',             ico:'✅', label:'Bruise Free',             sub:'No injuries',  tier:0},
-  {key:'bright_eyes',             ico:'👁', label:'Bright Eyes',             sub:'', tier:0},
-  {key:'normal_nose',             ico:'👃', label:'Normal Nose',             sub:'', tier:0},
-  {key:'normal_breathing',        ico:'🫁', label:'Normal Breathing',        sub:'', tier:0},
-  {key:'normal_walking',          ico:'🚶', label:'Normal Walking',          sub:'', tier:0},
-  {key:'watery_eyes',             ico:'💧', label:'Watery Eyes',             sub:'', tier:1},
-  {key:'sneezing',                ico:'🤧', label:'Sneezing',                sub:'', tier:1},
-  {key:'mild_nasal',              ico:'🟡', label:'Mild Nasal Discharge',    sub:'', tier:1},
-  {key:'minor_bruises',           ico:'🟣', label:'Minor Bruises',           sub:'', tier:1},
-  {key:'mild_lameness',           ico:'🦵', label:'Mild Lameness',           sub:'', tier:1},
-  {key:'fever',                   ico:'🌡', label:'Fever',                   sub:'', tier:2},
-  {key:'coughing',                ico:'😷', label:'Coughing',                sub:'', tier:2},
-  {key:'labored_breathing',       ico:'😮‍💨', label:'Labored Breathing',       sub:'', tier:2},
-  {key:'wounds',                  ico:'🩹', label:'Wounds',                  sub:'', tier:2},
-  {key:'limping',                 ico:'🦶', label:'Limping',                 sub:'', tier:2},
-  {key:'swollen_joints',          ico:'🦴', label:'Swollen Joints',          sub:'', tier:2},
-  {key:'severe_labored_breathing',ico:'🫁', label:'Severe Labored Breathing',sub:'', tier:3},
-  {key:'heavy_bleeding',          ico:'🩸', label:'Heavy Bleeding',          sub:'', tier:3},
-  {key:'unable_walk',             ico:'🚫', label:'Unable to Walk',          sub:'', tier:3},
-  {key:'severe_lameness',         ico:'🦵', label:'Severe Lameness',         sub:'', tier:3},
-  {key:'severe_swelling',         ico:'💧', label:'Severe Body Swelling',    sub:'', tier:3},
-  {key:'high_fever',              ico:'🌡', label:'High Fever',              sub:'', tier:3},
-  {key:'collapse',                ico:'😵', label:'Collapse',                sub:'', tier:3},
+  {key:'pinkish',                 tk:'phy-pinkish',                 ico:'🐷', label:'Pinkish Skin',            sub:'Normal color', tier:0},
+  {key:'bruise_free',             tk:'phy-bruise_free',             ico:'✅', label:'Bruise Free',             sub:'No injuries',  tier:0},
+  {key:'bright_eyes',             tk:'phy-bright_eyes',             ico:'👁', label:'Bright Eyes',             sub:'', tier:0},
+  {key:'normal_nose',             tk:'phy-normal_nose',             ico:'👃', label:'Normal Nose',             sub:'', tier:0},
+  {key:'normal_breathing',        tk:'phy-normal_breathing',        ico:'🫁', label:'Normal Breathing',        sub:'', tier:0},
+  {key:'normal_walking',          tk:'phy-normal_walking',          ico:'🚶', label:'Normal Walking',          sub:'', tier:0},
+  {key:'watery_eyes',             tk:'phy-watery_eyes',             ico:'💧', label:'Watery Eyes',             sub:'', tier:1},
+  {key:'sneezing',                tk:'phy-sneezing',                ico:'🤧', label:'Sneezing',                sub:'', tier:1},
+  {key:'mild_nasal',              tk:'phy-mild_nasal',              ico:'🟡', label:'Mild Nasal Discharge',    sub:'', tier:1},
+  {key:'minor_bruises',           tk:'phy-minor_bruises',           ico:'🟣', label:'Minor Bruises',           sub:'', tier:1},
+  {key:'mild_lameness',           tk:'phy-mild_lameness',           ico:'🦵', label:'Mild Lameness',           sub:'', tier:1},
+  {key:'fever',                   tk:'phy-fever',                   ico:'🌡', label:'Fever',                   sub:'', tier:2},
+  {key:'coughing',                tk:'phy-coughing',                ico:'😷', label:'Coughing',                sub:'', tier:2},
+  {key:'labored_breathing',       tk:'phy-labored_breathing',       ico:'😮‍💨', label:'Labored Breathing',       sub:'', tier:2},
+  {key:'wounds',                  tk:'phy-wounds',                  ico:'🩹', label:'Wounds',                  sub:'', tier:2},
+  {key:'limping',                 tk:'phy-limping',                 ico:'🦶', label:'Limping',                 sub:'', tier:2},
+  {key:'swollen_joints',          tk:'phy-swollen_joints',          ico:'🦴', label:'Swollen Joints',          sub:'', tier:2},
+  {key:'severe_labored_breathing',tk:'phy-severe_labored_breathing',ico:'🫁', label:'Severe Labored Breathing',sub:'', tier:3},
+  {key:'heavy_bleeding',          tk:'phy-heavy_bleeding',          ico:'🩸', label:'Heavy Bleeding',          sub:'', tier:3},
+  {key:'unable_walk',             tk:'phy-unable_walk',             ico:'🚫', label:'Unable to Walk',          sub:'', tier:3},
+  {key:'severe_lameness',         tk:'phy-severe_lameness',         ico:'🦵', label:'Severe Lameness',         sub:'', tier:3},
+  {key:'severe_swelling',         tk:'phy-severe_swelling',         ico:'💧', label:'Severe Body Swelling',    sub:'', tier:3},
+  {key:'high_fever',              tk:'phy-high_fever',              ico:'🌡', label:'High Fever',              sub:'', tier:3},
+  {key:'collapse',                tk:'phy-collapse',                ico:'😵', label:'Collapse',                sub:'', tier:3},
 ];
 const WASTE_OPTS = [
-  {key:'normal',          ico:'✅', label:'Normal',            sub:'Solid Fecal Consistency', tier:0},
-  {key:'soft_stool',      ico:'💩', label:'Slightly Soft Stool',sub:'', tier:1},
-  {key:'loose',           ico:'⚠️', label:'Loose/Watery Stool', sub:'', tier:2},
-  {key:'bloody_diarrhea', ico:'🩸', label:'Bloody Diarrhea',    sub:'', tier:3},
-  {key:'black_stool',     ico:'⚫', label:'Black Stool',        sub:'', tier:3},
+  {key:'normal',          tk:'was-normal',          ico:'✅', label:'Normal',            sub:'Solid Fecal Consistency', tier:0},
+  {key:'soft_stool',      tk:'was-soft_stool',      ico:'💩', label:'Slightly Soft Stool',sub:'', tier:1},
+  {key:'loose',           tk:'was-loose',           ico:'⚠️', label:'Loose/Watery Stool', sub:'', tier:2},
+  {key:'bloody_diarrhea', tk:'was-bloody_diarrhea', ico:'🩸', label:'Bloody Diarrhea',    sub:'', tier:3},
+  {key:'black_stool',     tk:'was-black_stool',     ico:'⚫', label:'Black Stool',        sub:'', tier:3},
 ];
 /* ADDITIONAL_OPTS kept as empty stub so nothing references an undefined const */
 const ADDITIONAL_OPTS = [];
@@ -2435,7 +2452,7 @@ function renderHealthChips(){
       const selected = pendingObs[g.cat] === o.key;
       return `<button class="chip ${selected?'selected':''}" onclick="toggleHealthChip('${g.cat}','${o.key}',false)">
         <span class="chip-ico">${o.ico}</span>
-        <span class="chip-inner"><span class="chip-lbl">${o.label}</span>${o.sub?`<span class="chip-sub">${o.sub}</span>`:''}</span>
+        <span class="chip-inner"><span class="chip-lbl">${o.tk?t(o.tk):o.label}</span>${o.sub?`<span class="chip-sub">${o.sub}</span>`:''}</span>
       </button>`;
     }).join('');
   });
@@ -2579,10 +2596,10 @@ function renderHealthLogsList(){
         <div><div class="hlc-date">📅 ${h.date}</div><div class="hlc-time">${h.time||''}</div></div>
         <span class="status-badge ${h.status}">${meta.emoji} ${meta.label}</span>
       </div>
-      <div class="hlc-row"><strong>🧠 ${t('obs-behavior')}:</strong> ${beh ? beh.ico+' '+beh.label : h.behavior}</div>
-      <div class="hlc-row"><strong>🍽 ${t('obs-appetite')}:</strong> ${app ? app.ico+' '+app.label : h.appetite}</div>
-      <div class="hlc-row"><strong>🌸 ${t('obs-physical')}:</strong> ${phys ? phys.ico+' '+phys.label : (h.physical||'—')}</div>
-      <div class="hlc-row"><strong>💩 ${t('obs-waste')}:</strong> ${was ? was.ico+' '+was.label : h.waste}</div>
+      <div class="hlc-row"><strong>🧠 ${t('obs-behavior')}:</strong> ${beh ? beh.ico+' '+t(beh.tk) : h.behavior}</div>
+      <div class="hlc-row"><strong>🍽 ${t('obs-appetite')}:</strong> ${app ? app.ico+' '+t(app.tk) : h.appetite}</div>
+      <div class="hlc-row"><strong>🌸 ${t('obs-physical')}:</strong> ${phys ? phys.ico+' '+t(phys.tk) : (h.physical||'—')}</div>
+      <div class="hlc-row"><strong>💩 ${t('obs-waste')}:</strong> ${was ? was.ico+' '+t(was.tk) : h.waste}</div>
       ${h.notes ? `<div class="hlc-notes">📝 ${h.notes}</div>` : ''}
       ${rec ? `<div class="fcr-warning-card" style="margin-bottom:0;margin-top:8px;"><div class="fwc-title">💡 ${rec.title}</div><div class="fwc-causes">${rec.body.map(b=>`<div>• ${b}</div>`).join('')}</div></div>` : ''}
       <div class="hlc-actions">
